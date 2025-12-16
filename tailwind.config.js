@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class', // Enables dark mode with a 'dark' class on <html>
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Brand colors (work in both light and dark mode)
+        // Brand colors
         primary: {
           DEFAULT: '#FF6B35',
           light: '#FF8C42',
@@ -45,10 +45,58 @@ export default {
         mono: ['Fira Code', 'monospace'],
       },
 
-      // Gradient utilities (from your design doc)
+      // Typography scale (from your design doc)
+      fontSize: {
+        // Hero sizes
+        'hero-sm': ['3.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 56px
+        'hero-md': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 72px
+        'hero-lg': ['6rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 96px
+
+        // Section headings
+        'section-sm': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }], // 36px
+        'section-md': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }], // 48px
+
+        // Project/Card headings
+        'card-sm': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }], // 24px
+        'card-md': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }], // 30px
+
+        // Body text
+        'body-sm': ['0.875rem', { lineHeight: '1.5' }], // 14px
+        'body-base': ['1rem', { lineHeight: '1.6' }], // 16px
+        'body-lg': ['1.125rem', { lineHeight: '1.7' }], // 18px
+      },
+
+      // Line height scale
+      lineHeight: {
+        tight: '1.1',
+        snug: '1.3',
+        normal: '1.5',
+        relaxed: '1.7',
+        loose: '2',
+      },
+
+      // Letter spacing
+      letterSpacing: {
+        tighter: '-0.02em',
+        tight: '-0.01em',
+        normal: '0',
+        wide: '0.01em',
+        wider: '0.02em',
+      },
+
+      // Gradient utilities
       backgroundImage: {
         'gradient-hero': 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)',
         'gradient-card': 'linear-gradient(135deg, #FF8C42 0%, #FFB380 100%)',
+      },
+
+      // Animation durations
+      transitionDuration: {
+        DEFAULT: '200ms',
+        fast: '150ms',
+        normal: '200ms',
+        slow: '300ms',
+        slower: '500ms',
       },
     },
   },
