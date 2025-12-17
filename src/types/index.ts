@@ -1,5 +1,3 @@
-eslint-disable @typescript-eslint/no-unused-vars;
-
 // Social media link interface
 export interface SocialLink {
   name: string
