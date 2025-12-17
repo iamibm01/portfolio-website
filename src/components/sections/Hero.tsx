@@ -33,13 +33,13 @@ function Hero() {
           <div className="flex gap-4 justify-center pt-4">
             <a 
               href="#projects" 
-              className="px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
+              className="px-8 py-3 border-2 border-primary text-primary font-medium rounded-full hover:bg-primary hover:text-white transition-all"
             >
               View My Work
             </a>
             <a 
               href="#contact" 
-              className="px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
+              className="px-8 py-3 border-2 border-primary text-primary font-medium rounded-full hover:bg-primary hover:text-white transition-all"
             >
               Get In Touch
             </a>

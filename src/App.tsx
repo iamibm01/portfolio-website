@@ -1,5 +1,6 @@
 import Navbar from './components/layout/Navbar'
 import Hero from './components/sections/Hero'
+import About from './components/sections/About'
 
 function App() {
   return (
@@ -7,22 +8,10 @@ function App() {
       <Navbar />
       
       <main>
-        {/* Use the actual Hero component */}
         <Hero />
+        <About />
 
-        {/* About Section Placeholder */}
-        <section id="about" className="min-h-screen flex items-center justify-center bg-white">
-          <div className="text-center">
-            <h2 className="text-section-md font-heading font-semibold text-light-text-primary mb-4">
-              About Me
-            </h2>
-            <p className="text-body-base text-light-text-secondary">
-              Your bio and background will go here
-            </p>
-          </div>
-        </section>
-
-        {/* Keep all other placeholder sections... */}
+        {/* Keep the other placeholder sections */}
         <section id="skills" className="min-h-screen flex items-center justify-center bg-light-bg">
           <div className="text-center">
             <h2 className="text-section-md font-heading font-semibold text-light-text-primary mb-4">
