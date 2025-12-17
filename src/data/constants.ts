@@ -2,7 +2,7 @@ import { NavigationItem, SocialLink } from '../types'
 
 // Personal Information
 export const PERSONAL_INFO = {
-  name: 'Your Name',
+  name: 'Muhammad Ibraheem',
   firstName: 'Your',
   lastName: 'Name',
   email: 'your.email@example.com',

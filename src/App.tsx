@@ -1,7 +1,8 @@
-import TypographyTest from './components/ui/TypographyTest'
+import Navbar from './components/layout/Navbar'
+// import TypographyTest from './components/ui/TypographyTest'
 
 function App() {
-  return <TypographyTest />
+  return <Navbar />
 }
 
 export default App
