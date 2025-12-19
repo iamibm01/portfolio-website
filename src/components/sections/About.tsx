@@ -2,10 +2,7 @@ import { PERSONAL_INFO } from '../../data/constants'
 
 function About() {
   return (
-    <section 
-      id="about" 
-      className="min-h-screen flex items-center bg-white py-20"
-    >
+    <section id="about" className="snap-start min-h-screen flex items-center bg-white py-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary">
@@ -57,8 +54,8 @@ function About() {
 
             {/* CTA Button */}
             <div className="pt-4">
-              <a 
-                href="#contact" 
+              <a
+                href="#contact"
                 className="inline-block px-8 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-dark hover:shadow-lg transition-all"
               >
                 Let's Work Together

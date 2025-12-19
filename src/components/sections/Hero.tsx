@@ -2,10 +2,10 @@ import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 
 function Hero() {
   return (
-    <section 
-      id="hero" 
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 pt-20"
-    >
+   <section 
+  id="hero" 
+  className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 pt-20"
+>
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center space-y-6">
           

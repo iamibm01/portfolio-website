@@ -2,25 +2,23 @@ import { experience } from '../../data/experience'
 
 function Experience() {
   return (
-    <section 
-      id="experience" 
-      className="min-h-screen flex items-center bg-light-bg py-20"
+    <section
+      id="experience"
+      className="snap-start min-h-screen flex items-center bg-light-bg py-20"
     >
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="text-center mb-16">
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary mb-4">
             Work Experience
           </h2>
-          <p className="text-body-lg text-light-text-secondary">
-            My professional journey
-          </p>
+          <p className="text-body-lg text-light-text-secondary">My professional journey</p>
         </div>
 
         {/* Experience Timeline */}
         <div className="max-w-4xl mx-auto space-y-8">
-          {experience.map(function(exp) {
+          {experience.map(function (exp) {
             return (
-              <div 
+              <div
                 key={exp.id}
                 className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
               >
@@ -29,9 +27,7 @@ function Experience() {
                     <h3 className="font-heading font-semibold text-light-text-primary text-xl">
                       {exp.role}
                     </h3>
-                    <p className="text-body-base text-primary font-medium">
-                      {exp.company}
-                    </p>
+                    <p className="text-body-base text-primary font-medium">{exp.company}</p>
                   </div>
                   <div className="text-body-sm text-light-text-secondary mt-2 md:mt-0 md:text-right">
                     <p>{exp.location}</p>
@@ -42,9 +38,7 @@ function Experience() {
                 </div>
 
                 {/* Description */}
-                <p className="text-body-base text-light-text-primary mb-4">
-                  {exp.description}
-                </p>
+                <p className="text-body-base text-light-text-primary mb-4">{exp.description}</p>
 
                 {/* Responsibilities */}
                 <div className="space-y-2 mb-4">
@@ -52,9 +46,9 @@ function Experience() {
                     Key Responsibilities:
                   </p>
                   <ul className="space-y-1 ml-5">
-                    {exp.responsibilities.map(function(responsibility, index) {
+                    {exp.responsibilities.map(function (responsibility, index) {
                       return (
-                        <li 
+                        <li
                           key={index}
                           className="text-body-sm text-light-text-secondary list-disc"
                         >
@@ -68,13 +62,11 @@ function Experience() {
                 {/* Achievements (if they exist) */}
                 {exp.achievements && exp.achievements.length > 0 && (
                   <div className="space-y-2 pt-4 border-t border-gray-200">
-                    <p className="text-body-sm font-medium text-primary">
-                      Key Achievements:
-                    </p>
+                    <p className="text-body-sm font-medium text-primary">Key Achievements:</p>
                     <ul className="space-y-1 ml-5">
-                      {exp.achievements.map(function(achievement, index) {
+                      {exp.achievements.map(function (achievement, index) {
                         return (
-                          <li 
+                          <li
                             key={index}
                             className="text-body-sm text-light-text-secondary list-disc"
                           >

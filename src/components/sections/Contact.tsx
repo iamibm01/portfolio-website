@@ -10,7 +10,7 @@ function Contact() {
   })
 
   // Handle input changes
-  const handleChange = function(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  const handleChange = function (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -18,28 +18,25 @@ function Contact() {
   }
 
   // Handle form submission
-  const handleSubmit = function(e: React.FormEvent) {
+  const handleSubmit = function (e: React.FormEvent) {
     e.preventDefault()
-    
+
     // For now, just log the data
     console.log('Form submitted:', formData)
-    
+
     // Reset form
     setFormData({
       name: '',
       email: '',
       message: '',
     })
-    
+
     // Show success message (you can improve this later)
     alert('Thank you for your message! I will get back to you soon.')
   }
 
   return (
-    <section 
-      id="contact" 
-      className="min-h-screen flex items-center bg-white py-20"
-    >
+    <section id="contact" className="snap-start min-h-screen flex items-center bg-white py-20">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="text-center mb-16">
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary mb-4">
@@ -58,8 +55,8 @@ function Contact() {
                 Let's Talk
               </h3>
               <p className="text-body-base text-light-text-secondary leading-relaxed">
-                I'm currently available for freelance work and full-time opportunities. 
-                If you have a project in mind, feel free to reach out!
+                I'm currently available for freelance work and full-time opportunities. If you have
+                a project in mind, feel free to reach out!
               </p>
             </div>
 
@@ -70,7 +67,7 @@ function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-light-text-secondary">Email</p>
-                  <a 
+                  <a
                     href={`mailto:${PERSONAL_INFO.email}`}
                     className="text-body-base text-light-text-primary hover:text-primary transition-colors"
                   >
@@ -85,19 +82,15 @@ function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-light-text-secondary">Location</p>
-                  <p className="text-body-base text-light-text-primary">
-                    {PERSONAL_INFO.location}
-                  </p>
+                  <p className="text-body-base text-light-text-primary">{PERSONAL_INFO.location}</p>
                 </div>
               </div>
             </div>
 
             <div>
-              <p className="text-sm text-light-text-secondary mb-3">
-                Connect with me:
-              </p>
+              <p className="text-sm text-light-text-secondary mb-3">Connect with me:</p>
               <div className="flex gap-4">
-                {SOCIAL_LINKS.map(function(link) {
+                {SOCIAL_LINKS.map(function (link) {
                   return (
                     <a
                       key={link.name}
@@ -107,9 +100,7 @@ function Contact() {
                       className="w-10 h-10 bg-light-bg rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                       aria-label={link.label}
                     >
-                      <span className="text-sm font-medium">
-                        {link.name.substring(0, 2)}
-                      </span>
+                      <span className="text-sm font-medium">{link.name.substring(0, 2)}</span>
                     </a>
                   )
                 })}
@@ -121,8 +112,8 @@ function Contact() {
           <div className="bg-light-bg p-8 rounded-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label 
-                  htmlFor="name" 
+                <label
+                  htmlFor="name"
                   className="block text-sm font-medium text-light-text-primary mb-2"
                 >
                   Your Name
@@ -140,8 +131,8 @@ function Contact() {
               </div>
 
               <div>
-                <label 
-                  htmlFor="email" 
+                <label
+                  htmlFor="email"
                   className="block text-sm font-medium text-light-text-primary mb-2"
                 >
                   Your Email
@@ -159,8 +150,8 @@ function Contact() {
               </div>
 
               <div>
-                <label 
-                  htmlFor="message" 
+                <label
+                  htmlFor="message"
                   className="block text-sm font-medium text-light-text-primary mb-2"
                 >
                   Your Message

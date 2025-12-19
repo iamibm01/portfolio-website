@@ -2,25 +2,20 @@ import { projects } from '../../data/projects'
 
 function Projects() {
   return (
-    <section 
-      id="projects" 
-      className="min-h-screen flex items-center bg-white py-20"
-    >
+    <section id="projects" className="snap-start min-h-screen flex items-center bg-white py-20">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="text-center mb-16">
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary mb-4">
             Featured Projects
           </h2>
-          <p className="text-body-lg text-light-text-secondary">
-            A selection of my recent work
-          </p>
+          <p className="text-body-lg text-light-text-secondary">A selection of my recent work</p>
         </div>
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {projects.map(function(project) {
+          {projects.map(function (project) {
             return (
-              <div 
+              <div
                 key={project.id}
                 className="bg-light-bg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
               >
@@ -35,15 +30,13 @@ function Projects() {
                     {project.title}
                   </h3>
 
-                  <p className="text-body-base text-light-text-secondary">
-                    {project.description}
-                  </p>
+                  <p className="text-body-base text-light-text-secondary">{project.description}</p>
 
                   {/* Tech Stack Tags */}
                   <div className="flex flex-wrap gap-2">
-                    {project.technologies.map(function(tech) {
+                    {project.technologies.map(function (tech) {
                       return (
-                        <span 
+                        <span
                           key={tech}
                           className="px-3 py-1 bg-white text-primary text-sm font-medium rounded-full"
                         >
@@ -55,10 +48,8 @@ function Projects() {
 
                   {/* Project Links */}
                   <div className="flex gap-4 pt-2">
-                    
                     {project.liveUrl && (
-                        <a
-                    
+                      <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
