@@ -8,3 +8,15 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Smooth dark mode transitions - ADD THIS */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent transitions on page load */
+.no-transition * {
+  transition: none !important;
+}
