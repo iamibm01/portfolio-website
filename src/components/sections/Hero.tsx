@@ -2,59 +2,52 @@ import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 
 function Hero() {
   return (
-   <section 
-  id="hero" 
-  className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 pt-20"
->
+    <section
+      id="hero"
+      className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 pt-20"
+    >
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center space-y-6">
-          
-          {/* Small Greeting */}
-          <p className="text-secondary font-medium text-body-lg">
+          <p className="text-secondary font-medium text-body-lg dark:text-secondary-light">
             Hi, I'm
           </p>
-          
-          {/* Large Name */}
-          <h1 className="text-hero-md font-heading font-bold text-gray-900">
+
+          <h1 className="text-hero-md font-heading font-bold text-gray-900 dark:text-white">
             {PERSONAL_INFO.name}
           </h1>
-          
-          {/* Job Title */}
-          <h2 className="text-section-sm font-heading font-semibold text-primary">
+
+          <h2 className="text-section-sm font-heading font-semibold text-primary dark:text-primary-light">
             {PERSONAL_INFO.title}
           </h2>
-          
-          {/* Tagline */}
-          <p className="text-body-lg text-light-text-secondary max-w-2xl mx-auto leading-relaxed">
+
+          <p className="text-body-lg text-light-text-secondary dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {PERSONAL_INFO.tagline}
           </p>
-          
-          {/* CTA Buttons */}
+
           <div className="flex gap-4 justify-center pt-4">
-            <a 
-              href="#projects" 
-              className="px-8 py-3 border-2 border-primary text-primary font-medium rounded-full hover:bg-primary hover:text-white transition-all"
+            <a
+              href="#projects"
+              className="px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
             >
               View My Work
             </a>
-            <a 
-              href="#contact" 
-              className="px-8 py-3 border-2 border-primary text-primary font-medium rounded-full hover:bg-primary hover:text-white transition-all"
+            <a
+              href="#contact"
+              className="px-8 py-3 border-2 border-primary text-primary dark:border-primary-light dark:text-primary-light font-medium rounded-full hover:bg-primary hover:text-white dark:hover:bg-primary-light transition-all"
             >
               Get In Touch
             </a>
           </div>
-          
-          {/* Social Links */}
+
           <div className="flex gap-6 justify-center pt-8">
-            {SOCIAL_LINKS.map(function(link) {
+            {SOCIAL_LINKS.map(function (link) {
               return (
                 <a
                   key={link.name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary transition-colors"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-colors"
                   aria-label={link.label}
                 >
                   <span className="text-sm font-medium">{link.name}</span>
@@ -62,7 +55,6 @@ function Hero() {
               )
             })}
           </div>
-          
         </div>
       </div>
     </section>
