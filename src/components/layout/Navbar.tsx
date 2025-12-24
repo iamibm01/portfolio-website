@@ -6,32 +6,45 @@ function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { isDarkMode, toggleDarkMode } = useTheme()
 
+  // Smooth scroll handler
+  const handleNavClick = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    e.preventDefault()
+    const target = document.querySelector(href)
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          
-          <a 
-            href="#" 
+          <a
+            href="#"
+            onClick={function (e) {
+              handleNavClick(e, '#hero')
+            }}
             className="text-2xl font-heading font-bold text-gray-900 hover:text-primary transition-colors dark:text-white"
           >
             {PERSONAL_INFO.name}
           </a>
-          
+
           <div className="hidden md:flex items-center gap-8">
-            {NAV_ITEMS.map(function(item) {
+            {NAV_ITEMS.map(function (item) {
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-gray-600 hover:text-primary transition-colors font-medium dark:text-gray-300"
+                  onClick={function (e) {
+                    handleNavClick(e, item.href)
+                  }}
+                  className="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light transition-colors font-medium"
                 >
                   {item.label}
                 </a>
               )
             })}
-            
-            {/* Dark Mode Toggle */}
+
             <button
               onClick={toggleDarkMode}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -48,37 +61,45 @@ function Navbar() {
               )}
             </button>
           </div>
-          
+
           <button
-            onClick={function() { setIsMobileMenuOpen(!isMobileMenuOpen) }}
+            onClick={function () {
+              setIsMobileMenuOpen(!isMobileMenuOpen)
+            }}
             className="md:hidden text-gray-600 hover:text-primary transition-colors dark:text-gray-300"
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
-          
         </div>
       </div>
 
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-700">
           <div className="px-6 py-4 space-y-4">
-            {NAV_ITEMS.map(function(item) {
+            {NAV_ITEMS.map(function (item) {
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  onClick={function() { setIsMobileMenuOpen(false) }}
-                  className="block text-gray-600 hover:text-primary transition-colors font-medium dark:text-gray-300"
+                  onClick={function (e) {
+                    handleNavClick(e, item.href)
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="block text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light transition-colors font-medium"
                 >
                   {item.label}
                 </a>
               )
             })}
-            
-            {/* Dark Mode Toggle for Mobile */}
+
             <button
               onClick={toggleDarkMode}
               className="flex items-center gap-2 text-gray-600 dark:text-gray-300"
