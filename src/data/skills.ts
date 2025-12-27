@@ -20,9 +20,46 @@ export const skills: Skill[] = [
     icon: 'tailwind',
   },
   {
+    name: 'HTML',
+    category: SkillCategory.Frontend,
+    level: SkillLevel.Beginner,
+    icon: 'html',
+  },
+  {
+    name: 'Javascript',
+    category: SkillCategory.Frontend,
+    level: SkillLevel.Beginner,
+    icon: 'javascript',
+  },
+  {
+    name: 'Next.js',
+    category: SkillCategory.Frontend,
+    level: SkillLevel.Beginner,
+    icon: 'next.js',
+  },
+
+  {
     name: 'Git',
     category: SkillCategory.Tools,
     level: SkillLevel.Intermediate,
     icon: 'git',
+  },
+  {
+    name: 'Vite',
+    category: SkillCategory.Tools,
+    level: SkillLevel.Beginner,
+    icon: 'vite',
+  },
+  {
+    name: 'Slack',
+    category: SkillCategory.Tools,
+    level: SkillLevel.Beginner,
+    icon: 'slack',
+  },
+    {
+    name: 'Notion',
+    category: SkillCategory.Tools,
+    level: SkillLevel.Beginner,
+    icon: 'notion',
   },
 ]
