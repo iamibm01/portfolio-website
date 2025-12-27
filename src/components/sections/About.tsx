@@ -3,8 +3,8 @@ import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 
 function About() {
   return (
-    <section 
-      id="about" 
+    <section
+      id="about"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20"
     >
       <div className="max-w-7xl mx-auto px-6">
@@ -16,22 +16,38 @@ function About() {
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <div className="w-64 h-64 mx-auto bg-gradient-to-br from-primary/20 to-secondary/20 dark:from-primary/30 dark:to-secondary/30 rounded-2xl flex items-center justify-center">
-              <p className="text-gray-400 dark:text-gray-500 font-heading">Your Photo</p>
+            <div className="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-xl  hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <img
+                src="/profile.jpg"
+                alt={PERSONAL_INFO.name}
+                className="w-full h-full object-cover scale-150"
+              
+              />
             </div>
-
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
-                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">2024</p>
-                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Started Coding</p>
+                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                  2024
+                </p>
+                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
+                  Started Coding
+                </p>
               </div>
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
-                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">4+</p>
-                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Projects</p>
+                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                  4+
+                </p>
+                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
+                  Projects
+                </p>
               </div>
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
-                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">∞</p>
-                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">Coffee Cups</p>
+                <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                  ∞
+                </p>
+                <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
+                  Coffee Cups
+                </p>
               </div>
             </div>
           </div>
@@ -60,8 +76,8 @@ function About() {
             </div>
 
             <div className="pt-4">
-              <a 
-                href="#contact" 
+              <a
+                href="#contact"
                 className="inline-block px-8 py-3 bg-primary dark:bg-primary-light text-white font-medium rounded-full hover:bg-primary-dark dark:hover:bg-primary hover:shadow-lg transition-all"
               >
                 Let's Work Together
