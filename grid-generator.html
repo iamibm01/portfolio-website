@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Pattern Generator</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0F0F0F;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    #controls {
+      background: #1A1A1A;
+      padding: 20px;
+      border-radius: 8px;
+      color: white;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    label {
+      font-size: 12px;
+      color: #A0A0A0;
+    }
+    
+    input, button {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #333;
+    }
+    
+    input {
+      background: #0F0F0F;
+      color: white;
+      width: 80px;
+    }
+    
+    button {
+      background: #FF6B35;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    button:hover {
+      background: #E55A2B;
+    }
+    
+    #svg-container {
+      width: 100%;
+      max-width: 1920px;
+      height: 1080px;
+      background: linear-gradient(to bottom right, #FFF8F3, #FEE8D6);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="controls">
+    <div class="control-group">
+      <label>Grid Columns</label>
+      <input type="number" id="cols" value="30" min="10" max="50">
+    </div>
+    
+    <div class="control-group">
+      <label>Grid Rows</label>
+      <input type="number" id="rows" value="18" min="10" max="30">
+    </div>
+    
+    <div class="control-group">
+      <label>Randomness (px)</label>
+      <input type="number" id="randomness" value="20" min="0" max="50">
+    </div>
+    
+    <div class="control-group">
+      <label>Connection Distance</label>
+      <input type="number" id="distance" value="120" min="50" max="200">
+    </div>
+    
+    <div class="control-group">
+      <label>Node Size</label>
+      <input type="number" id="nodeSize" value="4" min="2" max="10">
+    </div>
+    
+    <button onclick="generateGrid()">Generate Grid</button>
+    <button onclick="downloadSVG()">Download SVG</button>
+  </div>
+  
+  <div id="svg-container"></div>
+
+  <script>
+    const width = 1920;
+    const height = 1080;
+    
+    function randomOffset(max) {
+      return (Math.random() - 0.5) * 2 * max;
+    }
+    
+    function distance(x1, y1, x2, y2) {
+      return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    }
+    
+    function generateGrid() {
+      const cols = parseInt(document.getElementById('cols').value);
+      const rows = parseInt(document.getElementById('rows').value);
+      const randomness = parseInt(document.getElementById('randomness').value);
+      const maxDistance = parseInt(document.getElementById('distance').value);
+      const nodeSize = parseInt(document.getElementById('nodeSize').value);
+      
+      const spacingX = width / (cols - 1);
+      const spacingY = height / (rows - 1);
+      
+      // Generate nodes
+      const nodes = [];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const baseX = col * spacingX;
+          const baseY = row * spacingY;
+          const x = baseX + randomOffset(randomness);
+          const y = baseY + randomOffset(randomness);
+          
+          // Determine node type
+          const rand = Math.random();
+          let type, size, fill;
+          if ((row + col) % 6 === 0) {
+            type = 'key';
+            size = nodeSize * 1.5;
+            fill = 'url(#node-orange-key)';
+          } else if (rand < 0.3) {
+            type = 'secondary';
+            size = nodeSize * 1.1;
+            fill = 'url(#node-orange-secondary)';
+          } else {
+            type = 'primary';
+            size = nodeSize;
+            fill = 'url(#node-orange-primary)';
+          }
+          
+          nodes.push({ x, y, type, size, fill });
+        }
+      }
+      
+      // Generate connections
+      const lines = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dist = distance(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+          if (dist < maxDistance) {
+            // Choose line gradient based on distance
+            const rand = Math.random();
+            let stroke;
+            if (rand < 0.5) {
+              stroke = 'url(#line-blue-1)';
+            } else if (rand < 0.8) {
+              stroke = 'url(#line-blue-2)';
+            } else {
+              stroke = 'url(#line-blue-3)';
+            }
+            
+            // Opacity based on distance
+            const opacity = 1 - (dist / maxDistance) * 0.5;
+            
+            lines.push({
+              x1: nodes[i].x,
+              y1: nodes[i].y,
+              x2: nodes[j].x,
+              y2: nodes[j].y,
+              stroke,
+              opacity
+            });
+          }
+        }
+      }
+      
+      // Build SVG
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid slice">
+  
+  <defs>
+    <!-- Node Gradients -->
+    <radialGradient id="node-orange-primary">
+      <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:0.8"/>
+    </radialGradient>
+
+    <radialGradient id="node-orange-secondary">
+      <stop offset="0%" style="stop-color:#FF8C42;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FF8C42;stop-opacity:0.8"/>
+    </radialGradient>
+
+    <radialGradient id="node-orange-key">
+      <stop offset="0%" style="stop-color:#F7931E;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#F7931E;stop-opacity:0.9"/>
+    </radialGradient>
+
+    <!-- Line Gradients -->
+    <linearGradient id="line-blue-1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:0.2"/>
+    </linearGradient>
+
+    <linearGradient id="line-blue-2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:0.35"/>
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:0.25"/>
+    </linearGradient>
+
+    <linearGradient id="line-blue-3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Connection Lines -->
+  <g id="connection-lines" class="grid-lines">
+`;
+      
+      // Add lines
+      lines.forEach(line => {
+        svg += `    <line x1="${line.x1.toFixed(1)}" y1="${line.y1.toFixed(1)}" x2="${line.x2.toFixed(1)}" y2="${line.y2.toFixed(1)}" stroke="${line.stroke}" stroke-width="1" opacity="${line.opacity.toFixed(2)}" class="grid-line"/>\n`;
+      });
+      
+      svg += `  </g>
+
+  <!-- Grid Nodes -->
+  <g id="grid-nodes" class="nodes">
+`;
+      
+      // Add nodes
+      nodes.forEach((node, i) => {
+        svg += `    <circle cx="${node.x.toFixed(1)}" cy="${node.y.toFixed(1)}" r="${node.size}" fill="${node.fill}" class="grid-node node-${node.type}"/>\n`;
+      });
+      
+      svg += `  </g>
+</svg>`;
+      
+      // Display
+      document.getElementById('svg-container').innerHTML = svg;
+      
+      console.log(`Generated ${nodes.length} nodes and ${lines.length} connections`);
+    }
+    
+    function downloadSVG() {
+      const svgContent = document.querySelector('#svg-container svg').outerHTML;
+      const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'hero-grid-background.svg';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    
+    // Generate on load
+    generateGrid();
+  </script>
+
+</body>
+</html>
