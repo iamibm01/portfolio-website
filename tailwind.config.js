@@ -98,6 +98,30 @@ export default {
         slow: '300ms',
         slower: '500ms',
       },
+      animation: {
+        'float-slow': 'float 8s ease-in-out infinite',
+        'float-medium': 'float 6s ease-in-out infinite',
+        'float-rotate': 'floatRotate 10s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s ease-in-out infinite',
+        'spin-slow': 'spin 20s linear infinite',
+        'slide-down': 'slideDown 0.3s ease-out', // ← Add this
+      },
+
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        floatRotate: {
+          '0%, 100%': { transform: 'translateY(0px) rotate(12deg)' },
+          '50%': { transform: 'translateY(-20px) rotate(22deg)' },
+        },
+        slideDown: {
+          // ← Add this
+          '0%': { transform: 'translate(-50%, -100%)', opacity: '0' },
+          '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+        },
+      },
     },
   },
   plugins: [],
