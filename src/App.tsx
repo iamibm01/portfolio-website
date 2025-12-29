@@ -1,4 +1,5 @@
-import Navbar from './components/layout/Navbar'
+// import Navbar from './components/layout/Navbar'
+import PillNavbar from './components/layout/PillNavbar'
 import Hero from './components/sections/Hero'
 import About from './components/sections/About'
 import Skills from './components/sections/Skills'
@@ -9,7 +10,8 @@ import Contact from './components/sections/Contact'
 function App() {
   return (
     <div className="min-h-screen bg-light-bg">
-      <Navbar />
+      {/* <Navbar /> */}
+      <PillNavbar />
       
       <main className="h-screen overflow-y-scroll snap-y snap-mandatory">
         <Hero />
