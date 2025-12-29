@@ -4,7 +4,7 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20"
+      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-24"
     >
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="text-center mb-16">
