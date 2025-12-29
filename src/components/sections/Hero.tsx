@@ -1,6 +1,7 @@
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
-import GridBackground from '../ui/GridBackground'
+// import GridBackground from '../ui/GridBackground'
+import WavesBackground from '../ui/WavesBackground'
 
 function Hero() {
   const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
@@ -28,7 +29,8 @@ function Hero() {
       id="hero"
       className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 pt-20 relative overflow-hidden"
     >
-      <GridBackground />
+      {/* <GridBackground /> */}
+      <WavesBackground />
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <div className="text-center space-y-6">
           {/* Small Greeting - Fade In */}

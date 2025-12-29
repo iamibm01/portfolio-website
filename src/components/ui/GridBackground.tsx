@@ -21,10 +21,10 @@ function GridBackground() {
     style.textContent = `
       /* Slow rotation with scale to cover corners */
       .grid-svg-container svg {
-        animation: rotate-grid 200s linear infinite;
+        animation: rotate-grid 60s linear infinite;
         transform-origin: center center;
         width: 150%;
-        height: 300%;
+        height: 150%;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -46,7 +46,7 @@ function GridBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       <div 
-        className="w-full h-full opacity-90 dark:opacity-90 grid-svg-container"
+        className="w-full h-full opacity-90 dark:opacity-100 grid-svg-container"
         dangerouslySetInnerHTML={{ __html: svgContent }}
       />
     </div>
