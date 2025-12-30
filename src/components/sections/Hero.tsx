@@ -1,6 +1,7 @@
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 // import GridBackground from '../ui/GridBackground'
+import GradientText from '../ui/GradientText'
 import WavesBackground from '../ui/WavesBackground'
 
 function Hero() {
@@ -40,7 +41,13 @@ function Hero() {
 
           {/* Large Name - Slide Up (delay 1) */}
           <h1 className="text-hero-md font-heading font-bold text-gray-900 dark:text-white animate-slide-up-delay-1">
-            {PERSONAL_INFO.name}
+                        <GradientText
+              colors={['#FF6B35', '#F7931E', '#FFB380', '#06B6D4', '#3B82F6']}
+              animationSpeed={5}
+              className="text-hero-md font-heading font-bold"
+            >
+              {PERSONAL_INFO.name}
+            </GradientText>
           </h1>
 
           {/* Job Title - Slide Up (delay 2) */}
