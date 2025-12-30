@@ -2,6 +2,7 @@ import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 
+
 function About() {
   // Add smooth scroll handler
   const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
@@ -35,7 +36,7 @@ function About() {
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
-                  <CountUp from={2015} to={2024} duration={2} delay={0.1} />
+                  <CountUp from={2015} to={2024} duration={1} delay={0.1} />
                 </p>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
                   Started Coding
@@ -51,7 +52,7 @@ function About() {
               </div>
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
-                  <CountUp from={0} to={1000} duration={4} delay={0.1} />+
+                  <CountUp from={0} to={10000} duration={10} delay={0.1} />+
                 </p>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
                   Coffee Cups

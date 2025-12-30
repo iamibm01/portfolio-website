@@ -14,7 +14,7 @@ export const skills: Skill[] = [
     icon: 'typescript',
   },
   {
-    name: 'Tailwind CSS',
+    name: 'Tailwind',
     category: SkillCategory.Frontend,
     level: SkillLevel.Beginner,
     icon: 'tailwind',

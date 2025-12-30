@@ -24,7 +24,7 @@ function Skills() {
       case 'typescript':
         return <SiTypescript className={iconClass} />
       case 'tailwind css':
-      case 'tailwindcss':
+      case 'tailwind':
         return <SiTailwindcss className={iconClass} />
       case 'html':
       case 'html5':
@@ -60,21 +60,18 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-24"
+      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-32"
     >
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="text-center mb-16">
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             Skills & Technologies
           </h2>
-          <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
-            Tools I use to bring ideas to life
-          </p>
         </div>
 
         {/* Frontend Skills */}
         <div className="mb-12">
-          <h3 className="text-card-md font-heading font-semibold text-light-text-primary dark:text-white mb-6 text-center">
+          <h3 className="text-card-md font-heading font-semibold text-light-text-primary dark:text-white mb-10 text-center">
             Frontend Development
           </h3>
           <div className="max-w-5xl mx-auto">
@@ -83,19 +80,14 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-white dark:bg-gray-900 p-6 rounded-xl text-center hover:shadow-lg transition-all hover:scale-105 w-40"
+                    className="bg-white dark:bg-gray-900 p-4 rounded-full flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
                   >
                     {/* Icon */}
-                    <div className="flex justify-center mb-3">{getSkillIcon(skill.name)}</div>
+                    <div className="mb-3">{getSkillIcon(skill.name)}</div>
 
                     {/* Skill Name */}
-                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-lg mb-2">
+                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-base text-center">
                       {skill.name}
-                    </p>
-
-                    {/* Level */}
-                    <p className="text-xs text-light-text-secondary dark:text-gray-400">
-                      {skill.level}
                     </p>
                   </div>
                 )
@@ -115,19 +107,14 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-white dark:bg-gray-900 p-6 rounded-xl text-center hover:shadow-lg transition-all hover:scale-105 w-40"
+                    className="bg-white dark:bg-gray-900 p-4 rounded-full flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
                   >
                     {/* Icon */}
-                    <div className="flex justify-center mb-3">{getSkillIcon(skill.name)}</div>
+                    <div className="mb-3">{getSkillIcon(skill.name)}</div>
 
                     {/* Skill Name */}
-                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-lg mb-2">
+                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-base text-center">
                       {skill.name}
-                    </p>
-
-                    {/* Level */}
-                    <p className="text-xs text-light-text-secondary dark:text-gray-400">
-                      {skill.level}
                     </p>
                   </div>
                 )
