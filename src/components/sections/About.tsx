@@ -3,6 +3,14 @@ import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 
 function About() {
+  // Add smooth scroll handler
+  const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    e.preventDefault()
+    const target = document.querySelector(href)
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
   return (
     <section
       id="about"
@@ -22,18 +30,12 @@ function About() {
                 src="/profile.jpg"
                 alt={PERSONAL_INFO.name}
                 className="w-full h-full object-cover scale-150"
-              
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
-                  <CountUp 
-                    from={2015}
-                    to={2024}
-                    duration={2}
-                    delay={0.1}
-                  />
+                  <CountUp from={2015} to={2024} duration={2} delay={0.1} />
                 </p>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
                   Started Coding
@@ -41,13 +43,7 @@ function About() {
               </div>
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
-                    <CountUp 
-                    from={0}
-                    to={4}
-                    duration={1}
-                    delay={0.1}
-                  />
-                  +
+                  <CountUp from={0} to={4} duration={1} delay={0.1} />+
                 </p>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
                   Projects
@@ -55,13 +51,7 @@ function About() {
               </div>
               <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
-                   <CountUp 
-                    from={0}
-                    to={1000}
-                    duration={4}
-                    delay={0.1}
-                  />
-                  +
+                  <CountUp from={0} to={1000} duration={4} delay={0.1} />+
                 </p>
                 <p className="text-sm text-light-text-secondary dark:text-gray-400 mt-1">
                   Coffee Cups
@@ -96,6 +86,9 @@ function About() {
             <div className="pt-4">
               <a
                 href="#contact"
+                onClick={function (e) {
+                  handleSmoothScroll(e, '#contact')
+                }}
                 className="inline-block px-8 py-3 bg-primary dark:bg-primary-light text-white font-medium rounded-full hover:bg-primary-dark dark:hover:bg-primary hover:shadow-lg transition-all"
               >
                 Let's Work Together
