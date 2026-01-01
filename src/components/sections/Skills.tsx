@@ -80,7 +80,7 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-white dark:bg-gray-900 p-4 rounded-full flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
+                    className="bg-white dark:bg-gray-900 p-4 rounded-3xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
                   >
                     {/* Icon */}
                     <div className="mb-3">{getSkillIcon(skill.name)}</div>
@@ -107,7 +107,7 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-white dark:bg-gray-900 p-4 rounded-full flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
+                    className="bg-white dark:bg-gray-900 p-4 rounded-3xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
                   >
                     {/* Icon */}
                     <div className="mb-3">{getSkillIcon(skill.name)}</div>
