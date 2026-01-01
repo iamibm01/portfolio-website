@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
-import { HiMail, HiLocationMarker, HiCheckCircle } from 'react-icons/hi'
+import { HiMail, HiLocationMarker, HiCheckCircle, HiXCircle } from 'react-icons/hi'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
 function Contact() {
@@ -9,40 +9,94 @@ function Contact() {
     email: '',
     message: '',
   })
+  const [focusedField, setFocusedField] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   const handleChange = function (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     })
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' })
+    }
+  }
+
+  const handleFocus = function (fieldName: string) {
+    setFocusedField(fieldName)
+  }
+
+  const handleBlur = function (fieldName: string) {
+    if (!formData[fieldName as keyof typeof formData]) {
+      setFocusedField(null)
+    }
+  }
+
+  const validateForm = function () {
+    const newErrors: { [key: string]: string } = {}
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required'
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email'
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required'
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters'
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = function (e: React.FormEvent) {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    
+    if (!validateForm()) {
+      return
+    }
 
-    // Show success message
-    setIsSubmitted(true)
-    setIsVisible(true)
+    // Show loading state
+    setIsLoading(true)
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      message: '',
-    })
-
-    // Start fade out after 4 seconds
+    // Simulate API call
     setTimeout(function () {
-      setIsVisible(false)
-    }, 3000)
+      console.log('Form submitted:', formData)
+      setIsLoading(false)
 
-    // Remove from DOM after fade completes
-    setTimeout(function () {
-      setIsSubmitted(false)
-    }, 3500)
+      // Show success message
+      setIsSubmitted(true)
+      setIsVisible(true)
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      })
+      setFocusedField(null)
+
+      // Start fade out after 3 seconds
+      setTimeout(function () {
+        setIsVisible(false)
+      }, 3000)
+
+      // Remove from DOM after fade completes
+      setTimeout(function () {
+        setIsSubmitted(false)
+      }, 3500)
+    }, 1500)
   }
 
   // Icon mapping for social links
@@ -161,68 +215,146 @@ function Contact() {
           {/* Right Column - Contact Form */}
           <div className="bg-light-bg dark:bg-gray-800 p-8 rounded-2xl">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
-                >
-                  Your Name
-                </label>
+              {/* Name Field with Floating Label */}
+              <div className="relative">
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all text-gray-900 dark:text-white"
-                  placeholder="John Doe"
+                  onFocus={function() { handleFocus('name') }}
+                  onBlur={function() { handleBlur('name') }}
+                  className={`w-full px-4 py-3 bg-white dark:bg-gray-900 border rounded-lg focus:outline-none transition-all text-gray-900 dark:text-white peer ${
+                    errors.name 
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-500' 
+                      : 'border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent'
+                  }`}
+                  placeholder=" "
                 />
+                <label
+                  htmlFor="name"
+                  className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                    focusedField === 'name' || formData.name
+                      ? '-top-2.5 text-xs bg-light-bg dark:bg-gray-800 px-1'
+                      : 'top-3 text-sm'
+                  } ${
+                    errors.name
+                      ? 'text-red-500'
+                      : focusedField === 'name'
+                      ? 'text-primary dark:text-primary-light'
+                      : 'text-light-text-secondary dark:text-gray-400'
+                  }`}
+                >
+                  Your Name
+                </label>
+                {errors.name && (
+                  <div className="flex items-center gap-1 mt-1 text-red-500 text-xs animate-fade-in">
+                    <HiXCircle className="w-3 h-3" />
+                    <span>{errors.name}</span>
+                  </div>
+                )}
               </div>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
-                >
-                  Your Email
-                </label>
+              {/* Email Field with Floating Label */}
+              <div className="relative">
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all text-gray-900 dark:text-white"
-                  placeholder="john@example.com"
+                  onFocus={function() { handleFocus('email') }}
+                  onBlur={function() { handleBlur('email') }}
+                  className={`w-full px-4 py-3 bg-white dark:bg-gray-900 border rounded-lg focus:outline-none transition-all text-gray-900 dark:text-white peer ${
+                    errors.email 
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-500' 
+                      : 'border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent'
+                  }`}
+                  placeholder=" "
                 />
+                <label
+                  htmlFor="email"
+                  className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                    focusedField === 'email' || formData.email
+                      ? '-top-2.5 text-xs bg-light-bg dark:bg-gray-800 px-1'
+                      : 'top-3 text-sm'
+                  } ${
+                    errors.email
+                      ? 'text-red-500'
+                      : focusedField === 'email'
+                      ? 'text-primary dark:text-primary-light'
+                      : 'text-light-text-secondary dark:text-gray-400'
+                  }`}
+                >
+                  Your Email
+                </label>
+                {errors.email && (
+                  <div className="flex items-center gap-1 mt-1 text-red-500 text-xs animate-fade-in">
+                    <HiXCircle className="w-3 h-3" />
+                    <span>{errors.email}</span>
+                  </div>
+                )}
               </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
-                >
-                  Your Message
-                </label>
+              {/* Message Field with Floating Label */}
+              <div className="relative">
                 <textarea
                   id="message"
                   name="message"
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all resize-none text-gray-900 dark:text-white"
-                  placeholder="Tell me about your project..."
+                  onFocus={function() { handleFocus('message') }}
+                  onBlur={function() { handleBlur('message') }}
+                  className={`w-full px-4 py-3 bg-white dark:bg-gray-900 border rounded-lg focus:outline-none transition-all resize-none text-gray-900 dark:text-white peer ${
+                    errors.message 
+                      ? 'border-red-500 focus:ring-2 focus:ring-red-500' 
+                      : 'border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent'
+                  }`}
+                  placeholder=" "
                 />
+                <label
+                  htmlFor="message"
+                  className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+                    focusedField === 'message' || formData.message
+                      ? '-top-2.5 text-xs bg-light-bg dark:bg-gray-800 px-1'
+                      : 'top-3 text-sm'
+                  } ${
+                    errors.message
+                      ? 'text-red-500'
+                      : focusedField === 'message'
+                      ? 'text-primary dark:text-primary-light'
+                      : 'text-light-text-secondary dark:text-gray-400'
+                  }`}
+                >
+                  Your Message
+                </label>
+                {errors.message && (
+                  <div className="flex items-center gap-1 mt-1 text-red-500 text-xs animate-fade-in">
+                    <HiXCircle className="w-3 h-3" />
+                    <span>{errors.message}</span>
+                  </div>
+                )}
               </div>
 
+              {/* Submit Button with Loading Animation */}
               <button
                 type="submit"
-                className="w-full px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
+                disabled={isLoading}
+                className="w-full px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden group"
               >
-                Send Message
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Sending...
+                  </span>
+                ) : (
+                  <span>Send Message</span>
+                )}
               </button>
             </form>
           </div>
