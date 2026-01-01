@@ -26,3 +26,17 @@ html {
   height: 100%;
   object-fit: cover;
 }
+/* Make snap scroll more deliberate */
+section {
+  scroll-snap-stop: always;
+}
+
+/* Smooth scroll behavior */
+main {
+  scroll-behavior: smooth;
+}
+
+/* Optional: Add scroll padding to prevent navbar overlap */
+main {
+  scroll-padding-top: 80px;
+}

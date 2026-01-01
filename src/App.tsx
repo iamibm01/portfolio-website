@@ -13,7 +13,7 @@ function App() {
       {/* <Navbar /> */}
       <PillNavbar />
       
-      <main className="h-screen overflow-y-scroll snap-y snap-mandatory">
+      <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth" style={{ scrollSnapType: 'y mandatory' }}>
         <Hero />
         <About />
         <Skills />
