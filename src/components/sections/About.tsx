@@ -1,7 +1,6 @@
 import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
-import FloatingLines from '../ui/FloatingLines'
 
 
 function About() {
