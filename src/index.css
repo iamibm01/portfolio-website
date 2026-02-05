@@ -7,6 +7,11 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
 }
 
 /* Smooth dark mode transitions - ADD THIS */

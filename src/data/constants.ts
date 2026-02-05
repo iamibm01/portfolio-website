@@ -8,11 +8,11 @@ export const PERSONAL_INFO = {
   email: 'your.email@example.com',
   phone: '+92 XXX XXXXXXX',
   location: 'Lahore, Pakistan',
-  title: 'Front-End Developer',
-  tagline: 'Transforming ideas into pixel-perfect, interactive experiences',
-  bio: `I'm a front-end developer with a unique background in mechanical product design. 
-For years, I transformed concepts into tangible products - now I bring that same 
-precision and creativity to building digital experiences.`,
+  title: 'Full Stack Developer',
+  tagline: 'Building seamless experiences from frontend to backend',
+  bio: `I'm a full stack developer with a unique background in mechanical product design.
+For years, I transformed concepts into tangible products - now I bring that same
+precision and creativity to building complete digital solutions.`,
   availability: 'Open to full-time and freelance opportunities',
 }
 
