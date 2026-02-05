@@ -38,6 +38,33 @@ export const skills: Skill[] = [
     icon: 'next.js',
   },
 
+  // Backend
+  {
+    name: 'Node.js',
+    category: SkillCategory.Backend,
+    level: SkillLevel.Beginner,
+    icon: 'node',
+  },
+  {
+    name: 'Express',
+    category: SkillCategory.Backend,
+    level: SkillLevel.Beginner,
+    icon: 'express',
+  },
+  {
+    name: 'Prisma',
+    category: SkillCategory.Backend,
+    level: SkillLevel.Beginner,
+    icon: 'prisma',
+  },
+  {
+    name: 'PostgreSQL',
+    category: SkillCategory.Backend,
+    level: SkillLevel.Beginner,
+    icon: 'postgresql',
+  },
+
+  // Tools
   {
     name: 'Git',
     category: SkillCategory.Tools,

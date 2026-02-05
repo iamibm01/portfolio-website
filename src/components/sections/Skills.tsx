@@ -1,12 +1,16 @@
 import { skills } from '../../data/skills'
 import { SkillCategory } from '../../types'
-import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaGithub } from 'react-icons/fa'
-import { SiTypescript, SiTailwindcss, SiNextdotjs, SiVite, SiSlack, SiNotion } from 'react-icons/si'
+import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaGithub, FaNodeJs } from 'react-icons/fa'
+import { SiTypescript, SiTailwindcss, SiNextdotjs, SiVite, SiSlack, SiNotion, SiExpress, SiPrisma, SiPostgresql } from 'react-icons/si'
 
 function Skills() {
   // Group skills by category
   const frontendSkills = skills.filter(function (skill) {
     return skill.category === SkillCategory.Frontend
+  })
+
+  const backendSkills = skills.filter(function (skill) {
+    return skill.category === SkillCategory.Backend
   })
 
   const toolsSkills = skills.filter(function (skill) {
@@ -48,6 +52,18 @@ function Skills() {
         return <SiSlack className={iconClass} />
       case 'notion':
         return <SiNotion className={iconClass} />
+      case 'node.js':
+      case 'node':
+      case 'nodejs':
+        return <FaNodeJs className={iconClass} />
+      case 'express':
+      case 'expressjs':
+        return <SiExpress className={iconClass} />
+      case 'prisma':
+        return <SiPrisma className={iconClass} />
+      case 'postgresql':
+      case 'postgres':
+        return <SiPostgresql className={iconClass} />
       default:
         return (
           <div className="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-lg flex items-center justify-center text-primary dark:text-primary-light font-bold text-xl">
@@ -77,6 +93,33 @@ function Skills() {
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-wrap justify-center gap-6">
               {frontendSkills.map(function (skill) {
+                return (
+                  <div
+                    key={skill.name}
+                    className="bg-white dark:bg-gray-900 p-4 rounded-3xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-110 w-32 h-32"
+                  >
+                    {/* Icon */}
+                    <div className="mb-3">{getSkillIcon(skill.name)}</div>
+
+                    {/* Skill Name */}
+                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-base text-center">
+                      {skill.name}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Backend Development */}
+        <div className="mb-12">
+          <h3 className="text-card-md font-heading font-semibold text-light-text-primary dark:text-white mb-10 text-center">
+            Backend Development
+          </h3>
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-6">
+              {backendSkills.map(function (skill) {
                 return (
                   <div
                     key={skill.name}
