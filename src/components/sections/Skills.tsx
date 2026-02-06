@@ -2,6 +2,7 @@ import { skills } from '../../data/skills'
 import { SkillCategory } from '../../types'
 import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaGithub, FaNodeJs } from 'react-icons/fa'
 import { SiTypescript, SiTailwindcss, SiNextdotjs, SiVite, SiSlack, SiNotion, SiExpress, SiPrisma, SiPostgresql } from 'react-icons/si'
+import { TbApi } from 'react-icons/tb'
 
 function Skills() {
   // Group skills by category
@@ -64,6 +65,10 @@ function Skills() {
       case 'postgresql':
       case 'postgres':
         return <SiPostgresql className={iconClass} />
+      case 'restful api':
+      case 'restapi':
+      case 'rest api':
+        return <TbApi className={iconClass} />
       default:
         return (
           <div className="w-8 h-8 bg-primary/20 dark:bg-primary/30 rounded-lg flex items-center justify-center text-primary dark:text-primary-light font-bold text-base">
@@ -76,9 +81,17 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-12 pt-20"
+      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-12 pt-20 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 w-full">
+      {/* Dot pattern background */}
+      <div
+        className="absolute inset-0 opacity-30 dark:opacity-20"
+        style={{
+          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+        }}
+      />
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         <div className="text-center mb-8">
           <h2 className="text-section-sm font-heading font-semibold text-light-text-primary dark:text-white mb-2">
             Skills & Technologies
@@ -96,7 +109,7 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28"
+                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
@@ -120,7 +133,7 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28"
+                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
@@ -144,7 +157,7 @@ function Skills() {
                 return (
                   <div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28"
+                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">

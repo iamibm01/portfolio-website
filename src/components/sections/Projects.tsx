@@ -2,11 +2,19 @@ import { projects } from '../../data/projects'
 
 function Projects() {
   return (
-<section 
-  id="projects" 
-  className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20"
+<section
+  id="projects"
+  className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
 >
-  <div className="max-w-7xl mx-auto px-6 w-full">
+  {/* Dot pattern background */}
+  <div
+    className="absolute inset-0 opacity-30 dark:opacity-20"
+    style={{
+      backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+      backgroundSize: '24px 24px',
+    }}
+  />
+  <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
     <div className="text-center mb-16">
       <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
         Featured Projects

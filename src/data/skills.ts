@@ -63,6 +63,12 @@ export const skills: Skill[] = [
     level: SkillLevel.Beginner,
     icon: 'postgresql',
   },
+  {
+    name: 'RESTful API',
+    category: SkillCategory.Backend,
+    level: SkillLevel.Beginner,
+    icon: 'restapi',
+  },
 
   // Tools
   {
