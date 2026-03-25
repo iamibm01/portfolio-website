@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { NAV_ITEMS, PERSONAL_INFO } from '../../data/constants'
+import { NAV_ITEMS } from '../../data/constants'
 import { useTheme } from '../../context/ThemeContext'
 
 function PillNavbar() {
@@ -54,9 +54,10 @@ function PillNavbar() {
 
   // Track active section and show/hide background
   useEffect(function () {
+    const scrollRoot = document.querySelector('main')
     const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
+      root: scrollRoot,
+      rootMargin: '-45% 0px -45% 0px',
       threshold: 0
     }
 
@@ -165,7 +166,7 @@ function PillNavbar() {
           aria-label="Primary"
           style={cssVars}
         >
-          {/* Logo/Name - Only show outside hero */}
+          {/* Logo - Home link */}
           <a
             href="#hero"
             onClick={function (e) {
@@ -173,15 +174,12 @@ function PillNavbar() {
             }}
             aria-label="Home"
             ref={logoRef}
-            className="rounded-full px-5 inline-flex items-center justify-center font-heading font-bold text-lg whitespace-nowrap transition-all duration-200 hover:scale-105"
+            className="rounded-full px-3 inline-flex items-center justify-center font-heading font-bold text-lg whitespace-nowrap transition-all duration-200 hover:scale-105"
             style={{
               height: 'var(--nav-h)',
-            //   background: showBackground ? 'var(--base)' : 'transparent',
               color: 'var(--pill-bg)',
             }}
-          >
-            {showBackground}
-          </a>
+          />
 
           {/* Desktop Nav Items */}
           <div
@@ -204,7 +202,7 @@ function PillNavbar() {
                       onClick={function (e) {
                         handleNavClick(e, item.href)
                       }}
-                      className="relative inline-flex items-center justify-center h-full no-underline rounded-full box-border font-semibold text-sm uppercase tracking-wide whitespace-nowrap cursor-pointer transition-all duration-300"
+                      className="relative inline-flex flex-col items-center justify-center h-full no-underline rounded-full box-border font-semibold text-sm uppercase tracking-wide whitespace-nowrap cursor-pointer transition-all duration-300 gap-0.5"
                       style={{
                         background: isActive ? pillColor : 'transparent',
                         color: isActive ? pillTextColor : pillColor,
@@ -212,11 +210,12 @@ function PillNavbar() {
                         paddingRight: 'var(--pill-pad-x)',
                         border: 'none',
                         outline: 'none',
+                        boxShadow: isActive ? `0 0 0 2px ${pillColor}40, 0 4px 12px ${pillColor}50` : 'none',
                       }}
                       onMouseEnter={function (e) {
                         if (!isActive) {
-                          e.currentTarget.style.background = pillColor
-                          e.currentTarget.style.color = pillTextColor
+                          e.currentTarget.style.background = pillColor + '22'
+                          e.currentTarget.style.color = pillColor
                         }
                       }}
                       onMouseLeave={function (e) {
@@ -227,6 +226,12 @@ function PillNavbar() {
                       }}
                     >
                       {item.label}
+                      {isActive && (
+                        <span
+                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+                          style={{ background: pillColor }}
+                        />
+                      )}
                     </a>
                   </li>
                 )

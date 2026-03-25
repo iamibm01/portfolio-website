@@ -1,4 +1,10 @@
 import { experience } from '../../data/experience'
+import { motion } from 'framer-motion'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+}
 
 function Experience() {
   return (
@@ -6,31 +12,43 @@ function Experience() {
       id="experience"
       className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-24 relative overflow-hidden"
     >
-      {/* Dot pattern background */}
+      {/* Medium purple dots — structured, timeline feel */}
       <div
-        className="absolute inset-0 opacity-30 dark:opacity-20"
+        className="absolute inset-0 opacity-[0.16] dark:opacity-[0.09]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: 'radial-gradient(circle, #8b5cf6 1px, transparent 1px)',
+          backgroundSize: '22px 22px',
         }}
       />
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             Work Experience
           </h2>
           <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
             My professional journey
           </p>
-        </div>
+        </motion.div>
 
         {/* Experience Cards - Single Column */}
         <div className="max-w-4xl mx-auto space-y-4">
-          {experience.map(function (exp) {
+          {experience.map(function (exp, index) {
             return (
-              <div
+              <motion.div
                 key={exp.id}
-                className="group bg-white/40 dark:bg-gray-900/40 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer border border-white/20 dark:border-gray-700/30"
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+                className="group bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer border border-white/40 dark:border-white/15"
               >
                 {/* Compact View (Always Visible) */}
                 <div className="p-6">
@@ -73,7 +91,6 @@ function Experience() {
                   </div>
 
                   {/* Description */}
-                  {/* Description */}
                   <div className="relative">
                     <p className="text-body-sm text-light-text-primary dark:text-gray-300 line-clamp-2 group-hover:line-clamp-none transition-all">
                       {exp.description}
@@ -101,7 +118,6 @@ function Experience() {
                   </div>
                 </div>
 
-                {/* Expanded Details (Hidden, Shows on Hover) */}
                 {/* Expanded Details (Hidden, Shows on Hover) */}
                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-in-out">
                   <div className="overflow-hidden">
@@ -154,7 +170,7 @@ function Experience() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
         </div>

@@ -1,10 +1,14 @@
 import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
+import { motion } from 'framer-motion'
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+}
 
 function About() {
-  // Add smooth scroll handler
   const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     e.preventDefault()
     const target = document.querySelector(href)
@@ -12,29 +16,44 @@ function About() {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
+
   return (
     <section
       id="about"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
     >
-      {/* Dot pattern background */}
+      {/* Dense small orange dots — intimate, precise */}
       <div
-        className="absolute inset-0 opacity-30 dark:opacity-20"
+        className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"
         style={{
           backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundSize: '16px 16px',
         }}
       />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             About Me
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-xl  hover:shadow-2xl hover:scale-105 transition-all duration-300">
+          <motion.div
+            className="space-y-8"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+          >
+            <div className="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
               <img
                 src="/profile.jpg"
                 alt={PERSONAL_INFO.name}
@@ -42,7 +61,7 @@ function About() {
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
+              <div className="text-center p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
                   <CountUp from={2015} to={2024} duration={1} delay={0.1} />
                 </p>
@@ -50,7 +69,7 @@ function About() {
                   Started Coding
                 </p>
               </div>
-              <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
+              <div className="text-center p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
                   <CountUp from={0} to={4} duration={1} delay={0.1} />+
                 </p>
@@ -58,7 +77,7 @@ function About() {
                   Projects
                 </p>
               </div>
-              <div className="text-center p-4 bg-light-bg dark:bg-gray-800 rounded-xl">
+              <div className="text-center p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
                 <p className="text-2xl font-heading font-bold text-primary dark:text-primary-light">
                   <CountUp from={0} to={10000} duration={10} delay={0.1} />+
                 </p>
@@ -67,23 +86,27 @@ function About() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="space-y-6">
+          <motion.div
+            className="space-y-6"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+          >
             <p className="text-body-lg text-light-text-primary dark:text-gray-300 leading-relaxed">
               {PERSONAL_INFO.bio}
             </p>
 
             <div className="space-y-3">
-              {/* Location with Icon */}
               <div className="flex items-center gap-3">
                 <HiLocationMarker className="w-6 h-6 text-primary dark:text-primary-light flex-shrink-0" />
                 <p className="text-body-base text-light-text-secondary dark:text-gray-400">
                   {PERSONAL_INFO.location}
                 </p>
               </div>
-
-              {/* Availability with Icon */}
               <div className="flex items-center gap-3">
                 <HiBriefcase className="w-6 h-6 text-primary dark:text-primary-light flex-shrink-0" />
                 <p className="text-body-base text-light-text-secondary dark:text-gray-400">
@@ -103,7 +126,7 @@ function About() {
                 Let's Work Together
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
