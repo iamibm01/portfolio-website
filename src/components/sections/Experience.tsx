@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { experience } from '../../data/experience'
 import { motion, AnimatePresence } from 'framer-motion'
+import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -28,6 +29,9 @@ function Experience() {
       id="experience"
       className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-24 relative overflow-hidden"
     >
+      {/* Divider → Contact (white / gray-900) */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
+
       {/* Medium purple dots — structured, timeline feel */}
       <div
         className="absolute inset-0 opacity-[0.16] dark:opacity-[0.09]"

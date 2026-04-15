@@ -2,6 +2,7 @@ import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 import { motion } from 'framer-motion'
+import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -22,6 +23,9 @@ function About() {
       id="about"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
     >
+      {/* Divider → Skills (light-bg / gray-800) */}
+      <SectionDivider lightFill="#FFF8F3" darkFill="#1f2937" direction="left" />
+
       {/* Dense small orange dots — intimate, precise */}
       <div
         className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"

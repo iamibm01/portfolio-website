@@ -14,6 +14,7 @@ import {
 } from 'react-icons/si'
 import { TbApi } from 'react-icons/tb'
 import { motion } from 'framer-motion'
+import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -105,6 +106,9 @@ function Skills() {
       id="skills"
       className="snap-start min-h-screen bg-light-bg dark:bg-gray-800 py-12 pt-24 pb-20 relative overflow-hidden"
     >
+      {/* Divider → Projects (white / gray-900) */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
+
       {/* Large spaced teal dots — airy, techy */}
       <div
         className="absolute inset-0 opacity-[0.18] dark:opacity-[0.10]"
