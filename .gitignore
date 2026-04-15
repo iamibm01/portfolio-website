@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 UI_UX_IMPROVEMENTS.md
+
+# Server
+server/.env
+server/node_modules
+server/dist

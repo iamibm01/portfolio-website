@@ -1,265 +1,332 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaGithub, FaLinkedin, FaEnvelope, FaPaperPlane } from 'react-icons/fa'
+import { HiCheckCircle, HiSparkles } from 'react-icons/hi'
+import { useChat } from '../../hooks/useChat'
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
-import { HiMail, HiLocationMarker, HiCheckCircle } from 'react-icons/hi'
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
-import { motion } from 'framer-motion'
+import SectionDivider from '../ui/SectionDivider'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0 },
+const GREETING =
+  `Hey there! 👋 I'm an AI assistant for ${PERSONAL_INFO.name}'s portfolio. ` +
+  `I can tell you about his skills, projects, and experience — or just answer any questions you have. ` +
+  `What would you like to know?`
+
+const SUGGESTIONS = [
+  'What technologies does he work with?',
+  'Tell me about his projects',
+  'Is he available for freelance work?',
+]
+
+function getSocialIcon(name: string) {
+  switch (name.toLowerCase()) {
+    case 'github':
+      return <FaGithub className="w-4 h-4" />
+    case 'linkedin':
+      return <FaLinkedin className="w-4 h-4" />
+    case 'email':
+      return <FaEnvelope className="w-4 h-4" />
+    default:
+      return null
+  }
 }
 
-function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
+export default function Contact() {
+  const { state, sendMessage, initGreeting } = useChat()
+  const [input, setInput] = useState('')
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const greetingFired = useRef(false)
 
-  const handleChange = function (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+  // Auto-inject greeting once on mount
+  useEffect(() => {
+    if (greetingFired.current) return
+    greetingFired.current = true
+    initGreeting(GREETING)
+  }, [initGreeting])
+
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [state.messages, state.status])
+
+  const handleSend = async () => {
+    const text = input.trim()
+    if (!text || state.status === 'loading') return
+    setInput('')
+    await sendMessage(text)
+    inputRef.current?.focus()
   }
 
-  const handleSubmit = function (e: React.FormEvent) {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-
-    setIsSubmitted(true)
-    setIsVisible(true)
-
-    setFormData({
-      name: '',
-      email: '',
-      message: '',
-    })
-
-    setTimeout(function () {
-      setIsVisible(false)
-    }, 3000)
-
-    setTimeout(function () {
-      setIsSubmitted(false)
-    }, 3500)
-  }
-
-  const getSocialIcon = function (name: string) {
-    switch (name.toLowerCase()) {
-      case 'github':
-        return <FaGithub className="w-5 h-5" />
-      case 'linkedin':
-        return <FaLinkedin className="w-5 h-5" />
-      case 'email':
-        return <FaEnvelope className="w-5 h-5" />
-      default:
-        return null
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      void handleSend()
     }
   }
+
+  const handleSuggestion = (text: string) => {
+    if (state.status === 'loading') return
+    void sendMessage(text)
+  }
+
+  const isLeadCaptured = state.status === 'lead_captured'
 
   return (
     <section
       id="contact"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
     >
-      {/* Tiny ultra-dense indigo dots — intimate, conversational */}
+      {/* Dot pattern background */}
       <div
-        className="absolute inset-0 opacity-[0.20] dark:opacity-[0.10]"
+        className="absolute inset-0 opacity-[0.22] dark:opacity-[0.12]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #6366f1 0.75px, transparent 0.75px)',
-          backgroundSize: '12px 12px',
+          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
         }}
       />
+
+      {/* Section divider from Experience */}
+      <SectionDivider lightFill="#FFF8F3" darkFill="#1f2937" direction="right" />
+
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
+        {/* Header */}
         <motion.div
-          className="text-center mb-16"
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <HiSparkles className="text-primary w-5 h-5" />
+            <span className="text-sm font-medium text-primary uppercase tracking-widest">
+              AI-Powered Contact
+            </span>
+          </div>
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
-            Get In Touch
+            Let's Talk
           </h2>
-          <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
-            Have a project in mind? Let's work together
+          <p className="text-body-lg text-light-text-secondary dark:text-gray-400 max-w-xl mx-auto">
+            Chat with my AI assistant — ask anything about my work, or just say hello.
           </p>
         </motion.div>
 
-        {/* Success Message */}
-        {isSubmitted && (
-          <div
-            className={`fixed top-24 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
-            }`}
-          >
-            <div className="bg-primary text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
-              <HiCheckCircle className="w-6 h-6" />
-              <div>
-                <p className="font-semibold">Message Sent Successfully!</p>
-                <p className="text-sm">I'll get back to you soon.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Left Column - Contact Info */}
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-10 max-w-5xl mx-auto items-start">
+          {/* Left — Contact Info */}
           <motion.div
             className="space-y-8"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             <div>
-              <h3 className="text-card-md font-heading font-semibold text-light-text-primary dark:text-white mb-6">
-                Let's Talk
+              <h3 className="font-heading font-semibold text-light-text-primary dark:text-white text-card-sm mb-3">
+                Get in touch
               </h3>
               <p className="text-body-base text-light-text-secondary dark:text-gray-400 leading-relaxed">
-                I'm currently available for freelance work and full-time opportunities. If you have
-                a project in mind, feel free to reach out!
+                {PERSONAL_INFO.availability}. Based in {PERSONAL_INFO.location}.
               </p>
             </div>
 
-            {/* Contact Details with Icons */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <HiMail className="w-6 h-6 text-primary dark:text-primary-light" />
-                </div>
-                <div>
-                  <p className="text-sm text-light-text-secondary dark:text-gray-400">Email</p>
-                  <a
-                    href={`mailto:${PERSONAL_INFO.email}`}
-                    className="text-body-base text-light-text-primary dark:text-gray-300 hover:text-primary dark:hover:text-primary-light transition-colors"
-                  >
-                    {PERSONAL_INFO.email}
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <HiLocationMarker className="w-6 h-6 text-primary dark:text-primary-light" />
-                </div>
-                <div>
-                  <p className="text-sm text-light-text-secondary dark:text-gray-400">Location</p>
-                  <p className="text-body-base text-light-text-primary dark:text-gray-300">
-                    {PERSONAL_INFO.location}
-                  </p>
-                </div>
-              </div>
+            <div className="space-y-3">
+              <a
+                href={`mailto:${PERSONAL_INFO.email}`}
+                className="flex items-center gap-3 text-body-base text-light-text-secondary dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-colors group"
+              >
+                <span className="w-9 h-9 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <FaEnvelope className="w-4 h-4 text-primary dark:text-primary-light" />
+                </span>
+                {PERSONAL_INFO.email}
+              </a>
             </div>
 
-            {/* Social Links */}
             <div>
-              <p className="text-sm text-light-text-secondary dark:text-gray-400 mb-3">
-                Connect with me:
+              <p className="text-xs text-light-text-secondary dark:text-gray-500 uppercase tracking-widest mb-3">
+                Find me on
               </p>
-              <div className="flex gap-4">
-                {SOCIAL_LINKS.map(function (link) {
-                  return (
-                    <a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-12 h-12 bg-light-bg dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 hover:bg-primary hover:text-white dark:hover:bg-primary-light transition-all hover:scale-110"
-                      aria-label={link.label}
-                    >
-                      {getSocialIcon(link.name)}
-                    </a>
-                  )
-                })}
+              <div className="flex gap-3">
+                {SOCIAL_LINKS.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className="w-10 h-10 rounded-full bg-light-bg dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-primary hover:text-white dark:hover:bg-primary-light transition-all hover:scale-110"
+                  >
+                    {getSocialIcon(link.name)}
+                  </a>
+                ))}
               </div>
             </div>
+
+            {/* Lead captured badge */}
+            <AnimatePresence>
+              {isLeadCaptured && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-start gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4"
+                >
+                  <HiCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-green-700 dark:text-green-400">
+                      Message received!
+                    </p>
+                    <p className="text-xs text-green-600 dark:text-green-500 mt-0.5">
+                      {PERSONAL_INFO.name} will be in touch soon.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
-          {/* Right Column - Contact Form */}
+          {/* Right — Chat window */}
           <motion.div
-            className="bg-white/30 dark:bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/40 dark:border-white/15"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+            className="flex flex-col bg-light-bg dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm"
+            style={{ height: '520px' }}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
-                >
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all text-gray-900 dark:text-white"
-                  placeholder="John Doe"
-                />
+            {/* Chat header bar */}
+            <div className="px-5 py-3.5 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3 bg-white dark:bg-gray-900">
+              <div className="w-8 h-8 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                <HiSparkles className="w-4 h-4 text-white" />
               </div>
-
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
-                >
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all text-gray-900 dark:text-white"
-                  placeholder="john@example.com"
-                />
+                <p className="text-sm font-semibold text-light-text-primary dark:text-white leading-none">
+                  Portfolio Assistant
+                </p>
+                <p className="text-xs text-green-500 mt-0.5 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
+                  Online
+                </p>
               </div>
+            </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-light-text-primary dark:text-white mb-2"
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 scroll-smooth">
+              <AnimatePresence initial={false}>
+                {state.messages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    {msg.role === 'assistant' && (
+                      <div className="w-6 h-6 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0 mr-2 mt-1">
+                        <HiSparkles className="w-3 h-3 text-white" />
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                        msg.role === 'user'
+                          ? 'bg-primary text-white rounded-br-sm'
+                          : 'bg-white dark:bg-gray-700 text-light-text-primary dark:text-gray-100 rounded-bl-sm shadow-sm'
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+
+              {/* Typing indicator */}
+              <AnimatePresence>
+                {state.status === 'loading' && (
+                  <motion.div
+                    key="typing"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-2"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                      <HiSparkles className="w-3 h-3 text-white" />
+                    </div>
+                    <div className="bg-white dark:bg-gray-700 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex gap-1.5 items-center">
+                      {[0, 1, 2].map((i) => (
+                        <span
+                          key={i}
+                          className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-400 animate-bounce"
+                          style={{ animationDelay: `${i * 150}ms` }}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Error */}
+              <AnimatePresence>
+                {state.status === 'error' && state.errorMessage && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-xs text-red-400 text-center py-1"
+                  >
+                    {state.errorMessage} — please try again.
+                  </motion.p>
+                )}
+              </AnimatePresence>
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Suggestion chips — show only at the start */}
+            <AnimatePresence>
+              {state.messages.length <= 1 && state.status !== 'loading' && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="px-4 pb-2 flex gap-2 flex-wrap"
                 >
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-light focus:border-transparent transition-all resize-none text-gray-900 dark:text-white"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => handleSuggestion(s)}
+                      className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary dark:text-primary-light dark:border-primary-light/30 hover:bg-primary/10 transition-colors whitespace-nowrap"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
+            {/* Input bar */}
+            <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex gap-3 items-center">
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={isLeadCaptured ? 'Keep chatting...' : 'Type a message...'}
+                disabled={state.status === 'loading'}
+                className="flex-1 bg-light-bg dark:bg-gray-800 text-sm text-light-text-primary dark:text-gray-100 placeholder:text-gray-400 rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-primary-light/40 transition disabled:opacity-50"
+              />
               <button
-                type="submit"
-                className="w-full px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
+                onClick={() => void handleSend()}
+                disabled={!input.trim() || state.status === 'loading'}
+                aria-label="Send message"
+                className="w-10 h-10 flex-shrink-0 rounded-full bg-gradient-hero text-white flex items-center justify-center hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Send Message
+                <FaPaperPlane className="w-4 h-4 translate-x-px" />
               </button>
-            </form>
+            </div>
           </motion.div>
         </div>
       </div>
     </section>
   )
 }
-
-export default Contact
