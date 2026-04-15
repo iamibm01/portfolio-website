@@ -1,8 +1,8 @@
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
-// import GridBackground from '../ui/GridBackground'
 import GradientText from '../ui/GradientText'
 import WavesBackground from '../ui/WavesBackground'
+import SectionDivider from '../ui/SectionDivider'
 
 function Hero() {
   const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
@@ -30,8 +30,16 @@ function Hero() {
       id="hero"
       className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 pt-20 relative overflow-hidden"
     >
-      {/* <GridBackground /> */}
       <WavesBackground />
+
+      {/* Top fade — below navbar (z-50) */}
+      <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: '40px' }}>
+        <div className="absolute inset-0 dark:hidden" style={{ background: 'linear-gradient(to bottom, #fff7ed, transparent)' }} />
+        <div className="absolute inset-0 hidden dark:block" style={{ background: 'linear-gradient(to bottom, #111827, transparent)' }} />
+      </div>
+
+      {/* Divider → About (white / gray-900) */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <div className="text-center space-y-6">
           {/* Small Greeting - Fade In */}

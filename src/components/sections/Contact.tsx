@@ -2,6 +2,12 @@ import { useState } from 'react'
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
 import { HiMail, HiLocationMarker, HiCheckCircle } from 'react-icons/hi'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+}
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -23,29 +29,24 @@ function Contact() {
     e.preventDefault()
     console.log('Form submitted:', formData)
 
-    // Show success message
     setIsSubmitted(true)
     setIsVisible(true)
 
-    // Reset form
     setFormData({
       name: '',
       email: '',
       message: '',
     })
 
-    // Start fade out after 4 seconds
     setTimeout(function () {
       setIsVisible(false)
     }, 3000)
 
-    // Remove from DOM after fade completes
     setTimeout(function () {
       setIsSubmitted(false)
     }, 3500)
   }
 
-  // Icon mapping for social links
   const getSocialIcon = function (name: string) {
     switch (name.toLowerCase()) {
       case 'github':
@@ -64,25 +65,32 @@ function Contact() {
       id="contact"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
     >
-      {/* Dot pattern background */}
+      {/* Tiny ultra-dense indigo dots — intimate, conversational */}
       <div
-        className="absolute inset-0 opacity-30 dark:opacity-20"
+        className="absolute inset-0 opacity-[0.20] dark:opacity-[0.10]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: 'radial-gradient(circle, #6366f1 0.75px, transparent 0.75px)',
+          backgroundSize: '12px 12px',
         }}
       />
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             Get In Touch
           </h2>
           <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
             Have a project in mind? Let's work together
           </p>
-        </div>
+        </motion.div>
 
-        {/* Success Message with Fade In/Out */}
+        {/* Success Message */}
         {isSubmitted && (
           <div
             className={`fixed top-24 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${
@@ -101,7 +109,14 @@ function Contact() {
 
         <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Left Column - Contact Info */}
-          <div className="space-y-8">
+          <motion.div
+            className="space-y-8"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+          >
             <div>
               <h3 className="text-card-md font-heading font-semibold text-light-text-primary dark:text-white mb-6">
                 Let's Talk
@@ -142,7 +157,7 @@ function Contact() {
               </div>
             </div>
 
-            {/* Social Links with Icons */}
+            {/* Social Links */}
             <div>
               <p className="text-sm text-light-text-secondary dark:text-gray-400 mb-3">
                 Connect with me:
@@ -164,10 +179,17 @@ function Contact() {
                 })}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column - Contact Form */}
-          <div className="bg-light-bg dark:bg-gray-800 p-8 rounded-2xl">
+          <motion.div
+            className="bg-white/30 dark:bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/40 dark:border-white/15"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
@@ -233,7 +255,7 @@ function Contact() {
                 Send Message
               </button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

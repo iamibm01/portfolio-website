@@ -1,24 +1,47 @@
 import { skills } from '../../data/skills'
 import { SkillCategory } from '../../types'
 import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaGithub, FaNodeJs } from 'react-icons/fa'
-import { SiTypescript, SiTailwindcss, SiNextdotjs, SiVite, SiSlack, SiNotion, SiExpress, SiPrisma, SiPostgresql } from 'react-icons/si'
+import {
+  SiTypescript,
+  SiTailwindcss,
+  SiNextdotjs,
+  SiVite,
+  SiSlack,
+  SiNotion,
+  SiExpress,
+  SiPrisma,
+  SiPostgresql,
+} from 'react-icons/si'
 import { TbApi } from 'react-icons/tb'
+import { motion } from 'framer-motion'
+import SectionDivider from '../ui/SectionDivider'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+}
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+}
+
+const cardVariant = {
+  hidden: { opacity: 0, scale: 0.88, y: 20 },
+  visible: { opacity: 1, scale: 1, y: 0 },
+}
 
 function Skills() {
-  // Group skills by category
   const frontendSkills = skills.filter(function (skill) {
     return skill.category === SkillCategory.Frontend
   })
-
   const backendSkills = skills.filter(function (skill) {
     return skill.category === SkillCategory.Backend
   })
-
   const toolsSkills = skills.filter(function (skill) {
     return skill.category === SkillCategory.Tools
   })
 
-  // Icon mapping function with theme colors
   const getSkillIcon = function (skillName: string) {
     const name = skillName.toLowerCase()
     const iconClass = 'w-7 h-7 text-primary dark:text-primary-light'
@@ -81,92 +104,147 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-12 pt-20 relative overflow-hidden"
+      className="snap-start min-h-screen bg-light-bg dark:bg-gray-800 py-12 pt-24 pb-20 relative overflow-hidden"
     >
-      {/* Dot pattern background */}
+      {/* Divider → Projects (white / gray-900) */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
+
+      {/* Large spaced teal dots — airy, techy */}
       <div
-        className="absolute inset-0 opacity-30 dark:opacity-20"
+        className="absolute inset-0 opacity-[0.18] dark:opacity-[0.10]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: 'radial-gradient(circle, #06b6d4 1.5px, transparent 1.5px)',
+          backgroundSize: '32px 32px',
         }}
       />
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-        <div className="text-center mb-8">
+        <motion.div
+          className="text-center mb-8"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
           <h2 className="text-section-sm font-heading font-semibold text-light-text-primary dark:text-white mb-2">
             Skills & Technologies
           </h2>
-        </div>
+        </motion.div>
 
         {/* Frontend Skills */}
         <div className="mb-6">
-          <h3 className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center">
+          <motion.h3
+            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             Frontend Development
-          </h3>
+          </motion.h3>
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-wrap justify-center gap-3">
+            <motion.div
+              className="flex flex-wrap justify-center gap-3"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
               {frontendSkills.map(function (skill) {
                 return (
-                  <div
+                  <motion.div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
+                    variants={cardVariant}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
                       {skill.name}
                     </p>
-                  </div>
+                  </motion.div>
                 )
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
 
         {/* Backend Development */}
         <div className="mb-6">
-          <h3 className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center">
+          <motion.h3
+            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             Backend Development
-          </h3>
+          </motion.h3>
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-wrap justify-center gap-3">
+            <motion.div
+              className="flex flex-wrap justify-center gap-3"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
               {backendSkills.map(function (skill) {
                 return (
-                  <div
+                  <motion.div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
+                    variants={cardVariant}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
                       {skill.name}
                     </p>
-                  </div>
+                  </motion.div>
                 )
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
 
         {/* Tools & Workflow */}
         <div>
-          <h3 className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center">
+          <motion.h3
+            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             Tools & Workflow
-          </h3>
+          </motion.h3>
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-wrap justify-center gap-3">
+            <motion.div
+              className="flex flex-wrap justify-center gap-3"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
               {toolsSkills.map(function (skill) {
                 return (
-                  <div
+                  <motion.div
                     key={skill.name}
-                    className="bg-transparent p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-transparent hover:bg-white/15 hover:backdrop-blur-md hover:border-white/20 dark:hover:bg-white/5 dark:hover:border-white/10"
+                    variants={cardVariant}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
                     <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
                       {skill.name}
                     </p>
-                  </div>
+                  </motion.div>
                 )
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
