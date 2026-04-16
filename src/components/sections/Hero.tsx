@@ -28,13 +28,13 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="snap-start min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 pt-20 relative overflow-hidden"
+      className="snap-start min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 pt-20 relative overflow-hidden"
     >
       <WavesBackground />
 
       {/* Top fade — below navbar (z-50) */}
       <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: '40px' }}>
-        <div className="absolute inset-0 dark:hidden" style={{ background: 'linear-gradient(to bottom, #fff7ed, transparent)' }} />
+        <div className="absolute inset-0 dark:hidden" style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }} />
         <div className="absolute inset-0 hidden dark:block" style={{ background: 'linear-gradient(to bottom, #111827, transparent)' }} />
       </div>
 

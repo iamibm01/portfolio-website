@@ -27,17 +27,16 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="snap-start min-h-screen flex items-center bg-light-bg dark:bg-gray-800 py-20 pt-24 relative overflow-hidden"
+      className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 pt-24 relative overflow-hidden"
     >
       {/* Divider → Contact (white / gray-900) */}
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
 
-      {/* Medium purple dots — structured, timeline feel */}
       <div
-        className="absolute inset-0 opacity-[0.16] dark:opacity-[0.09]"
+        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #8b5cf6 1px, transparent 1px)',
-          backgroundSize: '22px 22px',
+          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundSize: '16px 16px',
         }}
       />
 

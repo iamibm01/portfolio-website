@@ -104,17 +104,16 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-screen bg-light-bg dark:bg-gray-800 py-12 pt-24 pb-20 relative overflow-hidden"
+      className="snap-start min-h-screen bg-white dark:bg-gray-900 py-12 pt-24 pb-20 relative overflow-hidden"
     >
       {/* Divider → Projects (white / gray-900) */}
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
 
-      {/* Large spaced teal dots — airy, techy */}
       <div
-        className="absolute inset-0 opacity-[0.18] dark:opacity-[0.10]"
+        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #06b6d4 1.5px, transparent 1.5px)',
-          backgroundSize: '32px 32px',
+          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundSize: '16px 16px',
         }}
       />
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">

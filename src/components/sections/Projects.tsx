@@ -171,17 +171,16 @@ function Projects() {
       id="projects"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 pb-28 relative overflow-hidden"
     >
-      {/* Large sparse amber dots */}
       <div
-        className="absolute inset-0 opacity-[0.22] dark:opacity-[0.12]"
+        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f59e0b 1.5px, transparent 1.5px)',
-          backgroundSize: '40px 40px',
+          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundSize: '16px 16px',
         }}
       />
 
-      {/* Divider → Experience (light-bg / gray-800) */}
-      <SectionDivider lightFill="#FFF8F3" darkFill="#1f2937" direction="left" />
+      {/* Divider → Experience */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
 
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         <motion.div

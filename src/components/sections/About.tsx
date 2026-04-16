@@ -23,12 +23,12 @@ function About() {
       id="about"
       className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
     >
-      {/* Divider → Skills (light-bg / gray-800) */}
-      <SectionDivider lightFill="#FFF8F3" darkFill="#1f2937" direction="left" />
+      {/* Divider → Skills */}
+      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
 
       {/* Dense small orange dots — intimate, precise */}
       <div
-        className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"
+        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
           backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
           backgroundSize: '16px 16px',

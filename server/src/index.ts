@@ -3,15 +3,31 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import Groq from 'groq-sdk'
 import { Resend } from 'resend'
+import path from 'path'
 import { buildSystemPrompt } from './systemPrompt'
 
-dotenv.config()
+// Always resolve .env relative to this file, regardless of where the process is started from
+// Resolve .env relative to server/ regardless of where npm run dev is invoked from
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
 const app = express()
 const port = process.env.PORT ?? 3001
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Instantiated lazily so the server starts even without keys set yet
+let _groq: Groq | null = null
+let _resend: Resend | null = null
+
+function getGroq(): Groq {
+  if (!process.env.GROQ_API_KEY) throw new Error('GROQ_API_KEY is not set')
+  if (!_groq) _groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+  return _groq
+}
+
+function getResend(): Resend {
+  if (!process.env.RESEND_API_KEY) throw new Error('RESEND_API_KEY is not set')
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
+  return _resend
+}
 
 const ownerName = process.env.OWNER_NAME ?? 'the portfolio owner'
 const myEmail = process.env.MY_EMAIL ?? ''
@@ -39,7 +55,7 @@ app.post('/api/chat', async (req: Request<object, object, ChatRequestBody>, res:
   }
 
   try {
-    const completion = await groq.chat.completions.create({
+    const completion = await getGroq().chat.completions.create({
       model: 'llama-3.1-8b-instant',
       messages: [
         { role: 'system', content: buildSystemPrompt(ownerName) },
@@ -82,7 +98,7 @@ app.post(
     }
 
     try {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: 'Portfolio Chatbot <onboarding@resend.dev>',
         to: myEmail,
         subject: `New lead from your portfolio: ${name}`,
@@ -106,4 +122,5 @@ app.post(
 
 app.listen(port, () => {
   console.log(`Portfolio API server running on http://localhost:${port}`)
+  console.log(`GROQ_API_KEY loaded: ${process.env.GROQ_API_KEY ? 'yes' : 'NO — check server/.env'}`)
 })
