@@ -69,11 +69,14 @@ export interface Experience {
 
 export type MessageRole = 'user' | 'assistant'
 
+export type ReceiptStatus = 'sent' | 'delivered' | 'seen'
+
 export interface Message {
   id: string
   role: MessageRole
   content: string
   timestamp: Date
+  receiptStatus?: ReceiptStatus
 }
 
 export interface LeadData {

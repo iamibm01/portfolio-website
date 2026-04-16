@@ -1,6 +1,16 @@
 import { useState, useCallback, useRef } from 'react'
 import type { Message, LeadData, ChatState } from '../types'
 
+function markLastUserMessage(
+  messages: Message[],
+  status: Message['receiptStatus'],
+): Message[] {
+  const idx = [...messages].reverse().findIndex((m) => m.role === 'user')
+  if (idx === -1) return messages
+  const realIdx = messages.length - 1 - idx
+  return messages.map((m, i) => (i === realIdx ? { ...m, receiptStatus: status } : m))
+}
+
 const API_BASE = 'http://localhost:3001'
 
 function generateId(): string {
@@ -62,6 +72,7 @@ export function useChat() {
       role: 'user',
       content,
       timestamp: new Date(),
+      receiptStatus: 'sent',
     }
 
     setState((prev) => ({
@@ -95,6 +106,9 @@ export function useChat() {
 
       const data = (await res.json()) as { reply: string }
 
+      // Simulate a natural reading/typing pause before showing the reply
+      await new Promise((resolve) => setTimeout(resolve, 1800))
+
       const assistantMessage: Message = {
         id: generateId(),
         role: 'assistant',
@@ -103,7 +117,10 @@ export function useChat() {
       }
 
       setState((prev) => {
-        const nextMessages = [...prev.messages, assistantMessage]
+        const nextMessages = markLastUserMessage(
+          [...prev.messages, assistantMessage],
+          'delivered',
+        )
 
         // Try to detect name + email from the full conversation so far
         const name = extractName(nextMessages)
@@ -138,6 +155,14 @@ export function useChat() {
           status: 'idle' as const,
         }
       })
+
+      // Advance last user message to 'seen' after a short delay
+      setTimeout(() => {
+        setState((prev) => ({
+          ...prev,
+          messages: markLastUserMessage(prev.messages, 'seen'),
+        }))
+      }, 1200)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong'
       setState((prev) => ({
