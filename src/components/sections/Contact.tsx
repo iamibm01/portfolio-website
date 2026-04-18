@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiArrowUp } from 'react-icons/hi'
 import { HiCheckCircle } from 'react-icons/hi'
@@ -80,7 +80,10 @@ export default function Contact() {
 
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
 
-      <div className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col" style={{ height: 'calc(100vh - 10rem)' }}>
+      <div
+        className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col"
+        style={{ height: 'calc(100vh - 10rem)' }}
+      >
         {/* Header */}
         <motion.h2
           className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white text-center mb-8"
@@ -134,9 +137,12 @@ export default function Contact() {
           </div>
 
           {/* Messages */}
-          <div ref={messagesContainerRef} className="chat-messages flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0">
+          <div
+            ref={messagesContainerRef}
+            className="chat-messages flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0"
+          >
             <AnimatePresence initial={false}>
-              {state.messages.map((msg) => (
+              {state.messages.map(msg => (
                 <motion.div
                   key={msg.id}
                   initial={{ opacity: 0, y: 8 }}
@@ -159,7 +165,9 @@ export default function Contact() {
                     >
                       {msg.content}
                     </div>
-                    <div className={`flex items-center gap-1 px-1 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div
+                      className={`flex items-center gap-1 px-1 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    >
                       <span className="text-[10px] text-gray-400 dark:text-gray-500">
                         {formatTime(msg.timestamp)}
                       </span>
@@ -186,7 +194,7 @@ export default function Contact() {
                     <span className="text-xs font-bold text-white leading-none">MI</span>
                   </div>
                   <div className="bg-white dark:bg-gray-700 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex gap-1.5 items-center">
-                    {[0, 1, 2].map((i) => (
+                    {[0, 1, 2].map(i => (
                       <span
                         key={i}
                         className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce"
@@ -222,7 +230,7 @@ export default function Contact() {
                 exit={{ opacity: 0, height: 0 }}
                 className="px-4 pb-3 flex gap-2 flex-wrap flex-shrink-0 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md"
               >
-                {SUGGESTIONS.map((s) => (
+                {SUGGESTIONS.map(s => (
                   <button
                     key={s}
                     onClick={() => handleSuggestion(s)}
@@ -241,7 +249,7 @@ export default function Contact() {
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={isLeadCaptured ? 'Keep chatting...' : 'Type a message...'}
               disabled={state.status === 'loading'}
