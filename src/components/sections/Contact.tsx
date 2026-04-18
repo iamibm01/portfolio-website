@@ -18,19 +18,14 @@ function ReceiptIcon({ status }: { status: ReceiptStatus }) {
   return <BsCheck2All className="w-3.5 h-3.5 text-blue-300" />
 }
 
-const GREETING =
-  `Hey there! 👋 I'm an AI assistant for ${PERSONAL_INFO.name}'s portfolio. ` +
-  `I can tell you about his skills, projects, and experience — or just answer any questions you have. ` +
-  `What would you like to know?`
-
 const SUGGESTIONS = [
-  'What technologies does he work with?',
-  'Tell me about his projects',
-  'Is he available for freelance work?',
+  'What technologies do you work with?',
+  'Tell me about your projects',
+  'Are you available for freelance work?',
 ]
 
 export default function Contact() {
-  const { state, sendMessage, initGreeting } = useChat()
+  const { state, sendMessage, startChat } = useChat()
   const [input, setInput] = useState('')
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -39,8 +34,8 @@ export default function Contact() {
   useEffect(() => {
     if (greetingFired.current) return
     greetingFired.current = true
-    initGreeting(GREETING)
-  }, [initGreeting])
+    void startChat()
+  }, [startChat])
 
   useEffect(() => {
     const el = messagesContainerRef.current
@@ -154,9 +149,9 @@ export default function Contact() {
                       <span className="text-xs font-bold text-white leading-none">MI</span>
                     </div>
                   )}
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 max-w-[70%]">
                     <div
-                      className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                      className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                         msg.role === 'user'
                           ? 'bg-primary text-white rounded-br-sm'
                           : 'bg-white dark:bg-gray-700 text-light-text-primary dark:text-gray-100 rounded-bl-sm shadow-sm'

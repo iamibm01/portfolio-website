@@ -29,7 +29,6 @@ function getResend(): Resend {
   return _resend
 }
 
-const ownerName = process.env.OWNER_NAME ?? 'the portfolio owner'
 const myEmail = process.env.MY_EMAIL ?? ''
 
 app.use(cors({ origin: 'http://localhost:5173' }))
@@ -58,7 +57,7 @@ app.post('/api/chat', async (req: Request<object, object, ChatRequestBody>, res:
     const completion = await getGroq().chat.completions.create({
       model: 'llama-3.1-8b-instant',
       messages: [
-        { role: 'system', content: buildSystemPrompt(ownerName) },
+        { role: 'system', content: buildSystemPrompt() },
         ...messages.map((m) => ({ role: m.role, content: m.content })),
       ],
       temperature: 0.7,

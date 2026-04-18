@@ -19,20 +19,23 @@ function generateId(): string {
 
 /** Extract name from conversation — looks for assistant asking + user responding */
 function extractName(messages: Message[]): string | null {
+  const introRe = /^(?:i(?:'m| am)|my name(?:'s| is))\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
+
   for (let i = 0; i < messages.length; i++) {
     const msg = messages[i]
-    if (msg.role === 'user' && i > 0) {
-      const prev = messages[i - 1]
-      if (
-        prev.role === 'assistant' &&
-        /name|call you|who.{0,10}(am i|talking|you)/i.test(prev.content)
-      ) {
-        const text = msg.content.trim()
-        // Accept short single/two-word answers as a name
-        if (text.length > 0 && text.length < 50 && !text.includes('@')) {
-          return text
-        }
-      }
+    if (msg.role !== 'user') continue
+    const text = msg.content.trim()
+    if (!text || text.includes('@')) continue
+
+    const prevIsNameAsk =
+      i > 0 &&
+      messages[i - 1].role === 'assistant' &&
+      /name|call you/i.test(messages[i - 1].content)
+
+    if (prevIsNameAsk) {
+      const introMatch = text.match(introRe)
+      if (introMatch) return introMatch[1]
+      if (text.length < 50) return text
     }
   }
   return null
@@ -173,23 +176,44 @@ export function useChat() {
     }
   }, [])
 
-  /** Used by the UI to inject the auto-greeting as the first assistant message */
-  const initGreeting = useCallback((content: string) => {
+  /** Fetch an AI-generated opening message — shown before the user types anything */
+  const startChat = useCallback(async () => {
     setState((prev) => {
       if (prev.messages.length > 0) return prev
-      return {
-        ...prev,
-        messages: [
-          {
-            id: generateId(),
-            role: 'assistant',
-            content,
-            timestamp: new Date(),
-          },
-        ],
-      }
+      return { ...prev, status: 'loading' }
     })
+
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: 'Hi' }] }),
+      })
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`)
+      const data = (await res.json()) as { reply: string }
+
+      await new Promise((resolve) => setTimeout(resolve, 1200))
+
+      setState((prev) => {
+        if (prev.messages.length > 0) return prev
+        return {
+          ...prev,
+          status: 'idle',
+          messages: [
+            {
+              id: generateId(),
+              role: 'assistant',
+              content: data.reply,
+              timestamp: new Date(),
+            },
+          ],
+        }
+      })
+    } catch {
+      setState((prev) => ({ ...prev, status: 'idle' }))
+    }
   }, [])
 
-  return { state, sendMessage, initGreeting }
+  return { state, sendMessage, startChat }
 }

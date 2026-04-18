@@ -59,6 +59,16 @@ export default [
     }
   },
   
+  // Node.js globals for the Express server
+  {
+    files: ['server/src/**/*.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+
   // Prettier config - MUST BE LAST to override other formatting rules
   prettierConfig
 ]
