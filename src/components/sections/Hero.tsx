@@ -1,4 +1,5 @@
-import { PERSONAL_INFO, SOCIAL_LINKS } from '../../data/constants'
+import { PERSONAL_INFO } from '../../data/constants'
+import { socialLinks } from '../../data/socialLinks'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import GradientText from '../ui/GradientText'
 import WavesBackground from '../ui/WavesBackground'
@@ -92,7 +93,7 @@ function Hero() {
 
           {/* Social Links - Stagger Animation */}
           <div className="flex gap-6 justify-center pt-8">
-            {SOCIAL_LINKS.map(function (link, index) {
+            {socialLinks.map(function (link, index) {
               const animationClass =
                 index === 0
                   ? 'animate-stagger-1'

@@ -3,10 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { HiArrowUp } from 'react-icons/hi'
 import { HiCheckCircle } from 'react-icons/hi'
 import { BsCheck2, BsCheck2All } from 'react-icons/bs'
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import { useChat } from '../../hooks/useChat'
 import { PERSONAL_INFO } from '../../data/constants'
+import { socialLinks } from '../../data/socialLinks'
 import type { ReceiptStatus } from '../../types'
 import SectionDivider from '../ui/SectionDivider'
+
+function getSocialIcon(icon: string) {
+  switch (icon) {
+    case 'github': return <FaGithub className="w-5 h-5" />
+    case 'linkedin': return <FaLinkedin className="w-5 h-5" />
+    case 'email': return <FaEnvelope className="w-5 h-5" />
+    default: return null
+  }
+}
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -80,24 +91,22 @@ export default function Contact() {
 
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
 
-      <div
-        className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col"
-        style={{ height: 'calc(100vh - 10rem)' }}
-      >
+      <div className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col gap-6">
         {/* Header */}
         <motion.h2
-          className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white text-center mb-8"
+          className="text-4xl font-heading font-semibold text-primary dark:text-primary-light text-center mt-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          Let's Talk
+          Let's Talk !
         </motion.h2>
 
         {/* Chat window — transparent so dot grid shows through */}
         <motion.div
-          className="flex-1 flex flex-col rounded-2xl overflow-hidden min-h-0"
+          className="flex flex-col rounded-2xl overflow-hidden"
+          style={{ height: 'min(55vh, 520px)' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -139,7 +148,7 @@ export default function Contact() {
           {/* Messages */}
           <div
             ref={messagesContainerRef}
-            className="chat-messages flex-1 overflow-y-auto px-5 py-4 space-y-4 min-h-0"
+            className="chat-messages flex-1 overflow-y-auto px-5 py-4 space-y-4"
           >
             <AnimatePresence initial={false}>
               {state.messages.map(msg => (
@@ -263,6 +272,39 @@ export default function Contact() {
             >
               <HiArrowUp className="w-5 h-5 stroke-[0.5]" />
             </button>
+          </div>
+        </motion.div>
+
+        {/* Social links */}
+        <motion.div
+          className="flex flex-col items-center gap-4"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <div className="flex items-center gap-3 w-full max-w-sm">
+            <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
+            <p className="text-xs text-light-text-primary dark:text-gray-500 whitespace-nowrap">
+              or reach me directly — no bots
+            </p>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
+          </div>
+
+          <div className="flex items-center gap-3">
+            {socialLinks.map(link => (
+              <a
+                key={link.name}
+                href={link.url}
+                target={link.url.startsWith('mailto') ? undefined : '_blank'}
+                rel="noopener noreferrer"
+                aria-label={link.label ?? link.name}
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 text-light-text-secondary dark:text-gray-400 hover:text-primary dark:hover:text-primary-light hover:border-primary/40 dark:hover:border-primary-light/40 hover:bg-primary/5 dark:hover:bg-primary-light/5 transition-all text-sm"
+              >
+                {getSocialIcon(link.icon)}
+                <span>{link.name}</span>
+              </a>
+            ))}
           </div>
         </motion.div>
       </div>
