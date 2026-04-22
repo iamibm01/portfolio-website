@@ -1,4 +1,14 @@
+function esc(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export function visitorTemplate({ name }: { name: string }): string {
+  const safeName = esc(name)
   return `
     <!DOCTYPE html>
     <html>
@@ -11,7 +21,7 @@ export function visitorTemplate({ name }: { name: string }): string {
                 <tr>
                   <td style="background:#0f172a;padding:32px 40px;">
                     <p style="margin:0;font-size:13px;color:#94a3b8;letter-spacing:0.05em;text-transform:uppercase;">Muhammad Ibraheem</p>
-                    <h1 style="margin:8px 0 0;font-size:22px;color:#ffffff;font-weight:600;">Good to meet you, ${name}.</h1>
+                    <h1 style="margin:8px 0 0;font-size:22px;color:#ffffff;font-weight:600;">Good to meet you, ${safeName}.</h1>
                   </td>
                 </tr>
                 <!-- Body -->

@@ -1,11 +1,8 @@
 import { useState, useCallback, useRef } from 'react'
 import type { Message, LeadData, ChatState } from '../types'
 
-function markLastUserMessage(
-  messages: Message[],
-  status: Message['receiptStatus'],
-): Message[] {
-  const idx = [...messages].reverse().findIndex((m) => m.role === 'user')
+function markLastUserMessage(messages: Message[], status: Message['receiptStatus']): Message[] {
+  const idx = [...messages].reverse().findIndex(m => m.role === 'user')
   if (idx === -1) return messages
   const realIdx = messages.length - 1 - idx
   return messages.map((m, i) => (i === realIdx ? { ...m, receiptStatus: status } : m))
@@ -20,6 +17,8 @@ function generateId(): string {
 /** Extract name from conversation — looks for assistant asking + user responding */
 function extractName(messages: Message[]): string | null {
   const introRe = /^(?:i(?:'m| am)|my name(?:'s| is))\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
+  // Bare-name fallback: 1-3 words, only letters/hyphens/apostrophes, 2-40 chars total
+  const bareNameRe = /^[A-Za-z][A-Za-z'-]{1,19}(?:\s+[A-Za-z][A-Za-z'-]{1,19}){0,2}$/
 
   for (let i = 0; i < messages.length; i++) {
     const msg = messages[i]
@@ -35,7 +34,7 @@ function extractName(messages: Message[]): string | null {
     if (prevIsNameAsk) {
       const introMatch = text.match(introRe)
       if (introMatch) return introMatch[1]
-      if (text.length < 50) return text
+      if (bareNameRe.test(text)) return text
     }
   }
   return null
@@ -53,9 +52,7 @@ function extractEmail(messages: Message[]): string | null {
 
 /** Build a plain-text summary for the notification email */
 function buildSummary(messages: Message[]): string {
-  return messages
-    .map((m) => `[${m.role.toUpperCase()}]: ${m.content}`)
-    .join('\n\n')
+  return messages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
 }
 
 export function useChat() {
@@ -78,7 +75,7 @@ export function useChat() {
       receiptStatus: 'sent',
     }
 
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
       status: 'loading',
       errorMessage: null,
@@ -86,15 +83,15 @@ export function useChat() {
     }))
 
     try {
-      const updatedMessages = await new Promise<Message[]>((resolve) =>
-        setState((prev) => {
+      const updatedMessages = await new Promise<Message[]>(resolve =>
+        setState(prev => {
           resolve(prev.messages)
           return prev
-        }),
+        })
       )
 
       // Build payload — only role + content for the API
-      const payload = updatedMessages.map((m) => ({
+      const payload = updatedMessages.map(m => ({
         role: m.role,
         content: m.content,
       }))
@@ -110,7 +107,7 @@ export function useChat() {
       const data = (await res.json()) as { reply: string }
 
       // Simulate a natural reading/typing pause before showing the reply
-      await new Promise((resolve) => setTimeout(resolve, 1800))
+      await new Promise(resolve => setTimeout(resolve, 500))
 
       const assistantMessage: Message = {
         id: generateId(),
@@ -119,11 +116,8 @@ export function useChat() {
         timestamp: new Date(),
       }
 
-      setState((prev) => {
-        const nextMessages = markLastUserMessage(
-          [...prev.messages, assistantMessage],
-          'delivered',
-        )
+      setState(prev => {
+        const nextMessages = markLastUserMessage([...prev.messages, assistantMessage], 'delivered')
 
         // Try to detect name + email from the full conversation so far
         const name = extractName(nextMessages)
@@ -142,7 +136,7 @@ export function useChat() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(lead),
-          }).catch((err) => console.error('Lead send failed:', err))
+          }).catch(err => console.error('Lead send failed:', err))
 
           return {
             messages: nextMessages,
@@ -161,14 +155,14 @@ export function useChat() {
 
       // Advance last user message to 'seen' after a short delay
       setTimeout(() => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
           messages: markLastUserMessage(prev.messages, 'seen'),
         }))
       }, 1200)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Something went wrong'
-      setState((prev) => ({
+      setState(prev => ({
         ...prev,
         status: 'error',
         errorMessage: message,
@@ -178,7 +172,7 @@ export function useChat() {
 
   /** Fetch an AI-generated opening message — shown before the user types anything */
   const startChat = useCallback(async () => {
-    setState((prev) => {
+    setState(prev => {
       if (prev.messages.length > 0) return prev
       return { ...prev, status: 'loading' }
     })
@@ -193,9 +187,9 @@ export function useChat() {
       if (!res.ok) throw new Error(`Server error: ${res.status}`)
       const data = (await res.json()) as { reply: string }
 
-      await new Promise((resolve) => setTimeout(resolve, 1200))
+      await new Promise(resolve => setTimeout(resolve, 1200))
 
-      setState((prev) => {
+      setState(prev => {
         if (prev.messages.length > 0) return prev
         return {
           ...prev,
@@ -211,7 +205,7 @@ export function useChat() {
         }
       })
     } catch {
-      setState((prev) => ({ ...prev, status: 'idle' }))
+      setState(prev => ({ ...prev, status: 'idle' }))
     }
   }, [])
 
