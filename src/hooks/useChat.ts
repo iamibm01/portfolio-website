@@ -16,14 +16,16 @@ function generateId(): string {
 
 /** Extract name from conversation — looks for assistant asking + user responding */
 function extractName(messages: Message[]): string | null {
-  const introRe = /^(?:i(?:'m| am)|my name(?:'s| is))\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
-  // Bare-name fallback: 1-3 words, only letters/hyphens/apostrophes, 2-40 chars total
+  // Strip leading filler words, possibly chained ("ok so yeah, ...")
+  const fillerRe = /^(?:(?:well|so|sure|okay|ok|yeah|yes|hi|hey|uh|um|hm|hmm)[,!.]?\s+)+/i
+  const introRe = /^(?:i(?:'m| am)|my name(?:'s| is)|it'?s|it is|this is|that'?s|that is|(?:(?:the|my)\s+)?name(?:'?s| is)|(?:just\s+)?call(?:ing)? me|you can call me|just)\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
+  // Bare-name fallback: 1-3 words, only letters/hyphens/apostrophes
   const bareNameRe = /^[A-Za-z][A-Za-z'-]{1,19}(?:\s+[A-Za-z][A-Za-z'-]{1,19}){0,2}$/
 
   for (let i = 0; i < messages.length; i++) {
     const msg = messages[i]
     if (msg.role !== 'user') continue
-    const text = msg.content.trim()
+    let text = msg.content.trim()
     if (!text || text.includes('@')) continue
 
     const prevIsNameAsk =
@@ -32,6 +34,7 @@ function extractName(messages: Message[]): string | null {
       /name|call you/i.test(messages[i - 1].content)
 
     if (prevIsNameAsk) {
+      text = text.replace(fillerRe, '').trim()
       const introMatch = text.match(introRe)
       if (introMatch) return introMatch[1]
       if (bareNameRe.test(text)) return text

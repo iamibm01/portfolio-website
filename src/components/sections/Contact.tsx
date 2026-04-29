@@ -41,12 +41,20 @@ export default function Contact() {
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const greetingFired = useRef(false)
+  const wasLoading = useRef(false)
 
   useEffect(() => {
     if (greetingFired.current) return
     greetingFired.current = true
     void startChat()
   }, [startChat])
+
+  useEffect(() => {
+    if (wasLoading.current && state.status !== 'loading') {
+      inputRef.current?.focus()
+    }
+    wasLoading.current = state.status === 'loading'
+  }, [state.status])
 
   useEffect(() => {
     const el = messagesContainerRef.current
@@ -58,7 +66,6 @@ export default function Contact() {
     if (!text || state.status === 'loading') return
     setInput('')
     await sendMessage(text)
-    inputRef.current?.focus()
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -71,6 +78,7 @@ export default function Contact() {
   const handleSuggestion = (text: string) => {
     if (state.status === 'loading') return
     void sendMessage(text)
+    inputRef.current?.focus()
   }
 
   const isLeadCaptured = state.status === 'lead_captured'
