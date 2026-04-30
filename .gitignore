@@ -28,3 +28,4 @@ UI_UX_IMPROVEMENTS.md
 server/.env
 server/node_modules
 server/dist
+.vercel
