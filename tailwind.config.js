@@ -39,12 +39,6 @@ export default {
         },
       },
 
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
-        mono: ['Fira Code', 'monospace'],
-      },
-
       // Typography scale (from your design doc)
       fontSize: {
         // Hero sizes
