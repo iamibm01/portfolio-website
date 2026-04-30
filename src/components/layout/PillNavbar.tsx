@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { NAV_ITEMS } from '../../data/constants'
-import { useTheme } from '../../context/ThemeContext'
+import { useTheme } from '../../context/useTheme'
 
 function PillNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

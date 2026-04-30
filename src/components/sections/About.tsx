@@ -59,11 +59,14 @@ function About() {
             transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
           >
             <div className="w-64 h-64 mx-auto rounded-full overflow-hidden shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
-              <img
-                src="/profile.jpg"
-                alt={PERSONAL_INFO.name}
-                className="w-full h-full object-cover scale-150"
-              />
+              <picture>
+                <source srcSet="/profile.webp" type="image/webp" />
+                <img
+                  src="/profile.jpg"
+                  alt={PERSONAL_INFO.name}
+                  className="w-full h-full object-cover scale-150"
+                />
+              </picture>
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">

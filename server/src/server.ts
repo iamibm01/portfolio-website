@@ -10,7 +10,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') })
 const app = express()
 const port = process.env.PORT ?? 3001
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN ?? 'http://localhost:5173' }))
 app.use(express.json())
 
 app.use('/api/chat', chatRouter)

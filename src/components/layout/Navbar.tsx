@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NAV_ITEMS, PERSONAL_INFO } from '../../data/constants'
-import { useTheme } from '../../context/ThemeContext'
+import { useTheme } from '../../context/useTheme'
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

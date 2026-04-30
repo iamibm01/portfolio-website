@@ -8,7 +8,7 @@ function markLastUserMessage(messages: Message[], status: Message['receiptStatus
   return messages.map((m, i) => (i === realIdx ? { ...m, receiptStatus: status } : m))
 }
 
-const API_BASE = 'http://localhost:3001'
+const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3001'
 
 function generateId(): string {
   return Math.random().toString(36).slice(2, 10)
