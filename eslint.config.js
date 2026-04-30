@@ -9,7 +9,7 @@ import prettierConfig from 'eslint-config-prettier'
 export default [
   // Ignore common directories
   {
-    ignores: ['dist', 'node_modules', '.git']
+    ignores: ['dist', 'server/dist', 'node_modules', '.git']
   },
   
   // Base JavaScript rules
@@ -38,8 +38,10 @@ export default [
       'react-refresh': reactRefresh
     },
     rules: {
+      // Disable base rule in favour of the TypeScript-aware version below
+      'no-unused-vars': 'off',
       // TypeScript rules
-      '@typescript-eslint/no-unused-vars': ['warn', { 
+      '@typescript-eslint/no-unused-vars': ['warn', {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_'
       }],

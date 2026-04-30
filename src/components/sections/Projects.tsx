@@ -1,3 +1,4 @@
+import React from 'react'
 import { projects } from '../../data/projects'
 import { motion } from 'framer-motion'
 import SectionDivider from '../ui/SectionDivider'

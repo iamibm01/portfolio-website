@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { NAV_ITEMS, PERSONAL_INFO } from '../../data/constants'
 import { useTheme } from '../../context/ThemeContext'
 

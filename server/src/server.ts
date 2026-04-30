@@ -17,6 +17,6 @@ app.use('/api/chat', chatRouter)
 app.use('/api/send-lead', leadRouter)
 
 app.listen(port, () => {
-  console.log(`Portfolio API server running on http://localhost:${port}`)
-  console.log(`GROQ_API_KEY loaded: ${process.env.GROQ_API_KEY ? 'yes' : 'NO — check server/.env'}`)
+  console.warn(`Portfolio API server running on http://localhost:${port}`)
+  console.warn(`GROQ_API_KEY loaded: ${process.env.GROQ_API_KEY ? 'yes' : 'NO — check server/.env'}`)
 })

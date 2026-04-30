@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { NAV_ITEMS } from '../../data/constants'
 import { useTheme } from '../../context/ThemeContext'

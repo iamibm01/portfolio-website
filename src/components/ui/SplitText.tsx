@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -28,19 +28,13 @@ const SplitText: React.FC<SplitTextProps> = ({
   splitType = 'chars',
   from = { opacity: 0, y: 40 },
   to = { opacity: 1, y: 0 },
-  threshold = 0.1,
+  threshold: _threshold = 0.1,
   tag = 'h2',
   textAlign = 'center'
 }) => {
   const ref = useRef<HTMLElement>(null)
-  const [splits, setSplits] = useState<string[]>([])
-
-  useEffect(function() {
-    if (splitType === 'chars') {
-      setSplits(text.split(''))
-    } else {
-      setSplits(text.split(' '))
-    }
+  const splits = useMemo(function() {
+    return splitType === 'chars' ? text.split('') : text.split(' ')
   }, [text, splitType])
 
   useGSAP(function() {

@@ -1,4 +1,4 @@
-import { useRef, useEffect, CSSProperties } from 'react'
+import { useRef, useEffect } from 'react'
 
 class Grad {
   x: number
@@ -57,7 +57,7 @@ class Noise {
     seed = Math.floor(seed)
     if (seed < 256) seed |= seed << 8
     for (let i = 0; i < 256; i++) {
-      let v = i & 1 ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255)
+      const v = i & 1 ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255)
       this.perm[i] = this.perm[i + 256] = v
       this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12]
     }
@@ -132,7 +132,7 @@ function WavesBackground() {
     left: 0,
     top: 0
   })
-  const noiseRef = useRef(new Noise(Math.random()))
+  const noiseRef = useRef<Noise | null>(null)
   const linesRef = useRef<Point[][]>([])
   const mouseRef = useRef<Mouse>({
     x: -10,
@@ -167,6 +167,8 @@ function WavesBackground() {
     const container = containerRef.current
     if (!canvas || !container) return
     ctxRef.current = canvas.getContext('2d')
+
+    noiseRef.current = new Noise(Math.random())
 
     function setSize() {
       if (!container || !canvas) return
@@ -209,6 +211,7 @@ function WavesBackground() {
       const lines = linesRef.current
       const mouse = mouseRef.current
       const noise = noiseRef.current
+      if (!noise) return
       const { waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove } = configRef.current
       lines.forEach(function(pts) {
         pts.forEach(function(p) {

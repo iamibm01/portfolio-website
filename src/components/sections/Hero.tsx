@@ -1,3 +1,4 @@
+import React from 'react'
 import { PERSONAL_INFO } from '../../data/constants'
 import { socialLinks } from '../../data/socialLinks'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
