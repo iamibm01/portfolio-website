@@ -18,10 +18,12 @@
     "@gsap/react": "^2.1.2",
     "@types/three": "^0.182.0",
     "framer-motion": "^12.23.26",
+    "groq-sdk": "^1.1.2",
     "gsap": "^3.14.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
+    "resend": "^6.12.2",
     "three": "^0.182.0"
   },
   "devDependencies": {
@@ -31,6 +33,7 @@
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
+    "@vercel/node": "^5.7.13",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "autoprefixer": "^10.4.23",
     "eslint": "^9.39.2",

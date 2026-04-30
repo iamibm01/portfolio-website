@@ -8,7 +8,9 @@ function markLastUserMessage(messages: Message[], status: Message['receiptStatus
   return messages.map((m, i) => (i === realIdx ? { ...m, receiptStatus: status } : m))
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3001'
+// Empty string = relative URL, so /api/chat resolves to the same domain (Vercel serverless).
+// Override with VITE_API_BASE=http://localhost:3001 in .env.local for local Express dev.
+const API_BASE = import.meta.env.VITE_API_BASE ?? ''
 
 function generateId(): string {
   return Math.random().toString(36).slice(2, 10)

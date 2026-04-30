@@ -61,9 +61,9 @@ export default [
     }
   },
   
-  // Node.js globals for the Express server
+  // Node.js globals for the Express server and Vercel serverless functions
   {
-    files: ['server/src/**/*.ts'],
+    files: ['server/src/**/*.ts', 'api/**/*.ts'],
     languageOptions: {
       globals: {
         ...globals.node

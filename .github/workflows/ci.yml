@@ -86,8 +86,6 @@ jobs:
 
       - name: Build frontend
         run: npm run build
-        env:
-          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
 
       - name: Install server dependencies
         run: npm ci
