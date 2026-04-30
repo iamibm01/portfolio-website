@@ -55,7 +55,7 @@ export default function Contact() {
 
   useEffect(() => {
     if (wasLoading.current && state.status !== 'loading') {
-      inputRef.current?.focus()
+      inputRef.current?.focus({ preventScroll: true })
     }
     wasLoading.current = state.status === 'loading'
   }, [state.status])
@@ -82,7 +82,7 @@ export default function Contact() {
   const handleSuggestion = (text: string) => {
     if (state.status === 'loading') return
     void sendMessage(text)
-    inputRef.current?.focus()
+    inputRef.current?.focus({ preventScroll: true })
   }
 
   const isLeadCaptured = state.status === 'lead_captured'
