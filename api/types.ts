@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 
 export type VercelRequest = IncomingMessage & {
-  body: Record<string, unknown>
+  body: unknown
   query: Record<string, string | string[]>
   cookies: Record<string, string>
 }
