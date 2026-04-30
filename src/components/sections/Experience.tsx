@@ -11,11 +11,11 @@ const fadeUp = {
 function Experience() {
   const [expandedId, setExpandedId] = useState<string | null>(
     // Default open the current role
-    experience.find((e) => e.current)?.id ?? null
+    experience.find(e => e.current)?.id ?? null
   )
 
   const toggle = (id: string) => {
-    setExpandedId((prev) => (prev === id ? null : id))
+    setExpandedId(prev => (prev === id ? null : id))
   }
 
   const formatDate = (dateStr: string) => {
@@ -101,9 +101,10 @@ function Experience() {
                     {/* Card */}
                     <div
                       className={`flex-1 rounded-2xl overflow-hidden border transition-all duration-300 cursor-pointer select-none
-                        ${isCurrent
-                          ? 'bg-white/40 dark:bg-white/10 border-primary/30 dark:border-primary-light/30 shadow-md shadow-primary/10 dark:shadow-primary-light/10'
-                          : 'bg-white/25 dark:bg-white/5 border-white/40 dark:border-white/10 hover:bg-white/35 dark:hover:bg-white/8'
+                        ${
+                          isCurrent
+                            ? 'bg-white/40 dark:bg-white/10 border-primary/30 dark:border-primary-light/30 shadow-md shadow-primary/10 dark:shadow-primary-light/10'
+                            : 'bg-white/25 dark:bg-white/5 border-white/40 dark:border-white/10 hover:bg-white/35 dark:hover:bg-white/8'
                         }
                         ${isOpen ? 'shadow-xl' : 'hover:shadow-md'}
                       `}
@@ -111,7 +112,7 @@ function Experience() {
                       role="button"
                       tabIndex={0}
                       aria-expanded={isOpen}
-                      onKeyDown={(e) => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault()
                           toggle(exp.id)
@@ -138,8 +139,12 @@ function Experience() {
                             {/* Company + location */}
                             <p className="text-sm font-medium text-primary dark:text-primary-light">
                               {exp.company}
-                              <span className="text-light-text-secondary dark:text-gray-500 font-normal mx-1.5">·</span>
-                              <span className="text-light-text-secondary dark:text-gray-400 font-normal">{exp.location}</span>
+                              <span className="text-light-text-secondary dark:text-gray-500 font-normal mx-1.5">
+                                ·
+                              </span>
+                              <span className="text-light-text-secondary dark:text-gray-400 font-normal">
+                                {exp.location}
+                              </span>
                             </p>
                           </div>
 
@@ -162,7 +167,12 @@ function Experience() {
                               animate={{ rotate: isOpen ? 180 : 0 }}
                               transition={{ duration: 0.25, ease: 'easeInOut' }}
                             >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                              />
                             </motion.svg>
                           </div>
                         </div>
@@ -192,7 +202,10 @@ function Experience() {
                                 </p>
                                 <ul className="space-y-2">
                                   {exp.responsibilities.map((r, i) => (
-                                    <li key={i} className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400">
+                                    <li
+                                      key={i}
+                                      className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400"
+                                    >
                                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/60 dark:bg-primary-light/60 flex-shrink-0" />
                                       {r}
                                     </li>
@@ -208,8 +221,13 @@ function Experience() {
                                   </p>
                                   <ul className="space-y-2">
                                     {exp.achievements.map((a, i) => (
-                                      <li key={i} className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400">
-                                        <span className="mt-0.5 text-primary dark:text-primary-light flex-shrink-0">✓</span>
+                                      <li
+                                        key={i}
+                                        className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400"
+                                      >
+                                        <span className="mt-0.5 text-primary dark:text-primary-light flex-shrink-0">
+                                          ✓
+                                        </span>
                                         {a}
                                       </li>
                                     ))}

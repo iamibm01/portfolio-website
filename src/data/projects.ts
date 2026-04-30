@@ -19,7 +19,16 @@ export const projects: Project[] = [
     description:
       'A full-stack social media platform built with the scalability considerations of a large-scale production application. Includes posts, likes, comments, follows, and real-time notifications with a normalized PostgreSQL schema handling complex relational data.',
     image: '/images/neox.png',
-    technologies: ['React', 'Next.js', 'TypeScript', 'Node.js', 'NestJS', 'PostgreSQL', 'Prisma', 'AWS'],
+    technologies: [
+      'React',
+      'Next.js',
+      'TypeScript',
+      'Node.js',
+      'NestJS',
+      'PostgreSQL',
+      'Prisma',
+      'AWS',
+    ],
     liveUrl: 'https://neox.app',
     githubUrl: 'https://github.com/iamibm01/neox',
     status: 'in-progress',

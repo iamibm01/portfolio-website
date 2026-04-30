@@ -58,7 +58,7 @@ function PillNavbar() {
     const observerOptions = {
       root: scrollRoot,
       rootMargin: '-45% 0px -45% 0px',
-      threshold: 0
+      threshold: 0,
     }
 
     const observerCallback = function (entries: IntersectionObserverEntry[]) {
@@ -66,24 +66,24 @@ function PillNavbar() {
         if (entry.isIntersecting) {
           const sectionId = entry.target.id
           setActiveSection(sectionId)
-          
+
           // Show background only if NOT on hero section
           const shouldShowBg = sectionId !== 'hero'
           setShowBackground(shouldShowBg)
-          
+
           const bg = backgroundRef.current
           if (bg) {
             if (shouldShowBg) {
               gsap.to(bg, {
                 opacity: 1,
                 duration: 0.4,
-                ease
+                ease,
               })
             } else {
               gsap.to(bg, {
                 opacity: 0,
                 duration: 0.4,
-                ease
+                ease,
               })
             }
           }
@@ -154,11 +154,11 @@ function PillNavbar() {
   return (
     <>
       {/* Full-width glass background - only visible outside hero */}
-      <div 
+      <div
         ref={backgroundRef}
         className="fixed top-0 left-0 right-0 z-40 h-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 opacity-0"
       />
-      
+
       {/* Navbar content */}
       <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <nav
@@ -187,13 +187,13 @@ function PillNavbar() {
             className="relative items-center rounded-full hidden md:flex"
             style={{
               height: 'var(--nav-h)',
-            //   background: showBackground ? 'var(--base)' : 'transparent',
+              //   background: showBackground ? 'var(--base)' : 'transparent',
             }}
           >
             <ul role="menubar" className="list-none flex items-stretch m-0 p-[3px] h-full gap-1">
               {NAV_ITEMS.map(function (item) {
                 const isActive = activeSection === item.href.substring(1)
-                
+
                 return (
                   <li key={item.href} role="none" className="flex h-full">
                     <a
@@ -210,7 +210,9 @@ function PillNavbar() {
                         paddingRight: 'var(--pill-pad-x)',
                         border: 'none',
                         outline: 'none',
-                        boxShadow: isActive ? `0 0 0 2px ${pillColor}40, 0 4px 12px ${pillColor}50` : 'none',
+                        boxShadow: isActive
+                          ? `0 0 0 2px ${pillColor}40, 0 4px 12px ${pillColor}50`
+                          : 'none',
                       }}
                       onMouseEnter={function (e) {
                         if (!isActive) {
@@ -286,14 +288,8 @@ function PillNavbar() {
               border: showBackground ? 'none' : `2px solid ${pillColor}`,
             }}
           >
-            <span
-              className="hamburger-line w-4 h-0.5 rounded"
-              style={{ background: pillColor }}
-            />
-            <span
-              className="hamburger-line w-4 h-0.5 rounded"
-              style={{ background: pillColor }}
-            />
+            <span className="hamburger-line w-4 h-0.5 rounded" style={{ background: pillColor }} />
+            <span className="hamburger-line w-4 h-0.5 rounded" style={{ background: pillColor }} />
           </button>
         </nav>
 
@@ -309,7 +305,7 @@ function PillNavbar() {
           <ul className="list-none m-0 p-[3px] flex flex-col gap-[3px]">
             {NAV_ITEMS.map(function (item) {
               const isActive = activeSection === item.href.substring(1)
-              
+
               return (
                 <li key={item.href}>
                   <a

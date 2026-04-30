@@ -12,10 +12,14 @@ import SectionDivider from '../ui/SectionDivider'
 
 function getSocialIcon(icon: string) {
   switch (icon) {
-    case 'github': return <FaGithub className="w-5 h-5" />
-    case 'linkedin': return <FaLinkedin className="w-5 h-5" />
-    case 'email': return <FaEnvelope className="w-5 h-5" />
-    default: return null
+    case 'github':
+      return <FaGithub className="w-5 h-5" />
+    case 'linkedin':
+      return <FaLinkedin className="w-5 h-5" />
+    case 'email':
+      return <FaEnvelope className="w-5 h-5" />
+    default:
+      return null
   }
 }
 

@@ -18,7 +18,8 @@ function generateId(): string {
 function extractName(messages: Message[]): string | null {
   // Strip leading filler words, possibly chained ("ok so yeah, ...")
   const fillerRe = /^(?:(?:well|so|sure|okay|ok|yeah|yes|hi|hey|uh|um|hm|hmm)[,!.]?\s+)+/i
-  const introRe = /^(?:i(?:'m| am)|my name(?:'s| is)|it'?s|it is|this is|that'?s|that is|(?:(?:the|my)\s+)?name(?:'?s| is)|(?:just\s+)?call(?:ing)? me|you can call me|just)\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
+  const introRe =
+    /^(?:i(?:'m| am)|my name(?:'s| is)|it'?s|it is|this is|that'?s|that is|(?:(?:the|my)\s+)?name(?:'?s| is)|(?:just\s+)?call(?:ing)? me|you can call me|just)\s+([A-Za-z][a-z]+(?:\s+[A-Za-z][a-z]+)?)/i
   // Bare-name fallback: 1-3 words, only letters/hyphens/apostrophes
   const bareNameRe = /^[A-Za-z][A-Za-z'-]{1,19}(?:\s+[A-Za-z][A-Za-z'-]{1,19}){0,2}$/
 

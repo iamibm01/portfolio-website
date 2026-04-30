@@ -30,46 +30,53 @@ const SplitText: React.FC<SplitTextProps> = ({
   to = { opacity: 1, y: 0 },
   threshold: _threshold = 0.1,
   tag = 'h2',
-  textAlign = 'center'
+  textAlign = 'center',
 }) => {
   const ref = useRef<HTMLElement>(null)
-  const splits = useMemo(function() {
-    return splitType === 'chars' ? text.split('') : text.split(' ')
-  }, [text, splitType])
+  const splits = useMemo(
+    function () {
+      return splitType === 'chars' ? text.split('') : text.split(' ')
+    },
+    [text, splitType]
+  )
 
-  useGSAP(function() {
-    if (!ref.current || splits.length === 0) return
+  useGSAP(
+    function () {
+      if (!ref.current || splits.length === 0) return
 
-    const elements = ref.current.querySelectorAll('.split-item')
-    
-    gsap.fromTo(
-      elements,
-      { ...from },
-      {
-        ...to,
-        duration,
-        ease,
-        stagger: delay / 1000,
-        scrollTrigger: {
-          trigger: ref.current,
-          start: 'top 80%',
-          once: false
+      const elements = ref.current.querySelectorAll('.split-item')
+
+      gsap.fromTo(
+        elements,
+        { ...from },
+        {
+          ...to,
+          duration,
+          ease,
+          stagger: delay / 1000,
+          scrollTrigger: {
+            trigger: ref.current,
+            start: 'top 80%',
+            once: false,
+          },
         }
-      }
-    )
-  }, { dependencies: [splits, delay, duration, ease, from, to], scope: ref })
+      )
+    },
+    { dependencies: [splits, delay, duration, ease, from, to], scope: ref }
+  )
 
   const style: React.CSSProperties = {
     textAlign,
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start',
-    gap: splitType === 'words' ? '0.25em' : '0'
+    justifyContent:
+      textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start',
+    gap: splitType === 'words' ? '0.25em' : '0',
   }
 
   const classes = `split-parent ${className}`
 
-  const content = splits.map(function(item, index) {
+  const content = splits.map(function (item, index) {
     return (
       <span
         key={index}
@@ -83,19 +90,47 @@ const SplitText: React.FC<SplitTextProps> = ({
 
   switch (tag) {
     case 'h1':
-      return <h1 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h1>
+      return (
+        <h1 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h1>
+      )
     case 'h2':
-      return <h2 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h2>
+      return (
+        <h2 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h2>
+      )
     case 'h3':
-      return <h3 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h3>
+      return (
+        <h3 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h3>
+      )
     case 'h4':
-      return <h4 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h4>
+      return (
+        <h4 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h4>
+      )
     case 'h5':
-      return <h5 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h5>
+      return (
+        <h5 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h5>
+      )
     case 'h6':
-      return <h6 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>{content}</h6>
+      return (
+        <h6 ref={ref as React.RefObject<HTMLHeadingElement>} style={style} className={classes}>
+          {content}
+        </h6>
+      )
     default:
-      return <p ref={ref as React.RefObject<HTMLParagraphElement>} style={style} className={classes}>{content}</p>
+      return (
+        <p ref={ref as React.RefObject<HTMLParagraphElement>} style={style} className={classes}>
+          {content}
+        </p>
+      )
   }
 }
 

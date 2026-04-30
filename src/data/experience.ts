@@ -25,7 +25,8 @@ export const experience: Experience[] = [
     startDate: '2023-01',
     endDate: '2026-01',
     current: false,
-    description: 'Architected and delivered full-stack web applications and AI integrations for clients across multiple industries.',
+    description:
+      'Architected and delivered full-stack web applications and AI integrations for clients across multiple industries.',
     responsibilities: [
       'Architected and delivered 5 full-stack web applications end-to-end for clients across multiple industries, from system design and database schema to production deployment',
       'Built responsive, mobile-first UIs using React, Next.js, and Tailwind CSS with consistent cross-browser compatibility and accessibility standards',

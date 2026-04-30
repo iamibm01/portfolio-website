@@ -2,14 +2,7 @@ import React from 'react'
 import { projects } from '../../data/projects'
 import { motion } from 'framer-motion'
 import SectionDivider from '../ui/SectionDivider'
-import {
-  FaReact,
-  FaNodeJs,
-  FaGithub,
-  FaHtml5,
-  FaCss3Alt,
-  FaJs,
-} from 'react-icons/fa'
+import { FaReact, FaNodeJs, FaGithub, FaHtml5, FaCss3Alt, FaJs } from 'react-icons/fa'
 import {
   SiTypescript,
   SiTailwindcss,
@@ -32,19 +25,19 @@ const cardVariant = {
 
 // Map tech name → icon component + brand color
 const TECH_META: Record<string, { icon: React.ReactNode; color: string }> = {
-  React:           { icon: <FaReact />,        color: '#61dafb' },
-  TypeScript:      { icon: <SiTypescript />,   color: '#3178c6' },
-  'Tailwind CSS':  { icon: <SiTailwindcss />,  color: '#06b6d4' },
-  JavaScript:      { icon: <FaJs />,           color: '#f7df1e' },
-  'Node.js':       { icon: <FaNodeJs />,       color: '#68a063' },
-  'Next.js':       { icon: <SiNextdotjs />,    color: '#ffffff' },
-  PostgreSQL:      { icon: <SiPostgresql />,   color: '#336791' },
-  Express:         { icon: <SiExpress />,      color: '#ffffff' },
-  Prisma:          { icon: <SiPrisma />,       color: '#5a67d8' },
-  'REST API':      { icon: <TbApi />,          color: '#f97316' },
-  HTML:            { icon: <FaHtml5 />,        color: '#e34f26' },
-  CSS:             { icon: <FaCss3Alt />,      color: '#1572b6' },
-  GitHub:          { icon: <FaGithub />,       color: '#ffffff' },
+  React: { icon: <FaReact />, color: '#61dafb' },
+  TypeScript: { icon: <SiTypescript />, color: '#3178c6' },
+  'Tailwind CSS': { icon: <SiTailwindcss />, color: '#06b6d4' },
+  JavaScript: { icon: <FaJs />, color: '#f7df1e' },
+  'Node.js': { icon: <FaNodeJs />, color: '#68a063' },
+  'Next.js': { icon: <SiNextdotjs />, color: '#ffffff' },
+  PostgreSQL: { icon: <SiPostgresql />, color: '#336791' },
+  Express: { icon: <SiExpress />, color: '#ffffff' },
+  Prisma: { icon: <SiPrisma />, color: '#5a67d8' },
+  'REST API': { icon: <TbApi />, color: '#f97316' },
+  HTML: { icon: <FaHtml5 />, color: '#e34f26' },
+  CSS: { icon: <FaCss3Alt />, color: '#1572b6' },
+  GitHub: { icon: <FaGithub />, color: '#ffffff' },
 }
 
 function getFallbackIcon(name: string) {
@@ -55,13 +48,13 @@ function getFallbackIcon(name: string) {
 
 // Gradient palettes keyed to the first matching tech
 const PALETTE_MAP: Record<string, [string, string]> = {
-  React:          ['#0f172a', '#0ea5e922'],
-  TypeScript:     ['#0f172a', '#3b82f622'],
+  React: ['#0f172a', '#0ea5e922'],
+  TypeScript: ['#0f172a', '#3b82f622'],
   'Tailwind CSS': ['#0c1a26', '#06b6d422'],
-  JavaScript:     ['#1c1400', '#f59e0b22'],
-  'Node.js':      ['#0a1a0a', '#22c55e22'],
-  'Next.js':      ['#0a0a0a', '#71717a22'],
-  PostgreSQL:     ['#0a0f1e', '#3b82f622'],
+  JavaScript: ['#1c1400', '#f59e0b22'],
+  'Node.js': ['#0a1a0a', '#22c55e22'],
+  'Next.js': ['#0a0a0a', '#71717a22'],
+  PostgreSQL: ['#0a0f1e', '#3b82f622'],
 }
 
 function getGradient(technologies: string[]): string {
@@ -73,9 +66,9 @@ function getGradient(technologies: string[]): string {
 }
 
 const STATUS_LABEL: Record<string, { label: string; color: string }> = {
-  completed:   { label: 'Completed',   color: '#22c55e' },
+  completed: { label: 'Completed', color: '#22c55e' },
   'in-progress': { label: 'In Progress', color: '#f59e0b' },
-  planned:     { label: 'Planned',     color: '#94a3b8' },
+  planned: { label: 'Planned', color: '#94a3b8' },
 }
 
 interface ProjectPlaceholderProps {
@@ -124,10 +117,7 @@ function ProjectPlaceholder({ title, technologies, status }: ProjectPlaceholderP
             border: `1px solid ${statusMeta.color}44`,
           }}
         >
-          <span
-            className="w-1 h-1 rounded-full"
-            style={{ background: statusMeta.color }}
-          />
+          <span className="w-1 h-1 rounded-full" style={{ background: statusMeta.color }} />
           {statusMeta.label}
         </span>
       </div>
@@ -135,7 +125,7 @@ function ProjectPlaceholder({ title, technologies, status }: ProjectPlaceholderP
       {/* Tech icons — floating pills */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pt-4">
         <div className="flex items-center gap-2 flex-wrap justify-center px-6">
-          {technologies.slice(0, 4).map((tech) => {
+          {technologies.slice(0, 4).map(tech => {
             const meta = TECH_META[tech] ?? getFallbackIcon(tech)
             return (
               <div

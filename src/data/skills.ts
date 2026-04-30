@@ -89,7 +89,7 @@ export const skills: Skill[] = [
     level: SkillLevel.Beginner,
     icon: 'slack',
   },
-    {
+  {
     name: 'Notion',
     category: SkillCategory.Tools,
     level: SkillLevel.Beginner,

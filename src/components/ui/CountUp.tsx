@@ -24,7 +24,7 @@ export default function CountUp({
   startWhen = true,
   separator = '',
   onStart,
-  onEnd
+  onEnd,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const motionValue = useMotionValue(direction === 'down' ? to : from)
@@ -32,11 +32,11 @@ export default function CountUp({
   const stiffness = 100 * (1 / duration)
   const springValue = useSpring(motionValue, {
     damping,
-    stiffness
+    stiffness,
   })
   const isInView = useInView(ref, { once: false, margin: '0px' })
 
-  const getDecimalPlaces = function(num: number): number {
+  const getDecimalPlaces = function (num: number): number {
     const str = num.toString()
     if (str.includes('.')) {
       const decimals = str.split('.')[1]
@@ -50,12 +50,12 @@ export default function CountUp({
   const maxDecimals = Math.max(getDecimalPlaces(from), getDecimalPlaces(to))
 
   const formatValue = useCallback(
-    function(latest: number) {
+    function (latest: number) {
       const hasDecimals = maxDecimals > 0
       const options: Intl.NumberFormatOptions = {
         useGrouping: !!separator,
         minimumFractionDigits: hasDecimals ? maxDecimals : 0,
-        maximumFractionDigits: hasDecimals ? maxDecimals : 0
+        maximumFractionDigits: hasDecimals ? maxDecimals : 0,
       }
       const formattedNumber = Intl.NumberFormat('en-US', options).format(latest)
       return separator ? formattedNumber.replace(/,/g, separator) : formattedNumber
@@ -63,54 +63,63 @@ export default function CountUp({
     [maxDecimals, separator]
   )
 
-  useEffect(function() {
-    if (ref.current) {
-      ref.current.textContent = formatValue(direction === 'down' ? to : from)
-    }
-  }, [from, to, direction, formatValue])
-
-useEffect(function() {
-  if (isInView && startWhen) {
-    // Reset to start value
-    motionValue.set(direction === 'down' ? to : from)
-    
-    if (typeof onStart === 'function') {
-      onStart()
-    }
-    
-    const timeoutId = setTimeout(function() {
-      motionValue.set(direction === 'down' ? from : to)
-    }, delay * 1000)
-
-    const durationTimeoutId = setTimeout(
-      function() {
-        if (typeof onEnd === 'function') {
-          onEnd()
-        }
-      },
-      delay * 1000 + duration * 1000
-    )
-
-    return function() {
-      clearTimeout(timeoutId)
-      clearTimeout(durationTimeoutId)
-    }
-  } else if (!isInView) {
-    // Reset when out of view
-    motionValue.set(direction === 'down' ? to : from)
-  }
-}, [isInView, startWhen, motionValue, direction, from, to, delay, onStart, onEnd, duration])
-
-  useEffect(function() {
-    const unsubscribe = springValue.on('change', function(latest: number) {
+  useEffect(
+    function () {
       if (ref.current) {
-        ref.current.textContent = formatValue(latest)
+        ref.current.textContent = formatValue(direction === 'down' ? to : from)
       }
-    })
-    return function() {
-      unsubscribe()
-    }
-  }, [springValue, formatValue])
+    },
+    [from, to, direction, formatValue]
+  )
+
+  useEffect(
+    function () {
+      if (isInView && startWhen) {
+        // Reset to start value
+        motionValue.set(direction === 'down' ? to : from)
+
+        if (typeof onStart === 'function') {
+          onStart()
+        }
+
+        const timeoutId = setTimeout(function () {
+          motionValue.set(direction === 'down' ? from : to)
+        }, delay * 1000)
+
+        const durationTimeoutId = setTimeout(
+          function () {
+            if (typeof onEnd === 'function') {
+              onEnd()
+            }
+          },
+          delay * 1000 + duration * 1000
+        )
+
+        return function () {
+          clearTimeout(timeoutId)
+          clearTimeout(durationTimeoutId)
+        }
+      } else if (!isInView) {
+        // Reset when out of view
+        motionValue.set(direction === 'down' ? to : from)
+      }
+    },
+    [isInView, startWhen, motionValue, direction, from, to, delay, onStart, onEnd, duration]
+  )
+
+  useEffect(
+    function () {
+      const unsubscribe = springValue.on('change', function (latest: number) {
+        if (ref.current) {
+          ref.current.textContent = formatValue(latest)
+        }
+      })
+      return function () {
+        unsubscribe()
+      }
+    },
+    [springValue, formatValue]
+  )
 
   return <span className={className} ref={ref} />
 }

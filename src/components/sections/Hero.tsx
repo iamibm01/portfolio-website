@@ -35,9 +35,18 @@ function Hero() {
       <WavesBackground />
 
       {/* Top fade — below navbar (z-50) */}
-      <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: '40px' }}>
-        <div className="absolute inset-0 dark:hidden" style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }} />
-        <div className="absolute inset-0 hidden dark:block" style={{ background: 'linear-gradient(to bottom, #111827, transparent)' }} />
+      <div
+        className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
+        style={{ height: '40px' }}
+      >
+        <div
+          className="absolute inset-0 dark:hidden"
+          style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }}
+        />
+        <div
+          className="absolute inset-0 hidden dark:block"
+          style={{ background: 'linear-gradient(to bottom, #111827, transparent)' }}
+        />
       </div>
 
       {/* Divider → About (white / gray-900) */}
@@ -51,7 +60,7 @@ function Hero() {
 
           {/* Large Name - Slide Up (delay 1) */}
           <h1 className="text-hero-md font-heading font-bold text-gray-900 dark:text-white animate-slide-up-delay-1">
-                        <GradientText
+            <GradientText
               colors={['#FF6B35', '#F7931E', '#FFB380', '#06B6D4', '#3B82F6']}
               animationSpeed={5}
               className="text-hero-md font-heading font-bold"
