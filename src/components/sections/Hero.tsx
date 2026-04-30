@@ -59,11 +59,11 @@ function Hero() {
           </p>
 
           {/* Large Name - Slide Up (delay 1) */}
-          <h1 className="text-hero-md font-heading font-bold text-gray-900 dark:text-white animate-slide-up-delay-1">
+          <h1 className="text-hero-sm font-heading font-medium text-gray-900 dark:text-white animate-slide-up-delay-1">
             <GradientText
               colors={['#FF6B35', '#F7931E', '#FFB380', '#06B6D4', '#3B82F6']}
               animationSpeed={5}
-              className="text-hero-md font-heading font-bold"
+              className="text-hero-sm font-heading font-medium"
             >
               {PERSONAL_INFO.name}
             </GradientText>
