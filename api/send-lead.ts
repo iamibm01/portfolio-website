@@ -1,5 +1,5 @@
-import type { VercelRequest, VercelResponse } from './types'
-import { sendLeadEmails } from './_lib/email'
+import type { VercelRequest, VercelResponse } from './types.js'
+import { sendLeadEmails } from './_lib/email.js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 

@@ -1,6 +1,6 @@
-import { getResend } from './resend'
-import { ownerTemplate } from './templates/ownerTemplate'
-import { visitorTemplate } from './templates/visitorTemplate'
+import { getResend } from './resend.js'
+import { ownerTemplate } from './templates/ownerTemplate.js'
+import { visitorTemplate } from './templates/visitorTemplate.js'
 
 export interface LeadEmailPayload {
   name: string

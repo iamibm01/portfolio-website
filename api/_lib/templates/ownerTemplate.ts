@@ -1,4 +1,4 @@
-import type { LeadEmailPayload } from '../email'
+import type { LeadEmailPayload } from '../email.js'
 
 function esc(str: string): string {
   return str

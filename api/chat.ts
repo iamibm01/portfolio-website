@@ -1,6 +1,6 @@
-import type { VercelRequest, VercelResponse } from './types'
-import { getGroq } from './_lib/groq'
-import { buildSystemPrompt } from './_lib/systemPrompt'
+import type { VercelRequest, VercelResponse } from './types.js'
+import { getGroq } from './_lib/groq.js'
+import { buildSystemPrompt } from './_lib/systemPrompt.js'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
