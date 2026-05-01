@@ -28,9 +28,9 @@ function formatTime(date: Date): string {
 }
 
 function ReceiptIcon({ status }: { status: ReceiptStatus }) {
-  if (status === 'sent') return <BsCheck2 className="w-3.5 h-3.5 text-white/60" />
-  if (status === 'delivered') return <BsCheck2All className="w-3.5 h-3.5 text-white/60" />
-  return <BsCheck2All className="w-3.5 h-3.5 text-blue-300" />
+  if (status === 'sent') return <BsCheck2 className="w-4 h-4 text-white/70" />
+  if (status === 'delivered') return <BsCheck2All className="w-4 h-4 text-white/70" />
+  return <BsCheck2All className="w-4 h-4 text-blue-300" />
 }
 
 const SUGGESTIONS = [
@@ -189,7 +189,7 @@ export default function Contact() {
                     <div
                       className={`flex items-center gap-1 px-1 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
                         {formatTime(msg.timestamp)}
                       </span>
                       {msg.role === 'user' && msg.receiptStatus && (
@@ -298,7 +298,7 @@ export default function Contact() {
           <div className="flex items-center gap-3 w-full max-w-sm">
             <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
             <p className="text-xs text-light-text-primary dark:text-gray-500 whitespace-nowrap">
-              or reach me directly — no bots
+              or reach me directly
             </p>
             <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
           </div>

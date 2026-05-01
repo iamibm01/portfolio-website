@@ -28,13 +28,13 @@ export function visitorTemplate({ name }: { name: string }): string {
                 <tr>
                   <td style="padding:36px 40px;">
                     <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#334155;">
-                      Thanks for stopping by — it was good to connect. I'll follow up properly soon to continue the conversation.
+                      Thanks for stopping by, it was good to connect. I'll follow up properly soon to continue the conversation.
                     </p>
                     <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#334155;">
                       In the meantime, feel free to reply to this email directly if anything comes to mind.
                     </p>
                     <p style="margin:0;font-size:15px;line-height:1.7;color:#334155;">
-                      — Ibraheem
+                      Ibraheem
                     </p>
                   </td>
                 </tr>

@@ -16,6 +16,10 @@ function generateId(): string {
   return Math.random().toString(36).slice(2, 10)
 }
 
+function toTitleCase(str: string): string {
+  return str.replace(/\b[a-z]/g, c => c.toUpperCase())
+}
+
 /** Extract name from conversation — looks for assistant asking + user responding */
 function extractName(messages: Message[]): string | null {
   // Strip leading filler words, possibly chained ("ok so yeah, ...")
@@ -39,8 +43,8 @@ function extractName(messages: Message[]): string | null {
     if (prevIsNameAsk) {
       text = text.replace(fillerRe, '').trim()
       const introMatch = text.match(introRe)
-      if (introMatch) return introMatch[1]
-      if (bareNameRe.test(text)) return text
+      if (introMatch) return toTitleCase(introMatch[1])
+      if (bareNameRe.test(text)) return toTitleCase(text)
     }
   }
   return null
@@ -176,43 +180,29 @@ export function useChat() {
     }
   }, [])
 
-  /** Fetch an AI-generated opening message — shown before the user types anything */
   const startChat = useCallback(async () => {
     setState(prev => {
       if (prev.messages.length > 0) return prev
       return { ...prev, status: 'loading' }
     })
 
-    try {
-      const res = await fetch(`${API_BASE}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: 'Hi' }] }),
-      })
+    await new Promise(resolve => setTimeout(resolve, 600))
 
-      if (!res.ok) throw new Error(`Server error: ${res.status}`)
-      const data = (await res.json()) as { reply: string }
-
-      await new Promise(resolve => setTimeout(resolve, 1200))
-
-      setState(prev => {
-        if (prev.messages.length > 0) return prev
-        return {
-          ...prev,
-          status: 'idle',
-          messages: [
-            {
-              id: generateId(),
-              role: 'assistant',
-              content: data.reply,
-              timestamp: new Date(),
-            },
-          ],
-        }
-      })
-    } catch {
-      setState(prev => ({ ...prev, status: 'idle' }))
-    }
+    setState(prev => {
+      if (prev.messages.length > 0) return prev
+      return {
+        ...prev,
+        status: 'idle',
+        messages: [
+          {
+            id: generateId(),
+            role: 'assistant',
+            content: 'Welcome to my portfolio. What brings you here today?',
+            timestamp: new Date(),
+          },
+        ],
+      }
+    })
   }, [])
 
   return { state, sendMessage, startChat }
