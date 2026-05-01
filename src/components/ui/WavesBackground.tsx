@@ -321,24 +321,45 @@ function WavesBackground() {
       }
     }
 
-    // Skip the animation entirely on touch devices — the rAF loop is too
-    // CPU-heavy to run alongside snap scroll on Android Chrome.
-    if (window.matchMedia('(pointer: coarse)').matches) return
-
     setSize()
     setLines()
-    frameIdRef.current = requestAnimationFrame(tick)
+
+    function startAnimation() {
+      if (frameIdRef.current === null) {
+        frameIdRef.current = requestAnimationFrame(tick)
+      }
+    }
+    function stopAnimation() {
+      if (frameIdRef.current !== null) {
+        cancelAnimationFrame(frameIdRef.current)
+        frameIdRef.current = null
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            startAnimation()
+          } else {
+            stopAnimation()
+          }
+        })
+      },
+      { threshold: 0 }
+    )
+    observer.observe(container)
+
     window.addEventListener('resize', onResize)
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('touchmove', onTouchMove, { passive: true })
 
     return function () {
+      observer.disconnect()
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('touchmove', onTouchMove)
-      if (frameIdRef.current !== null) {
-        cancelAnimationFrame(frameIdRef.current)
-      }
+      stopAnimation()
     }
   }, [])
 

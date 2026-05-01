@@ -45,35 +45,40 @@ export default function Contact() {
   const [chatHeight, setChatHeight] = useState(520)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const greetingFired = useRef(false)
   const wasLoading = useRef(false)
-  const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Track real visible viewport height so the chat shrinks when the keyboard
-  // opens. Debounced at 50ms — Android fires visualViewport resize 15-20x
-  // during keyboard animation, causing rapid re-renders without this.
+  // Set chat height once on mount based on screen size.
+  // It does NOT change when the keyboard opens — the section translates
+  // instead, keeping the input above the keyboard without resizing the chat.
   useEffect(() => {
-    const update = () => {
-      if (resizeTimer.current) clearTimeout(resizeTimer.current)
-      resizeTimer.current = setTimeout(() => {
-        const vv = window.visualViewport
-        const h = vv ? vv.height : window.innerHeight
-        setChatHeight(Math.min(Math.max(h - 300, 220), 520))
-      }, 50)
-    }
-    update()
+    const h = window.visualViewport?.height ?? window.innerHeight
+    setChatHeight(Math.min(Math.max(h - 240, 320), 520))
+  }, [])
+
+  // Slide the section above the keyboard using direct DOM transforms.
+  // Direct style mutation (no React state) = zero re-renders = no jank.
+  // Responds to every visualViewport resize event so it tracks the keyboard
+  // animation frame-by-frame on Android Chrome.
+  useEffect(() => {
     const vv = window.visualViewport
-    if (vv) {
-      vv.addEventListener('resize', update)
-      return () => {
-        vv.removeEventListener('resize', update)
-        if (resizeTimer.current) clearTimeout(resizeTimer.current)
+    if (!vv) return
+
+    const update = () => {
+      const keyboardOffset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
+      if (sectionRef.current) {
+        sectionRef.current.style.transform =
+          keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : ''
       }
     }
-    window.addEventListener('resize', update)
+
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+
     return () => {
-      window.removeEventListener('resize', update)
-      if (resizeTimer.current) clearTimeout(resizeTimer.current)
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
     }
   }, [])
 
@@ -119,8 +124,10 @@ export default function Contact() {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-white dark:bg-gray-900 py-8 md:py-20 relative overflow-hidden"
+      style={{ willChange: 'transform' }}
     >
       {/* Dot pattern background */}
       <div
