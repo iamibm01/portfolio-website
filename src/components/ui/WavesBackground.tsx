@@ -321,12 +321,16 @@ function WavesBackground() {
       }
     }
 
+    // Skip the animation entirely on touch devices — the rAF loop is too
+    // CPU-heavy to run alongside snap scroll on Android Chrome.
+    if (window.matchMedia('(pointer: coarse)').matches) return
+
     setSize()
     setLines()
     frameIdRef.current = requestAnimationFrame(tick)
     window.addEventListener('resize', onResize)
     window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
 
     return function () {
       window.removeEventListener('resize', onResize)

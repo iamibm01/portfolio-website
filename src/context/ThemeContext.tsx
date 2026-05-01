@@ -18,11 +18,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   )
 
   const toggleDarkMode = function () {
+    document.documentElement.classList.add('theme-transitioning')
     setIsDarkMode(function (prev) {
       const newValue = !prev
       localStorage.setItem('darkMode', String(newValue))
       return newValue
     })
+    setTimeout(function () {
+      document.documentElement.classList.remove('theme-transitioning')
+    }, 600)
   }
 
   return (

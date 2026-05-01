@@ -13,16 +13,12 @@ body {
   overflow: hidden;
 }
 
-/* Smooth dark mode transitions - ADD THIS */
-* {
+/* Only transition colors during the dark mode toggle — not all the time.
+   The .theme-transitioning class is added/removed by ThemeContext. */
+.theme-transitioning * {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 500ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Prevent transitions on page load */
-.no-transition * {
-  transition: none !important;
 }
 /* Grid SVG Background Styles */
 .grid-svg-container svg {

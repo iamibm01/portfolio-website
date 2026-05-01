@@ -47,29 +47,34 @@ export default function Contact() {
   const inputRef = useRef<HTMLInputElement>(null)
   const greetingFired = useRef(false)
   const wasLoading = useRef(false)
-  const isProgrammaticFocus = useRef(false)
+  const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Track real visible viewport height so the chat window shrinks correctly
-  // when the mobile keyboard opens rather than getting clipped behind it.
+  // Track real visible viewport height so the chat shrinks when the keyboard
+  // opens. Debounced at 50ms — Android fires visualViewport resize 15-20x
+  // during keyboard animation, causing rapid re-renders without this.
   useEffect(() => {
     const update = () => {
-      const vv = window.visualViewport
-      const h = vv ? vv.height : window.innerHeight
-      // Reserve space for section padding, title, social links row (~300px)
-      setChatHeight(Math.min(Math.max(h - 300, 220), 520))
+      if (resizeTimer.current) clearTimeout(resizeTimer.current)
+      resizeTimer.current = setTimeout(() => {
+        const vv = window.visualViewport
+        const h = vv ? vv.height : window.innerHeight
+        setChatHeight(Math.min(Math.max(h - 300, 220), 520))
+      }, 50)
     }
     update()
     const vv = window.visualViewport
     if (vv) {
       vv.addEventListener('resize', update)
-      vv.addEventListener('scroll', update)
       return () => {
         vv.removeEventListener('resize', update)
-        vv.removeEventListener('scroll', update)
+        if (resizeTimer.current) clearTimeout(resizeTimer.current)
       }
     }
     window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    return () => {
+      window.removeEventListener('resize', update)
+      if (resizeTimer.current) clearTimeout(resizeTimer.current)
+    }
   }, [])
 
   useEffect(() => {
@@ -80,7 +85,6 @@ export default function Contact() {
 
   useEffect(() => {
     if (wasLoading.current && state.status !== 'loading') {
-      isProgrammaticFocus.current = true
       inputRef.current?.focus({ preventScroll: true })
     }
     wasLoading.current = state.status === 'loading'
@@ -298,15 +302,6 @@ export default function Contact() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              onFocus={() => {
-                if (isProgrammaticFocus.current) {
-                  isProgrammaticFocus.current = false
-                  return
-                }
-                setTimeout(() => {
-                  inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-                }, 320)
-              }}
               placeholder={isLeadCaptured ? 'Keep chatting...' : 'Type a message...'}
               disabled={state.status === 'loading'}
               style={{ fontSize: '16px' }}

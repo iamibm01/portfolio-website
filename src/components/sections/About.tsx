@@ -14,8 +14,12 @@ function About() {
   const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     e.preventDefault()
     const target = document.querySelector(href)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const scrollRoot = document.querySelector('main')
+    if (target && scrollRoot) {
+      const targetRect = target.getBoundingClientRect()
+      const containerRect = scrollRoot.getBoundingClientRect()
+      const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
+      scrollRoot.scrollTo({ top: offset, behavior: 'smooth' })
     }
   }
 
