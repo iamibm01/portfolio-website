@@ -42,10 +42,35 @@ const SUGGESTIONS = [
 export default function Contact() {
   const { state, sendMessage, startChat } = useChat()
   const [input, setInput] = useState('')
+  const [chatHeight, setChatHeight] = useState(520)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const greetingFired = useRef(false)
   const wasLoading = useRef(false)
+  const isProgrammaticFocus = useRef(false)
+
+  // Track real visible viewport height so the chat window shrinks correctly
+  // when the mobile keyboard opens rather than getting clipped behind it.
+  useEffect(() => {
+    const update = () => {
+      const vv = window.visualViewport
+      const h = vv ? vv.height : window.innerHeight
+      // Reserve space for section padding, title, social links row (~300px)
+      setChatHeight(Math.min(Math.max(h - 300, 220), 520))
+    }
+    update()
+    const vv = window.visualViewport
+    if (vv) {
+      vv.addEventListener('resize', update)
+      vv.addEventListener('scroll', update)
+      return () => {
+        vv.removeEventListener('resize', update)
+        vv.removeEventListener('scroll', update)
+      }
+    }
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   useEffect(() => {
     if (greetingFired.current) return
@@ -55,6 +80,7 @@ export default function Contact() {
 
   useEffect(() => {
     if (wasLoading.current && state.status !== 'loading') {
+      isProgrammaticFocus.current = true
       inputRef.current?.focus({ preventScroll: true })
     }
     wasLoading.current = state.status === 'loading'
@@ -90,7 +116,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="snap-start min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-white dark:bg-gray-900 py-8 md:py-20 relative overflow-hidden"
     >
       {/* Dot pattern background */}
       <div
@@ -106,7 +132,7 @@ export default function Contact() {
       <div className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col gap-6">
         {/* Header */}
         <motion.h2
-          className="text-4xl font-heading font-semibold text-primary dark:text-primary-light text-center mt-6"
+          className="text-2xl md:text-4xl font-heading font-semibold text-primary dark:text-primary-light text-center mt-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -118,7 +144,7 @@ export default function Contact() {
         {/* Chat window — transparent so dot grid shows through */}
         <motion.div
           className="flex flex-col rounded-2xl overflow-hidden"
-          style={{ height: 'min(55vh, 520px)' }}
+          style={{ height: chatHeight }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -249,13 +275,13 @@ export default function Contact() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, height: 0 }}
-                className="px-4 pb-3 flex gap-2 flex-wrap flex-shrink-0 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md"
+                className="px-4 pb-3 flex gap-2 overflow-x-auto flex-shrink-0 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md scrollbar-none [&::-webkit-scrollbar]:hidden"
               >
                 {SUGGESTIONS.map(s => (
                   <button
                     key={s}
                     onClick={() => handleSuggestion(s)}
-                    className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary dark:text-primary-light dark:border-primary-light/30 hover:bg-primary/10 transition-colors whitespace-nowrap"
+                    className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary dark:text-primary-light dark:border-primary-light/30 hover:bg-primary/10 transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     {s}
                   </button>
@@ -272,8 +298,18 @@ export default function Contact() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              onFocus={() => {
+                if (isProgrammaticFocus.current) {
+                  isProgrammaticFocus.current = false
+                  return
+                }
+                setTimeout(() => {
+                  inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+                }, 320)
+              }}
               placeholder={isLeadCaptured ? 'Keep chatting...' : 'Type a message...'}
               disabled={state.status === 'loading'}
+              style={{ fontSize: '16px' }}
               className="flex-1 bg-white/50 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/10 text-sm text-light-text-primary dark:text-gray-100 placeholder:text-gray-400 rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-primary-light/40 transition disabled:opacity-50"
             />
             <button

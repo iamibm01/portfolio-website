@@ -104,7 +104,7 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-screen bg-white dark:bg-gray-900 py-12 pt-24 pb-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] bg-white dark:bg-gray-900 py-12 pt-24 pb-20 relative overflow-hidden"
     >
       {/* Divider → Projects (white / gray-900) */}
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
@@ -125,7 +125,7 @@ function Skills() {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-section-sm font-heading font-semibold text-light-text-primary dark:text-white mb-2">
+          <h2 className="text-3xl md:text-section-sm font-heading font-semibold text-light-text-primary dark:text-white mb-2">
             Skills & Technologies
           </h2>
         </motion.div>
