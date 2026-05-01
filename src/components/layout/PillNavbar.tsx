@@ -126,22 +126,25 @@ function PillNavbar() {
   }
 
   // Close mobile menu when tapping outside the nav wrapper
-  useEffect(function () {
-    if (!isMobileMenuOpen) return
+  useEffect(
+    function () {
+      if (!isMobileMenuOpen) return
 
-    function handleOutsideClick(e: MouseEvent | TouchEvent) {
-      if (navWrapperRef.current && !navWrapperRef.current.contains(e.target as Node)) {
-        closeMobileMenu()
+      function handleOutsideClick(e: MouseEvent | TouchEvent) {
+        if (navWrapperRef.current && !navWrapperRef.current.contains(e.target as Node)) {
+          closeMobileMenu()
+        }
       }
-    }
 
-    document.addEventListener('mousedown', handleOutsideClick)
-    document.addEventListener('touchstart', handleOutsideClick)
-    return function () {
-      document.removeEventListener('mousedown', handleOutsideClick)
-      document.removeEventListener('touchstart', handleOutsideClick)
-    }
-  }, [isMobileMenuOpen])
+      document.addEventListener('mousedown', handleOutsideClick)
+      document.addEventListener('touchstart', handleOutsideClick)
+      return function () {
+        document.removeEventListener('mousedown', handleOutsideClick)
+        document.removeEventListener('touchstart', handleOutsideClick)
+      }
+    },
+    [isMobileMenuOpen]
+  )
 
   const toggleMobileMenu = function () {
     if (isMobileMenuOpen) {
@@ -208,7 +211,6 @@ function PillNavbar() {
           aria-label="Primary"
           style={cssVars}
         >
-
           {/* Desktop Nav Items */}
           <div
             ref={navItemsRef}
