@@ -12,8 +12,8 @@ function PillNavbar() {
   const hamburgerRef = useRef<HTMLButtonElement | null>(null)
   const mobileMenuRef = useRef<HTMLDivElement | null>(null)
   const navItemsRef = useRef<HTMLDivElement | null>(null)
-  const logoRef = useRef<HTMLAnchorElement | null>(null)
   const backgroundRef = useRef<HTMLDivElement | null>(null)
+  const navWrapperRef = useRef<HTMLDivElement | null>(null)
 
   const ease = 'power3.easeOut'
 
@@ -38,13 +38,7 @@ function PillNavbar() {
       gsap.set(menu, { visibility: 'hidden', opacity: 0, y: 0 })
     }
 
-    const logo = logoRef.current
     const navItems = navItemsRef.current
-
-    if (logo) {
-      gsap.set(logo, { scale: 0 })
-      gsap.to(logo, { scale: 1, duration: 0.6, ease })
-    }
 
     if (navItems) {
       gsap.set(navItems, { width: 0, overflow: 'hidden' })
@@ -106,39 +100,72 @@ function PillNavbar() {
     }
   }, [])
 
-  const toggleMobileMenu = function () {
-    const newState = !isMobileMenuOpen
-    setIsMobileMenuOpen(newState)
+  const closeMobileMenu = function () {
+    setIsMobileMenuOpen(false)
 
     const hamburger = hamburgerRef.current
     const menu = mobileMenuRef.current
 
     if (hamburger) {
       const lines = hamburger.querySelectorAll('.hamburger-line')
-      if (newState) {
-        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease })
-        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease })
-      } else {
-        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease })
-        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease })
-      }
+      gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease })
+      gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease })
     }
 
     if (menu) {
-      if (newState) {
-        gsap.set(menu, { visibility: 'visible' })
-        gsap.fromTo(menu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease })
-      } else {
-        gsap.to(menu, {
-          opacity: 0,
-          y: 10,
-          duration: 0.2,
-          ease,
-          onComplete: function () {
-            gsap.set(menu, { visibility: 'hidden' })
-          },
-        })
+      gsap.to(menu, {
+        opacity: 0,
+        y: 10,
+        duration: 0.2,
+        ease,
+        onComplete: function () {
+          gsap.set(menu, { visibility: 'hidden' })
+        },
+      })
+    }
+  }
+
+  // Close mobile menu when tapping outside the nav wrapper
+  useEffect(
+    function () {
+      if (!isMobileMenuOpen) return
+
+      function handleOutsideClick(e: MouseEvent | TouchEvent) {
+        if (navWrapperRef.current && !navWrapperRef.current.contains(e.target as Node)) {
+          closeMobileMenu()
+        }
       }
+
+      document.addEventListener('mousedown', handleOutsideClick)
+      document.addEventListener('touchstart', handleOutsideClick)
+      return function () {
+        document.removeEventListener('mousedown', handleOutsideClick)
+        document.removeEventListener('touchstart', handleOutsideClick)
+      }
+    },
+    [isMobileMenuOpen]
+  )
+
+  const toggleMobileMenu = function () {
+    if (isMobileMenuOpen) {
+      closeMobileMenu()
+      return
+    }
+
+    setIsMobileMenuOpen(true)
+
+    const hamburger = hamburgerRef.current
+    const menu = mobileMenuRef.current
+
+    if (hamburger) {
+      const lines = hamburger.querySelectorAll('.hamburger-line')
+      gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease })
+      gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease })
+    }
+
+    if (menu) {
+      gsap.set(menu, { visibility: 'visible' })
+      gsap.fromTo(menu, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease })
     }
   }
 
@@ -153,6 +180,24 @@ function PillNavbar() {
 
   return (
     <>
+      {/* Mobile dark mode toggle — fixed top-right corner */}
+      <button
+        onClick={toggleDarkMode}
+        aria-label="Toggle dark mode"
+        className="md:hidden fixed top-6 right-4 z-[60] flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200"
+        style={{ color: pillColor }}
+      >
+        {isDarkMode ? (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          </svg>
+        )}
+      </button>
+
       {/* Full-width glass background - only visible outside hero */}
       <div
         ref={backgroundRef}
@@ -160,27 +205,12 @@ function PillNavbar() {
       />
 
       {/* Navbar content */}
-      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+      <div ref={navWrapperRef} className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <nav
           className="flex items-center justify-between md:justify-start gap-2"
           aria-label="Primary"
           style={cssVars}
         >
-          {/* Logo - Home link */}
-          <a
-            href="#hero"
-            onClick={function (e) {
-              handleNavClick(e, '#hero')
-            }}
-            aria-label="Home"
-            ref={logoRef}
-            className="rounded-full px-3 inline-flex items-center justify-center font-heading font-bold text-lg whitespace-nowrap transition-all duration-200 hover:scale-105"
-            style={{
-              height: 'var(--nav-h)',
-              color: 'var(--pill-bg)',
-            }}
-          />
-
           {/* Desktop Nav Items */}
           <div
             ref={navItemsRef}
@@ -274,7 +304,7 @@ function PillNavbar() {
             </ul>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile hamburger */}
           <button
             ref={hamburgerRef}
             onClick={toggleMobileMenu}
@@ -296,39 +326,37 @@ function PillNavbar() {
         {/* Mobile Menu */}
         <div
           ref={mobileMenuRef}
-          className="md:hidden absolute top-16 left-4 right-4 rounded-3xl shadow-2xl"
+          className="md:hidden absolute top-16 left-4 right-4 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-xl border border-white/30 dark:border-white/10"
           style={{
-            background: 'var(--base)',
+            background: isDarkMode ? 'rgba(17,24,39,0.5)' : 'rgba(255,255,255,0.5)',
             ...cssVars,
           }}
         >
-          <ul className="list-none m-0 p-[3px] flex flex-col gap-[3px]">
+          <ul className="list-none m-0 p-3 flex flex-col gap-1">
             {NAV_ITEMS.map(function (item) {
               const isActive = activeSection === item.href.substring(1)
 
               return (
-                <li key={item.href}>
+                <li key={item.href} className="flex justify-center">
                   <a
                     href={item.href}
                     onClick={function (e) {
                       handleNavClick(e, item.href)
-                      setIsMobileMenuOpen(false)
+                      setTimeout(closeMobileMenu, 150)
                     }}
-                    className="block py-3 px-4 text-base font-medium rounded-full transition-all duration-300"
+                    className="inline-flex items-center py-2.5 px-6 text-base font-semibold rounded-full transition-all duration-300"
                     style={{
                       background: isActive ? pillColor : 'transparent',
                       color: isActive ? pillTextColor : pillColor,
                     }}
                     onMouseEnter={function (e) {
                       if (!isActive) {
-                        e.currentTarget.style.background = pillColor
-                        e.currentTarget.style.color = pillTextColor
+                        e.currentTarget.style.background = pillColor + '22'
                       }
                     }}
                     onMouseLeave={function (e) {
                       if (!isActive) {
                         e.currentTarget.style.background = 'transparent'
-                        e.currentTarget.style.color = pillColor
                       }
                     }}
                   >
@@ -337,30 +365,6 @@ function PillNavbar() {
                 </li>
               )
             })}
-
-            <li>
-              <button
-                onClick={function () {
-                  toggleDarkMode()
-                  setIsMobileMenuOpen(false)
-                }}
-                className="w-full text-left block py-3 px-4 text-base font-medium rounded-full transition-all duration-300"
-                style={{
-                  background: 'transparent',
-                  color: pillColor,
-                }}
-                onMouseEnter={function (e) {
-                  e.currentTarget.style.background = pillColor
-                  e.currentTarget.style.color = pillTextColor
-                }}
-                onMouseLeave={function (e) {
-                  e.currentTarget.style.background = 'transparent'
-                  e.currentTarget.style.color = pillColor
-                }}
-              >
-                {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            </li>
           </ul>
         </div>
       </div>

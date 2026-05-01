@@ -27,7 +27,7 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 pt-24 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex items-center bg-white dark:bg-gray-900 py-20 pt-24 relative overflow-hidden"
     >
       {/* Divider → Contact (white / gray-900) */}
       <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
@@ -50,7 +50,7 @@ function Experience() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
+          <h2 className="text-3xl md:text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             Work Experience
           </h2>
           <p className="text-body-lg text-light-text-secondary dark:text-gray-400">

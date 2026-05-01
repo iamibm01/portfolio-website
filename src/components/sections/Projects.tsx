@@ -160,7 +160,7 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="snap-start min-h-screen flex items-center bg-white dark:bg-gray-900 py-20 pb-28 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex items-center bg-white dark:bg-gray-900 py-20 pb-28 relative overflow-hidden"
     >
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
@@ -182,7 +182,7 @@ function Projects() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
+          <h2 className="text-3xl md:text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
             Featured Projects
           </h2>
           <p className="text-body-lg text-light-text-secondary dark:text-gray-400">

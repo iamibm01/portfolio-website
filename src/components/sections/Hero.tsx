@@ -30,7 +30,7 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="snap-start min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 pt-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex items-center justify-center bg-white dark:bg-gray-900 pt-20 relative overflow-hidden"
     >
       <WavesBackground />
 
@@ -59,18 +59,18 @@ function Hero() {
           </p>
 
           {/* Large Name - Slide Up (delay 1) */}
-          <h1 className="text-hero-sm font-heading font-medium text-gray-900 dark:text-white animate-slide-up-delay-1">
+          <h1 className="text-[2.25rem] md:text-hero-sm font-heading font-medium text-gray-900 dark:text-white animate-slide-up-delay-1">
             <GradientText
               colors={['#FF6B35', '#F7931E', '#FFB380', '#06B6D4', '#3B82F6']}
               animationSpeed={5}
-              className="text-hero-sm font-heading font-medium"
+              className="text-[2.25rem] md:text-hero-sm font-heading font-medium"
             >
               {PERSONAL_INFO.name}
             </GradientText>
           </h1>
 
           {/* Job Title - Slide Up (delay 2) */}
-          <h2 className="text-section-sm font-heading font-semibold text-primary dark:text-primary-light animate-slide-up-delay-2">
+          <h2 className="text-xl md:text-section-sm font-heading font-semibold text-primary dark:text-primary-light animate-slide-up-delay-2">
             {PERSONAL_INFO.title}
           </h2>
 
@@ -80,7 +80,7 @@ function Hero() {
           </p>
 
           {/* CTA Buttons - Fade Scale */}
-          <div className="flex gap-4 justify-center pt-4 animate-fade-scale-delay">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-scale-delay">
             <a
               href="#projects"
               onClick={function (e) {
