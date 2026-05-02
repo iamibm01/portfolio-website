@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="min-h-screen bg-light-bg">
       <PillNavbar />
-      <main className="h-[100dvh] overflow-y-scroll snap-y snap-mandatory">
+      <main className="h-[100dvh] overflow-y-scroll snap-y snap-mandatory touch-pan-y overscroll-y-contain">
         <Hero />
         <About />
         <Skills />
