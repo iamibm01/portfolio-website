@@ -42,20 +42,15 @@ const SUGGESTIONS = [
 export default function Contact() {
   const { state, sendMessage, startChat } = useChat()
   const [input, setInput] = useState('')
-  const [chatHeight, setChatHeight] = useState(520)
+  const [chatHeight] = useState(() => {
+    const h = window.visualViewport?.height ?? window.innerHeight
+    return Math.min(Math.max(h - 240, 320), 520)
+  })
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const greetingFired = useRef(false)
   const wasLoading = useRef(false)
-
-  // Set chat height once on mount based on screen size.
-  // It does NOT change when the keyboard opens — the section translates
-  // instead, keeping the input above the keyboard without resizing the chat.
-  useEffect(() => {
-    const h = window.visualViewport?.height ?? window.innerHeight
-    setChatHeight(Math.min(Math.max(h - 240, 320), 520))
-  }, [])
 
   // Slide the section above the keyboard using direct DOM transforms.
   // Direct style mutation (no React state) = zero re-renders = no jank.
