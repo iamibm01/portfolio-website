@@ -127,7 +127,7 @@ export default function Contact() {
       ref={sectionRef}
       id="contact"
       className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-white dark:bg-gray-900 py-8 md:py-20 relative overflow-hidden"
-      style={{ willChange: 'transform' }}
+      style={{ willChange: 'transform', zIndex: 10, position: 'relative' }}
     >
       {/* Dot pattern background */}
       <div
