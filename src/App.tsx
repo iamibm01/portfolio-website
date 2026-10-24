@@ -8,7 +8,7 @@ import Contact from './components/sections/Contact'
 
 function App() {
   return (
-    <div className="min-h-[100svh] bg-ground">
+    <div className="min-h-[100svh]">
       <PillNavbar />
       <main>
         <Hero />

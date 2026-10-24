@@ -2,7 +2,6 @@ import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 import { motion } from 'framer-motion'
-import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -11,25 +10,7 @@ const fadeUp = {
 
 function About() {
   return (
-    <section
-      id="about"
-      className="min-h-[100svh] flex items-center bg-ground py-20 relative overflow-hidden"
-    >
-      {/* Divider → Skills */}
-      <SectionDivider
-        lightFill="rgb(var(--ground))"
-        darkFill="rgb(var(--ground))"
-        direction="left"
-      />
-
-      {/* Dense small orange dots — intimate, precise */}
-      <div
-        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
+    <section id="about" className="min-h-[100svh] flex items-center py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           className="text-center mb-16"

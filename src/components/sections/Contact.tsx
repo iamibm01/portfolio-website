@@ -8,7 +8,6 @@ import { useChat } from '../../hooks/useChat'
 import { PERSONAL_INFO } from '../../data/constants'
 import { socialLinks } from '../../data/socialLinks'
 import type { ReceiptStatus } from '../../types'
-import SectionDivider from '../ui/SectionDivider'
 
 function getSocialIcon(icon: string) {
   switch (icon) {
@@ -120,24 +119,9 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="min-h-[100svh] flex flex-col items-center justify-center bg-ground py-8 md:py-20 relative overflow-hidden"
+      className="min-h-[100svh] flex flex-col items-center justify-center py-8 md:py-20 relative overflow-hidden"
       style={{ willChange: 'transform', zIndex: 10, position: 'relative' }}
     >
-      {/* Dot pattern background */}
-      <div
-        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
-
-      <SectionDivider
-        lightFill="rgb(var(--ground))"
-        darkFill="rgb(var(--ground))"
-        direction="right"
-      />
-
       <div className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col gap-6">
         {/* Header */}
         <motion.h2

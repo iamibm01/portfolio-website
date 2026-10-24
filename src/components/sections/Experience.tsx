@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { experience } from '../../data/experience'
 import { motion, AnimatePresence } from 'framer-motion'
-import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -27,23 +26,8 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="min-h-[100svh] flex items-center bg-ground py-20 pt-24 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center py-20 pt-24 relative overflow-hidden"
     >
-      {/* Divider → Contact (white / gray-900) */}
-      <SectionDivider
-        lightFill="rgb(var(--ground))"
-        darkFill="rgb(var(--ground))"
-        direction="left"
-      />
-
-      <div
-        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
-
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         {/* Section header */}
         <motion.div

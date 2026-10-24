@@ -2,8 +2,6 @@ import { PERSONAL_INFO } from '../../data/constants'
 import { socialLinks } from '../../data/socialLinks'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import GradientText from '../ui/GradientText'
-import WavesBackground from '../ui/WavesBackground'
-import SectionDivider from '../ui/SectionDivider'
 
 function Hero() {
   const getIcon = function (name: string) {
@@ -22,31 +20,8 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-[100svh] flex items-center justify-center bg-ground pt-20 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center justify-center pt-20 relative overflow-hidden"
     >
-      <WavesBackground />
-
-      {/* Top fade — below navbar (z-50) */}
-      <div
-        className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
-        style={{ height: '40px' }}
-      >
-        <div
-          className="absolute inset-0 dark:hidden"
-          style={{ background: 'linear-gradient(to bottom, rgb(var(--ground)), transparent)' }}
-        />
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{ background: 'linear-gradient(to bottom, rgb(var(--ground)), transparent)' }}
-        />
-      </div>
-
-      {/* Divider → About (white / gray-900) */}
-      <SectionDivider
-        lightFill="rgb(var(--ground))"
-        darkFill="rgb(var(--ground))"
-        direction="right"
-      />
       <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <div className="text-center space-y-6">
           {/* Small Greeting - Fade In */}

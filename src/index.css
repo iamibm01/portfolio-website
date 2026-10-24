@@ -15,6 +15,7 @@
   --field: 18 18 18;
   --diff-add: 227 241 225;
   --diff-del: 246 225 218;
+  --dot-alpha: 0.35;
   color-scheme: light;
 }
 
@@ -28,6 +29,7 @@
   --field: 28 28 26;
   --diff-add: 30 52 34;
   --diff-del: 64 34 26;
+  --dot-alpha: 0.18;
   color-scheme: dark;
 }
 
@@ -36,8 +38,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* One dot grid for the whole page, so it runs unbroken across sections */
 body {
   background-color: rgb(var(--ground));
+  background-image: radial-gradient(
+    circle,
+    rgb(var(--accent) / var(--dot-alpha)) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
   color: rgb(var(--ink));
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { projects } from '../../data/projects'
 import { motion } from 'framer-motion'
-import SectionDivider from '../ui/SectionDivider'
 import { FaReact, FaNodeJs, FaGithub, FaHtml5, FaCss3Alt, FaJs } from 'react-icons/fa'
 import {
   SiTypescript,
@@ -160,23 +159,8 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="min-h-[100svh] flex items-center bg-ground py-20 pb-28 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center py-20 pb-28 relative overflow-hidden"
     >
-      <div
-        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
-
-      {/* Divider → Experience */}
-      <SectionDivider
-        lightFill="rgb(var(--ground))"
-        darkFill="rgb(var(--ground))"
-        direction="left"
-      />
-
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         <motion.div
           className="text-center mb-16"
