@@ -146,7 +146,7 @@ function ProjectPlaceholder({ title, technologies, status }: ProjectPlaceholderP
 
         {/* Project title — large ghost text */}
         <p
-          className="text-white/10 font-heading font-bold text-2xl tracking-tight text-center px-4 leading-tight"
+          className="text-white/10 font-bold text-2xl tracking-tight text-center px-4 leading-tight"
           style={{ textShadow: '0 0 40px rgba(255,255,255,0.05)' }}
         >
           {title}
@@ -160,18 +160,22 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="snap-start min-h-[100dvh] flex items-center bg-white dark:bg-gray-900 py-20 pb-28 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex items-center bg-ground py-20 pb-28 relative overflow-hidden"
     >
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
           backgroundSize: '16px 16px',
         }}
       />
 
       {/* Divider → Experience */}
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
+      <SectionDivider
+        lightFill="rgb(var(--ground))"
+        darkFill="rgb(var(--ground))"
+        direction="left"
+      />
 
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         <motion.div
@@ -182,12 +186,10 @@ function Projects() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-3xl md:text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
+          <h2 className="text-3xl md:text-section-md font-semibold text-ink mb-4">
             Featured Projects
           </h2>
-          <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
-            A selection of my recent work
-          </p>
+          <p className="text-base text-muted">A selection of my recent work</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -209,20 +211,16 @@ function Projects() {
                 />
 
                 <div className="p-6 space-y-4">
-                  <h3 className="font-heading font-semibold text-light-text-primary dark:text-white text-xl">
-                    {project.title}
-                  </h3>
+                  <h3 className="font-semibold text-ink text-xl">{project.title}</h3>
 
-                  <p className="text-body-base text-light-text-secondary dark:text-gray-400">
-                    {project.description}
-                  </p>
+                  <p className="text-base text-muted">{project.description}</p>
 
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map(function (tech) {
                       return (
                         <span
                           key={tech}
-                          className="px-3 py-1 bg-white/40 dark:bg-white/10 backdrop-blur-md text-primary dark:text-primary-light text-sm font-medium rounded-full border border-white/30 dark:border-white/10"
+                          className="px-3 py-1 bg-white/40 dark:bg-white/10 backdrop-blur-md text-accent text-sm font-medium rounded-full border border-white/30 dark:border-white/10"
                         >
                           {tech}
                         </span>
@@ -236,7 +234,7 @@ function Projects() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-6 py-2 bg-primary dark:bg-primary-light text-white font-medium rounded-full hover:bg-primary-dark dark:hover:bg-primary transition-colors"
+                        className="px-6 py-2 bg-accent text-on-accent font-medium rounded-full hover:bg-accent/90 transition-colors"
                       >
                         View Live
                       </a>
@@ -246,7 +244,7 @@ function Projects() {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-6 py-2 border-2 border-primary dark:border-primary-light text-primary dark:text-primary-light font-medium rounded-full hover:bg-primary hover:text-white dark:hover:bg-primary-light dark:hover:text-white transition-all"
+                        className="px-6 py-2 border-2 border-accent text-accent font-medium rounded-full hover:bg-accent hover:text-on-accent transition-all"
                       >
                         View Code
                       </a>

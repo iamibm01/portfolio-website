@@ -4,6 +4,7 @@ import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 import { motion } from 'framer-motion'
 import SectionDivider from '../ui/SectionDivider'
+import { scrollBehavior } from '../../lib/motion'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -19,23 +20,27 @@ function About() {
       const targetRect = target.getBoundingClientRect()
       const containerRect = scrollRoot.getBoundingClientRect()
       const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
-      scrollRoot.scrollTo({ top: offset, behavior: 'smooth' })
+      scrollRoot.scrollTo({ top: offset, behavior: scrollBehavior() })
     }
   }
 
   return (
     <section
       id="about"
-      className="snap-start min-h-[100dvh] flex items-center bg-white dark:bg-gray-900 py-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex items-center bg-ground py-20 relative overflow-hidden"
     >
       {/* Divider → Skills */}
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
+      <SectionDivider
+        lightFill="rgb(var(--ground))"
+        darkFill="rgb(var(--ground))"
+        direction="left"
+      />
 
       {/* Dense small orange dots — intimate, precise */}
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
           backgroundSize: '16px 16px',
         }}
       />
@@ -48,9 +53,7 @@ function About() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-3xl md:text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
-            About Me
-          </h2>
+          <h2 className="text-3xl md:text-section-md font-semibold text-ink mb-4">About Me</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -74,28 +77,22 @@ function About() {
             </div>
             <div className="grid grid-cols-3 gap-2 md:gap-4">
               <div className="text-center p-2 md:p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
-                <p className="text-lg md:text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                <p className="text-lg md:text-2xl font-bold text-accent">
                   <CountUp from={2015} to={2024} duration={1} delay={0.1} />
                 </p>
-                <p className="text-xs md:text-sm text-light-text-secondary dark:text-gray-400 mt-1">
-                  Started Coding
-                </p>
+                <p className="text-xs md:text-sm text-muted mt-1">Started Coding</p>
               </div>
               <div className="text-center p-2 md:p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
-                <p className="text-lg md:text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                <p className="text-lg md:text-2xl font-bold text-accent">
                   <CountUp from={0} to={4} duration={1} delay={0.1} />+
                 </p>
-                <p className="text-xs md:text-sm text-light-text-secondary dark:text-gray-400 mt-1">
-                  Projects
-                </p>
+                <p className="text-xs md:text-sm text-muted mt-1">Projects</p>
               </div>
               <div className="text-center p-2 md:p-4 bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-xl border border-white/40 dark:border-white/15">
-                <p className="text-lg md:text-2xl font-heading font-bold text-primary dark:text-primary-light">
+                <p className="text-lg md:text-2xl font-bold text-accent">
                   <CountUp from={0} to={10000} duration={10} delay={0.1} />+
                 </p>
-                <p className="text-xs md:text-sm text-light-text-secondary dark:text-gray-400 mt-1">
-                  Coffee Cups
-                </p>
+                <p className="text-xs md:text-sm text-muted mt-1">Coffee Cups</p>
               </div>
             </div>
           </motion.div>
@@ -108,22 +105,16 @@ function About() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
           >
-            <p className="text-body-lg text-light-text-primary dark:text-gray-300 leading-relaxed">
-              {PERSONAL_INFO.bio}
-            </p>
+            <p className="text-base text-ink leading-relaxed">{PERSONAL_INFO.bio}</p>
 
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <HiLocationMarker className="w-6 h-6 text-primary dark:text-primary-light flex-shrink-0" />
-                <p className="text-body-base text-light-text-secondary dark:text-gray-400">
-                  {PERSONAL_INFO.location}
-                </p>
+                <HiLocationMarker className="w-6 h-6 text-accent flex-shrink-0" />
+                <p className="text-base text-muted">{PERSONAL_INFO.location}</p>
               </div>
               <div className="flex items-center gap-3">
-                <HiBriefcase className="w-6 h-6 text-primary dark:text-primary-light flex-shrink-0" />
-                <p className="text-body-base text-light-text-secondary dark:text-gray-400">
-                  {PERSONAL_INFO.availability}
-                </p>
+                <HiBriefcase className="w-6 h-6 text-accent flex-shrink-0" />
+                <p className="text-base text-muted">{PERSONAL_INFO.availability}</p>
               </div>
             </div>
 
@@ -133,7 +124,7 @@ function About() {
                 onClick={function (e) {
                   handleSmoothScroll(e, '#contact')
                 }}
-                className="inline-block px-8 py-3 bg-primary dark:bg-primary-light text-white font-medium rounded-full hover:bg-primary-dark dark:hover:bg-primary hover:shadow-lg transition-all"
+                className="inline-block px-8 py-3 bg-accent text-on-accent font-medium rounded-full hover:bg-accent/90 hover:shadow-lg transition-all"
               >
                 Let's Work Together
               </a>

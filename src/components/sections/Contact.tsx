@@ -84,11 +84,14 @@ export default function Contact() {
   }, [startChat])
 
   useEffect(() => {
-    if (wasLoading.current && state.status !== 'loading') {
+    // Refocus only after the visitor's own message; the opening greeting must not
+    // pull keyboard focus to the bottom of the page
+    const visitorHasSent = state.messages.some(m => m.role === 'user')
+    if (wasLoading.current && state.status !== 'loading' && visitorHasSent) {
       inputRef.current?.focus({ preventScroll: true })
     }
     wasLoading.current = state.status === 'loading'
-  }, [state.status])
+  }, [state.status, state.messages])
 
   useEffect(() => {
     const el = messagesContainerRef.current
@@ -121,24 +124,28 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-white dark:bg-gray-900 py-8 md:py-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-ground py-8 md:py-20 relative overflow-hidden"
       style={{ willChange: 'transform', zIndex: 10, position: 'relative' }}
     >
       {/* Dot pattern background */}
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
           backgroundSize: '16px 16px',
         }}
       />
 
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
+      <SectionDivider
+        lightFill="rgb(var(--ground))"
+        darkFill="rgb(var(--ground))"
+        direction="right"
+      />
 
       <div className="w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-col gap-6">
         {/* Header */}
         <motion.h2
-          className="text-2xl md:text-4xl font-heading font-semibold text-primary dark:text-primary-light text-center mt-6"
+          className="text-2xl md:text-4xl font-semibold text-accent text-center mt-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -157,14 +164,12 @@ export default function Contact() {
           transition={{ duration: 0.45, delay: 0.1 }}
         >
           {/* Chat header bar */}
-          <div className="px-5 py-3.5 border-b border-white/40 dark:border-white/10 flex items-center gap-3 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md flex-shrink-0">
+          <div className="px-5 py-3.5 border-b border-white/40 dark:border-white/10 flex items-center gap-3 bg-ground/60 backdrop-blur-md flex-shrink-0">
             <div className="w-9 h-9 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
-              <span className="text-xs font-bold text-white leading-none">MI</span>
+              <span className="text-xs font-bold text-on-accent leading-none">MI</span>
             </div>
             <div>
-              <p className="text-sm font-semibold text-light-text-primary dark:text-white leading-none">
-                {PERSONAL_INFO.name}
-              </p>
+              <p className="text-sm font-semibold text-ink leading-none">{PERSONAL_INFO.name}</p>
               <p className="text-xs text-green-500 mt-0.5 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
                 Online
@@ -205,15 +210,15 @@ export default function Contact() {
                 >
                   {msg.role === 'assistant' && (
                     <div className="w-8 h-8 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0 mr-2 mt-1">
-                      <span className="text-xs font-bold text-white leading-none">MI</span>
+                      <span className="text-xs font-bold text-on-accent leading-none">MI</span>
                     </div>
                   )}
                   <div className="flex flex-col gap-1 max-w-[70%]">
                     <div
                       className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                         msg.role === 'user'
-                          ? 'bg-primary text-white rounded-br-sm'
-                          : 'bg-white dark:bg-gray-700 text-light-text-primary dark:text-gray-100 rounded-bl-sm shadow-sm'
+                          ? 'bg-accent text-on-accent rounded-br-sm'
+                          : 'bg-surface text-ink rounded-bl-sm shadow-sm'
                       }`}
                     >
                       {msg.content}
@@ -221,9 +226,7 @@ export default function Contact() {
                     <div
                       className={`flex items-center gap-1 px-1 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
-                        {formatTime(msg.timestamp)}
-                      </span>
+                      <span className="text-xs text-muted">{formatTime(msg.timestamp)}</span>
                       {msg.role === 'user' && msg.receiptStatus && (
                         <ReceiptIcon status={msg.receiptStatus} />
                       )}
@@ -244,9 +247,9 @@ export default function Contact() {
                   className="flex items-center gap-2"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold text-white leading-none">MI</span>
+                    <span className="text-xs font-bold text-on-accent leading-none">MI</span>
                   </div>
-                  <div className="bg-white dark:bg-gray-700 px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex gap-1.5 items-center">
+                  <div className="bg-surface px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm flex gap-1.5 items-center">
                     {[0, 1, 2].map(i => (
                       <span
                         key={i}
@@ -281,13 +284,13 @@ export default function Contact() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, height: 0 }}
-                className="px-4 pb-3 flex gap-2 overflow-x-auto flex-shrink-0 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md scrollbar-none [&::-webkit-scrollbar]:hidden"
+                className="px-4 pb-3 flex gap-2 overflow-x-auto flex-shrink-0 bg-ground/60 backdrop-blur-md scrollbar-none [&::-webkit-scrollbar]:hidden"
               >
                 {SUGGESTIONS.map(s => (
                   <button
                     key={s}
                     onClick={() => handleSuggestion(s)}
-                    className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary dark:text-primary-light dark:border-primary-light/30 hover:bg-primary/10 transition-colors whitespace-nowrap flex-shrink-0"
+                    className="text-xs px-3 py-1.5 rounded-full border border-accent/30 text-accent hover:bg-accent/10 transition-colors whitespace-nowrap flex-shrink-0"
                   >
                     {s}
                   </button>
@@ -297,7 +300,7 @@ export default function Contact() {
           </AnimatePresence>
 
           {/* Input bar */}
-          <div className="px-4 py-3 border-t border-white/40 dark:border-white/10 bg-white/60 dark:bg-gray-900/60 backdrop-blur-md flex gap-3 items-center flex-shrink-0">
+          <div className="px-4 py-3 border-t border-white/40 dark:border-white/10 bg-ground/60 backdrop-blur-md flex gap-3 items-center flex-shrink-0">
             <input
               ref={inputRef}
               type="text"
@@ -307,13 +310,13 @@ export default function Contact() {
               placeholder={isLeadCaptured ? 'Keep chatting...' : 'Type a message...'}
               disabled={state.status === 'loading'}
               style={{ fontSize: '16px' }}
-              className="flex-1 bg-white/50 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/10 text-sm text-light-text-primary dark:text-gray-100 placeholder:text-gray-400 rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/40 dark:focus:ring-primary-light/40 transition disabled:opacity-50"
+              className="flex-1 bg-white/50 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/10 text-sm text-ink placeholder:text-muted rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-accent/40 transition disabled:opacity-50"
             />
             <button
               onClick={() => void handleSend()}
               disabled={!input.trim() || state.status === 'loading'}
               aria-label="Send message"
-              className="w-10 h-10 flex-shrink-0 rounded-xl bg-gradient-hero text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
+              className="w-10 h-10 flex-shrink-0 rounded-xl bg-gradient-hero text-on-accent flex items-center justify-center hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
             >
               <HiArrowUp className="w-5 h-5 stroke-[0.5]" />
             </button>
@@ -330,9 +333,7 @@ export default function Contact() {
         >
           <div className="flex items-center gap-3 w-full max-w-sm">
             <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
-            <p className="text-xs text-light-text-primary dark:text-gray-500 whitespace-nowrap">
-              or reach me directly
-            </p>
+            <p className="text-xs text-muted whitespace-nowrap">or reach me directly</p>
             <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
           </div>
 
@@ -344,7 +345,7 @@ export default function Contact() {
                 target={link.url.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer"
                 aria-label={link.label ?? link.name}
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 text-light-text-secondary dark:text-gray-400 hover:text-primary dark:hover:text-primary-light hover:border-primary/40 dark:hover:border-primary-light/40 hover:bg-primary/5 dark:hover:bg-primary-light/5 transition-all text-sm"
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 text-muted hover:text-accent hover:border-accent/40 hover:bg-accent/5 transition-all text-sm"
               >
                 {getSocialIcon(link.icon)}
                 <span>{link.name}</span>

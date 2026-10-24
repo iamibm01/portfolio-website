@@ -1,4 +1,4 @@
-import { useInView, useMotionValue, useSpring } from 'framer-motion'
+import { useInView, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { useCallback, useEffect, useRef } from 'react'
 
 interface CountUpProps {
@@ -35,6 +35,7 @@ export default function CountUp({
     stiffness,
   })
   const isInView = useInView(ref, { once: false, margin: '0px' })
+  const reduceMotion = useReducedMotion()
 
   const getDecimalPlaces = function (num: number): number {
     const str = num.toString()
@@ -74,6 +75,11 @@ export default function CountUp({
 
   useEffect(
     function () {
+      if (reduceMotion) {
+        // Show the final number; springs ignore MotionConfig
+        if (ref.current) ref.current.textContent = formatValue(direction === 'down' ? from : to)
+        return
+      }
       if (isInView && startWhen) {
         // Reset to start value
         motionValue.set(direction === 'down' ? to : from)
@@ -104,7 +110,20 @@ export default function CountUp({
         motionValue.set(direction === 'down' ? to : from)
       }
     },
-    [isInView, startWhen, motionValue, direction, from, to, delay, onStart, onEnd, duration]
+    [
+      isInView,
+      startWhen,
+      motionValue,
+      direction,
+      from,
+      to,
+      delay,
+      onStart,
+      onEnd,
+      duration,
+      reduceMotion,
+      formatValue,
+    ]
   )
 
   useEffect(

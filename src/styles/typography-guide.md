@@ -1,42 +1,40 @@
-# Typography Quick Reference
+# Design Tokens Quick Reference
 
-## Font Families
-- `font-sans` - Inter (body text)
-- `font-heading` - Poppins (headings)
-- `font-mono` - Fira Code (code)
+Source of truth: `tailwind.config.js` (names) and `src/index.css` (values, light and dark).
+Colour tokens switch with the theme on their own, so no `dark:` pair is needed.
 
-## Sizes
+## Type
 
-### Hero (Large headings - your name, title)
-- `text-hero-lg` - 96px (desktop hero)
-- `text-hero-md` - 72px (main titles)
-- `text-hero-sm` - 56px (mobile hero)
+- `font-sans` - Schibsted Grotesk (everything)
+- `font-code` - JetBrains Mono, only inside real code or interface fragments
 
-### Sections (About, Skills, Projects headers)
-- `text-section-md` - 48px
-- `text-section-sm` - 36px
+| Class          | Size           | Use                           |
+| -------------- | -------------- | ----------------------------- |
+| `text-display` | 48–136px fluid | the one h1                    |
+| `text-title`   | 36–64px fluid  | section h2                    |
+| `text-lead`    | 22–28px fluid  | a statement or intro sentence |
+| `text-base`    | 18px           | body                          |
+| `text-sm`      | 15px           | meta, captions                |
 
-### Cards (Project/skill titles)
-- `text-card-md` - 30px
-- `text-card-sm` - 24px
+`text-hero-sm`, `text-section-sm`, `text-section-md` are legacy and go as each section is rebuilt.
 
-### Body (Paragraphs, descriptions)
-- `text-body-lg` - 18px (taglines, intros)
-- `text-body-base` - 16px (regular text)
-- `text-body-sm` - 14px (captions, metadata)
+## Colour
 
-## Font Weights
-- `font-normal` - 400 (body)
-- `font-medium` - 500 (emphasis)
-- `font-semibold` - 600 (subheadings)
-- `font-bold` - 700 (main headings)
+| Token                  | Use                                                   |
+| ---------------------- | ----------------------------------------------------- |
+| `ground`               | page background                                       |
+| `surface`              | a tone step for panels, instead of borders or shadows |
+| `ink`                  | all running text                                      |
+| `muted`                | secondary notes only                                  |
+| `accent`               | actions, and little else                              |
+| `on-accent`            | text set on `accent`                                  |
+| `field`                | one full-bleed contrasting section                    |
+| `diff-add`, `diff-del` | inside the diff fragment only                         |
 
-## Line Heights
-- `leading-tight` - 1.1 (large headings)
-- `leading-snug` - 1.3 (card titles)
-- `leading-normal` - 1.5 (body text)
-- `leading-relaxed` - 1.7 (long paragraphs)
+All text pairs pass WCAG AA in both themes; `accent` on `surface` is the tightest at 4.9:1.
 
-## Responsive Pattern
-Use base size for mobile, larger for desktop:
-`text-hero-sm md:text-hero-md lg:text-hero-lg`
+## Space and shape
+
+- `px-gutter` - outer page margins (16–32px)
+- `py-section` - gap between sections (120–200px)
+- `rounded` is square; `rounded-ui` (6px) only inside interface fragments; `rounded-full` for round controls

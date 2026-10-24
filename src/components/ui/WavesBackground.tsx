@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import { prefersReducedMotion } from '../../lib/motion'
 
 class Grad {
   x: number
@@ -299,6 +300,7 @@ function WavesBackground() {
     function onResize() {
       setSize()
       setLines()
+      if (reduceMotion) drawStill()
     }
     function onMouseMove(e: MouseEvent) {
       updateMouse(e.clientX, e.clientY)
@@ -324,7 +326,18 @@ function WavesBackground() {
     setSize()
     setLines()
 
+    // Reduced motion: one still frame, no loop, no pointer tracking
+    const reduceMotion = prefersReducedMotion()
+    function drawStill() {
+      movePoints(0)
+      drawLines()
+    }
+
     function startAnimation() {
+      if (reduceMotion) {
+        drawStill()
+        return
+      }
       if (frameIdRef.current === null) {
         frameIdRef.current = requestAnimationFrame(tick)
       }
@@ -351,8 +364,10 @@ function WavesBackground() {
     observer.observe(container)
 
     window.addEventListener('resize', onResize)
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    if (!reduceMotion) {
+      window.addEventListener('mousemove', onMouseMove)
+      window.addEventListener('touchmove', onTouchMove, { passive: true })
+    }
 
     return function () {
       observer.disconnect()

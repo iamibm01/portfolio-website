@@ -1,63 +1,61 @@
 /** @type {import('tailwindcss').Config} */
+
+// Colour tokens live as RGB channels in src/index.css (:root and .dark),
+// so one class covers both themes and opacity modifiers keep working.
+const token = name => `rgb(var(--${name}) / <alpha-value>)`
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Brand colors
-        primary: {
-          DEFAULT: '#FF6B35',
-          light: '#FF8C42',
-          dark: '#E55A2B',
-        },
-        secondary: {
-          DEFAULT: '#F7931E',
-          light: '#FFB380',
-          dark: '#D67A0D',
-        },
-        accent: '#FF8C42',
-
-        // Light mode specific
-        light: {
-          bg: '#FFF8F3',
-          surface: '#FFFFFF',
-          text: {
-            primary: '#2D2D2D',
-            secondary: '#666666',
-          },
-        },
-
-        // Dark mode specific
-        dark: {
-          bg: '#0F0F0F',
-          surface: '#1A1A1A',
-          text: {
-            primary: '#F5F5F5',
-            secondary: '#A0A0A0',
-          },
+        ground: token('ground'), // page
+        surface: token('surface'), // tone step instead of borders and shadows
+        ink: token('ink'), // all running text
+        muted: token('muted'), // secondary notes only
+        accent: token('accent'), // actions, and little else
+        'on-accent': token('on-accent'), // text set on accent
+        field: token('field'), // one full-bleed dark section
+        diff: {
+          add: token('diff-add'),
+          del: token('diff-del'),
         },
       },
 
-      // Typography scale (from your design doc)
-      fontSize: {
-        // Hero sizes
-        'hero-sm': ['3.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 56px
-        'hero-md': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 72px
-        'hero-lg': ['6rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 96px
+      fontFamily: {
+        sans: ['"Schibsted Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        code: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+      },
 
-        // Section headings
+      // Five steps do the visible work
+      fontSize: {
+        sm: ['0.9375rem', { lineHeight: '1.5' }], // 15px, meta
+        base: ['1.125rem', { lineHeight: '1.55' }], // 18px, body
+        lead: ['clamp(1.375rem, 1.1rem + 1vw, 1.75rem)', { lineHeight: '1.35' }], // 22–28px, statements
+        title: [
+          'clamp(2.25rem, 1.5rem + 3.2vw, 4rem)',
+          { lineHeight: '1', letterSpacing: '-0.03em' },
+        ], // section h2
+        display: [
+          'clamp(3rem, 1rem + 8.5vw, 8.5rem)',
+          { lineHeight: '0.95', letterSpacing: '-0.035em' },
+        ], // h1
+
+        // Legacy steps, retired as each section is rebuilt (hero: step 4, sections: step 6)
+        'hero-sm': ['3.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 56px
         'section-sm': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }], // 36px
         'section-md': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }], // 48px
+      },
 
-        // Project/Card headings
-        'card-sm': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }], // 24px
-        'card-md': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }], // 30px
+      spacing: {
+        gutter: 'clamp(1rem, 0.5rem + 2vw, 2rem)', // outer margins
+        section: 'clamp(7.5rem, 5rem + 8vw, 12.5rem)', // gap between sections
+      },
 
-        // Body text
-        'body-sm': ['0.875rem', { lineHeight: '1.5' }], // 14px
-        'body-base': ['1rem', { lineHeight: '1.6' }], // 16px
-        'body-lg': ['1.125rem', { lineHeight: '1.7' }], // 18px
+      borderRadius: {
+        DEFAULT: '0',
+        ui: '6px', // inside interface fragments only
       },
 
       // Line height scale
@@ -78,63 +76,36 @@ export default {
         wider: '0.02em',
       },
 
-      // Gradient utilities
+      // Flat accent under the old name until Hero (step 4) and Contact (step 8) drop it
       backgroundImage: {
-        'gradient-hero': 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)',
-        'gradient-card': 'linear-gradient(135deg, #FF8C42 0%, #FFB380 100%)',
+        'gradient-hero': 'linear-gradient(rgb(var(--accent)), rgb(var(--accent)))',
       },
 
-      // Animation durations
       transitionDuration: {
         DEFAULT: '200ms',
-        fast: '150ms',
-        normal: '200ms',
-        slow: '300ms',
-        slower: '500ms',
       },
+
       animation: {
-        'float-slow': 'float 8s ease-in-out infinite',
-        'float-medium': 'float 6s ease-in-out infinite',
-        'float-rotate': 'floatRotate 10s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s ease-in-out infinite',
-        'spin-slow': 'spin 20s linear infinite',
-        'slide-down': 'slideDown 0.3s ease-out',
-        'fade-in': 'fadeIn 0.6s ease-out', // ← Add
-        'slide-up': 'slideUp 0.6s ease-out', // ← Add
-        'slide-up-delay-1': 'slideUp 0.6s ease-out 0.2s backwards', // ← Add
-        'slide-up-delay-2': 'slideUp 0.6s ease-out 0.4s backwards', // ← Add
-        'slide-up-delay-3': 'slideUp 0.6s ease-out 0.6s backwards', // ← Add
-        'fade-scale-delay': 'fadeScale 0.5s ease-out 0.8s backwards', // ← Add
-        'stagger-1': 'fadeIn 0.4s ease-out 1s backwards', // ← Add
-        'stagger-2': 'fadeIn 0.4s ease-out 1.1s backwards', // ← Add
-        'stagger-3': 'fadeIn 0.4s ease-out 1.2s backwards', // ← Add
+        'fade-in': 'fadeIn 0.6s ease-out',
+        'slide-up-delay-1': 'slideUp 0.6s ease-out 0.2s backwards',
+        'slide-up-delay-2': 'slideUp 0.6s ease-out 0.4s backwards',
+        'slide-up-delay-3': 'slideUp 0.6s ease-out 0.6s backwards',
+        'fade-scale-delay': 'fadeScale 0.5s ease-out 0.8s backwards',
+        'stagger-1': 'fadeIn 0.4s ease-out 1s backwards',
+        'stagger-2': 'fadeIn 0.4s ease-out 1.1s backwards',
+        'stagger-3': 'fadeIn 0.4s ease-out 1.2s backwards',
       },
 
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        floatRotate: {
-          '0%, 100%': { transform: 'translateY(0px) rotate(12deg)' },
-          '50%': { transform: 'translateY(-20px) rotate(22deg)' },
-        },
-        slideDown: {
-          '0%': { transform: 'translate(-50%, -100%)', opacity: '0' },
-          '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
-        },
         fadeIn: {
-          // ← Add
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
         slideUp: {
-          // ← Add
           '0%': { transform: 'translateY(30px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         fadeScale: {
-          // ← Add
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },

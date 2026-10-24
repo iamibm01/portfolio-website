@@ -44,7 +44,7 @@ function Skills() {
 
   const getSkillIcon = function (skillName: string) {
     const name = skillName.toLowerCase()
-    const iconClass = 'w-7 h-7 text-primary dark:text-primary-light'
+    const iconClass = 'w-7 h-7 text-accent'
 
     switch (name) {
       case 'react':
@@ -94,7 +94,7 @@ function Skills() {
         return <TbApi className={iconClass} />
       default:
         return (
-          <div className="w-8 h-8 bg-primary/20 dark:bg-primary/30 rounded-lg flex items-center justify-center text-primary dark:text-primary-light font-bold text-base">
+          <div className="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center text-accent font-bold text-base">
             {skillName.charAt(0)}
           </div>
         )
@@ -104,15 +104,19 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-[100dvh] bg-white dark:bg-gray-900 py-12 pt-24 pb-20 relative overflow-hidden"
+      className="snap-start min-h-[100dvh] bg-ground py-12 pt-24 pb-20 relative overflow-hidden"
     >
       {/* Divider → Projects (white / gray-900) */}
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
+      <SectionDivider
+        lightFill="rgb(var(--ground))"
+        darkFill="rgb(var(--ground))"
+        direction="right"
+      />
 
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
         style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgb(var(--accent)) 1px, transparent 1px)',
           backgroundSize: '16px 16px',
         }}
       />
@@ -125,7 +129,7 @@ function Skills() {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-3xl md:text-section-sm font-heading font-semibold text-light-text-primary dark:text-white mb-2">
+          <h2 className="text-3xl md:text-section-sm font-semibold text-ink mb-2">
             Skills & Technologies
           </h2>
         </motion.div>
@@ -133,7 +137,7 @@ function Skills() {
         {/* Frontend Skills */}
         <div className="mb-6">
           <motion.h3
-            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            className="text-lg font-semibold text-ink mb-4 text-center"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -159,9 +163,7 @@ function Skills() {
                     className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
-                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
-                      {skill.name}
-                    </p>
+                    <p className="font-semibold text-ink text-sm text-center">{skill.name}</p>
                   </motion.div>
                 )
               })}
@@ -172,7 +174,7 @@ function Skills() {
         {/* Backend Development */}
         <div className="mb-6">
           <motion.h3
-            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            className="text-lg font-semibold text-ink mb-4 text-center"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -198,9 +200,7 @@ function Skills() {
                     className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
-                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
-                      {skill.name}
-                    </p>
+                    <p className="font-semibold text-ink text-sm text-center">{skill.name}</p>
                   </motion.div>
                 )
               })}
@@ -211,7 +211,7 @@ function Skills() {
         {/* Tools & Workflow */}
         <div>
           <motion.h3
-            className="text-lg font-heading font-semibold text-light-text-primary dark:text-white mb-4 text-center"
+            className="text-lg font-semibold text-ink mb-4 text-center"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -237,9 +237,7 @@ function Skills() {
                     className="bg-white/20 dark:bg-white/5 backdrop-blur-xl p-3 rounded-2xl flex flex-col items-center justify-center hover:shadow-lg transition-all hover:scale-105 w-28 h-28 border border-white/30 dark:border-white/10 hover:bg-white/35 hover:border-white/50 dark:hover:bg-white/10 dark:hover:border-white/20"
                   >
                     <div className="mb-2">{getSkillIcon(skill.name)}</div>
-                    <p className="font-heading font-semibold text-light-text-primary dark:text-white text-sm text-center">
-                      {skill.name}
-                    </p>
+                    <p className="font-semibold text-ink text-sm text-center">{skill.name}</p>
                   </motion.div>
                 )
               })}

@@ -1,4 +1,4 @@
-import { NavigationItem, SocialLink } from '../types'
+import { NavigationItem } from '../types'
 
 // Personal Information
 export const PERSONAL_INFO = {
@@ -37,46 +37,3 @@ export const NAV_ITEMS: NavigationItem[] = [
     href: '#contact',
   },
 ]
-
-// Social Links
-export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    name: 'GitHub',
-    url: 'https://github.com/yourusername',
-    icon: 'github',
-    label: 'View my code',
-  },
-  {
-    name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
-    icon: 'linkedin',
-    label: 'Connect with me',
-  },
-  {
-    name: 'Email',
-    url: 'mailto:your.email@example.com',
-    icon: 'email',
-    label: 'Send me an email',
-  },
-]
-
-// Site Metadata
-export const SITE_METADATA = {
-  title: 'Your Name - Front-End Developer Portfolio',
-  description:
-    'Front-end developer specializing in React, TypeScript, and modern web technologies. Building beautiful, functional user experiences.',
-  keywords: [
-    'front-end developer',
-    'react developer',
-    'typescript',
-    'web developer',
-    'portfolio',
-    'UI developer',
-  ],
-  author: 'Your Name',
-  siteUrl: 'https://yourportfolio.com',
-  image: '/og-image.png',
-}
-
-// Resume
-export const RESUME_URL = '/resume.pdf'
