@@ -42,10 +42,6 @@ const SUGGESTIONS = [
 export default function Contact() {
   const { state, sendMessage, startChat } = useChat()
   const [input, setInput] = useState('')
-  const [chatHeight] = useState(() => {
-    const h = window.visualViewport?.height ?? window.innerHeight
-    return Math.min(Math.max(h - 240, 320), 520)
-  })
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -54,8 +50,8 @@ export default function Contact() {
 
   // Slide the section above the keyboard using direct DOM transforms.
   // Direct style mutation (no React state) = zero re-renders = no jank.
-  // Responds to every visualViewport resize event so it tracks the keyboard
-  // animation frame-by-frame on Android Chrome.
+  // When the browser pans the visual viewport to the focused input itself,
+  // the offset below is 0 and this does nothing; it only covers the gap.
   useEffect(() => {
     const vv = window.visualViewport
     if (!vv) return
@@ -124,7 +120,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="snap-start min-h-[100dvh] flex flex-col items-center justify-center bg-ground py-8 md:py-20 relative overflow-hidden"
+      className="min-h-[100svh] flex flex-col items-center justify-center bg-ground py-8 md:py-20 relative overflow-hidden"
       style={{ willChange: 'transform', zIndex: 10, position: 'relative' }}
     >
       {/* Dot pattern background */}
@@ -157,7 +153,7 @@ export default function Contact() {
         {/* Chat window — transparent so dot grid shows through */}
         <motion.div
           className="flex flex-col rounded-2xl overflow-hidden"
-          style={{ height: chatHeight }}
+          style={{ height: 'clamp(320px, calc(100svh - 240px), 520px)' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

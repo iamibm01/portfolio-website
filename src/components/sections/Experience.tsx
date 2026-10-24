@@ -27,7 +27,7 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="snap-start min-h-[100dvh] flex items-center bg-ground py-20 pt-24 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center bg-ground py-20 pt-24 relative overflow-hidden"
     >
       {/* Divider → Contact (white / gray-900) */}
       <SectionDivider

@@ -1,24 +1,11 @@
-import React from 'react'
 import { PERSONAL_INFO } from '../../data/constants'
 import { socialLinks } from '../../data/socialLinks'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import GradientText from '../ui/GradientText'
 import WavesBackground from '../ui/WavesBackground'
 import SectionDivider from '../ui/SectionDivider'
-import { scrollBehavior } from '../../lib/motion'
 
 function Hero() {
-  const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    e.preventDefault()
-    const target = document.querySelector(href)
-    const scrollRoot = document.querySelector('main')
-    if (target && scrollRoot) {
-      const targetRect = target.getBoundingClientRect()
-      const containerRect = scrollRoot.getBoundingClientRect()
-      const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
-      scrollRoot.scrollTo({ top: offset, behavior: scrollBehavior() })
-    }
-  }
   const getIcon = function (name: string) {
     switch (name.toLowerCase()) {
       case 'github':
@@ -35,7 +22,7 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="snap-start min-h-[100dvh] flex items-center justify-center bg-ground pt-20 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center justify-center bg-ground pt-20 relative overflow-hidden"
     >
       <WavesBackground />
 
@@ -90,18 +77,12 @@ function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-scale-delay">
             <a
               href="#projects"
-              onClick={function (e) {
-                handleSmoothScroll(e, '#projects')
-              }}
               className="px-8 py-3 bg-gradient-hero text-on-accent font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
             >
               View My Work
             </a>
             <a
               href="#contact"
-              onClick={function (e) {
-                handleSmoothScroll(e, '#contact')
-              }}
               className="px-8 py-3 border-2 border-accent text-accent font-medium rounded-full hover:bg-accent hover:text-on-accent transition-all"
             >
               Get In Touch

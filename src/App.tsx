@@ -8,9 +8,9 @@ import Contact from './components/sections/Contact'
 
 function App() {
   return (
-    <div className="min-h-screen bg-ground">
+    <div className="min-h-[100svh] bg-ground">
       <PillNavbar />
-      <main className="h-[100dvh] overflow-y-scroll snap-y snap-mandatory touch-pan-y overscroll-y-contain">
+      <main>
         <Hero />
         <About />
         <Skills />

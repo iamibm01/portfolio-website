@@ -1,10 +1,8 @@
-import React from 'react'
 import { PERSONAL_INFO } from '../../data/constants'
 import { HiLocationMarker, HiBriefcase } from 'react-icons/hi'
 import CountUp from '../ui/CountUp'
 import { motion } from 'framer-motion'
 import SectionDivider from '../ui/SectionDivider'
-import { scrollBehavior } from '../../lib/motion'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -12,22 +10,10 @@ const fadeUp = {
 }
 
 function About() {
-  const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    e.preventDefault()
-    const target = document.querySelector(href)
-    const scrollRoot = document.querySelector('main')
-    if (target && scrollRoot) {
-      const targetRect = target.getBoundingClientRect()
-      const containerRect = scrollRoot.getBoundingClientRect()
-      const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
-      scrollRoot.scrollTo({ top: offset, behavior: scrollBehavior() })
-    }
-  }
-
   return (
     <section
       id="about"
-      className="snap-start min-h-[100dvh] flex items-center bg-ground py-20 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center bg-ground py-20 relative overflow-hidden"
     >
       {/* Divider → Skills */}
       <SectionDivider
@@ -121,9 +107,6 @@ function About() {
             <div className="pt-4">
               <a
                 href="#contact"
-                onClick={function (e) {
-                  handleSmoothScroll(e, '#contact')
-                }}
                 className="inline-block px-8 py-3 bg-accent text-on-accent font-medium rounded-full hover:bg-accent/90 hover:shadow-lg transition-all"
               >
                 Let's Work Together

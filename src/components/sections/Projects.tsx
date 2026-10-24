@@ -160,7 +160,7 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="snap-start min-h-[100dvh] flex items-center bg-ground py-20 pb-28 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center bg-ground py-20 pb-28 relative overflow-hidden"
     >
       <div
         className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"

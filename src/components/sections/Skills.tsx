@@ -104,7 +104,7 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="snap-start min-h-[100dvh] bg-ground py-12 pt-24 pb-20 relative overflow-hidden"
+      className="min-h-[100svh] bg-ground py-12 pt-24 pb-20 relative overflow-hidden"
     >
       {/* Divider → Projects (white / gray-900) */}
       <SectionDivider

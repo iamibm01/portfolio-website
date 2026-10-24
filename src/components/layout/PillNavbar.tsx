@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { NAV_ITEMS } from '../../data/constants'
 import { useTheme } from '../../context/useTheme'
-import { prefersReducedMotion, scrollBehavior } from '../../lib/motion'
+import { prefersReducedMotion } from '../../lib/motion'
 
 const ease = 'power3.out'
 // gsap tweens collapse to instant under reduced motion
@@ -25,20 +25,6 @@ function PillNavbar() {
   const pillColor = 'rgb(var(--accent))'
   const pillTint = 'rgb(var(--accent) / 0.13)'
   const pillTextColor = 'rgb(var(--on-accent))'
-
-  // Smooth scroll handler — scroll the snap container directly so Android
-  // Chrome doesn't fight between scrollIntoView and snap-mandatory.
-  const handleNavClick = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    e.preventDefault()
-    const target = document.querySelector(href)
-    const scrollRoot = document.querySelector('main')
-    if (target && scrollRoot) {
-      const targetRect = target.getBoundingClientRect()
-      const containerRect = scrollRoot.getBoundingClientRect()
-      const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
-      scrollRoot.scrollTo({ top: offset, behavior: scrollBehavior() })
-    }
-  }
 
   // Initial load animation
   useEffect(function () {
@@ -65,9 +51,7 @@ function PillNavbar() {
 
   // Track active section and show/hide background
   useEffect(function () {
-    const scrollRoot = document.querySelector('main')
     const observerOptions = {
-      root: scrollRoot,
       rootMargin: '-45% 0px -45% 0px',
       threshold: 0,
     }
@@ -246,9 +230,6 @@ function PillNavbar() {
                     <a
                       href={item.href}
                       aria-current={isActive ? 'location' : undefined}
-                      onClick={function (e) {
-                        handleNavClick(e, item.href)
-                      }}
                       className="relative inline-flex flex-col items-center justify-center h-full no-underline rounded-full box-border font-semibold text-sm uppercase tracking-wide whitespace-nowrap cursor-pointer transition-all duration-300 gap-0.5"
                       style={{
                         background: isActive ? pillColor : 'transparent',
@@ -355,10 +336,7 @@ function PillNavbar() {
                 <li key={item.href} className="flex justify-center">
                   <a
                     href={item.href}
-                    onClick={function (e) {
-                      handleNavClick(e, item.href)
-                      setTimeout(closeMobileMenu, 150)
-                    }}
+                    onClick={closeMobileMenu}
                     className="inline-flex items-center py-2.5 px-6 text-base font-semibold rounded-full transition-all duration-300"
                     style={{
                       background: isActive ? pillColor : 'transparent',

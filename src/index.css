@@ -37,7 +37,6 @@ html {
 }
 
 body {
-  overflow: hidden;
   background-color: rgb(var(--ground));
   color: rgb(var(--ink));
 }
