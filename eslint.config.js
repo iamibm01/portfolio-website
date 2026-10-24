@@ -9,7 +9,8 @@ import prettierConfig from 'eslint-config-prettier'
 export default [
   // Ignore common directories
   {
-    ignores: ['dist', 'server/dist', 'node_modules', '.git']
+    // .agents and .claude hold vendored AI-tooling skills, not site code
+    ignores: ['dist', 'server/dist', 'node_modules', '.git', '.agents', '.claude', '.taste-skill'],
   },
   
   // Base JavaScript rules
