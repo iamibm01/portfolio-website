@@ -95,6 +95,7 @@ export default {
         'stagger-2': 'fadeIn 0.4s ease-out 1.1s backwards',
         'stagger-3': 'fadeIn 0.4s ease-out 1.2s backwards',
         'cta-pulse': 'ctaPulse 3.5s ease-in-out infinite', // ProjectCard "Learn more" button
+        marquee: 'marquee 50s linear infinite', // About skills strip
       },
 
       keyframes: {
@@ -111,6 +112,11 @@ export default {
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
         // Opacity and transform only, so it stays on the compositor (no border-width or box-shadow)
+        // The track holds two copies of the list, so -50% lands exactly on the start of the second
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         // Two quick beats, then a rest; scale only, so the button stays fully opaque
         ctaPulse: {
           '0%, 20%, 40%, 100%': { transform: 'scale(1)' },

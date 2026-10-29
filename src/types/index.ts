@@ -11,14 +11,6 @@ export interface NavigationItem {
   href: string
 }
 
-// Skill proficiency levels
-export enum SkillLevel {
-  Beginner = 'Beginner',
-  Intermediate = 'Intermediate',
-  Advanced = 'Advanced',
-  Expert = 'Expert',
-}
-
 // Skill category
 export enum SkillCategory {
   Frontend = 'Frontend',
@@ -32,7 +24,6 @@ export enum SkillCategory {
 export interface Skill {
   name: string
   category: SkillCategory
-  level: SkillLevel
   icon?: string
 }
 // Project status

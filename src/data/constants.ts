@@ -10,7 +10,8 @@ export const PERSONAL_INFO = {
   location: 'Lahore, Pakistan',
   title: 'Product Engineer',
   tagline: 'Building seamless products from concept to launch',
-  bio: `I'm a Product Engineer who loves building things, from pixel-perfect UIs in React and Next.js to clean, scalable backends in Node.js and NestJS. I care about the full picture: performance, architecture, and the small interactions that make a product feel genuinely polished rather than just functional. I'm drawn to startups and SaaS companies building at the intersection of AI and great product experience where moving fast still means building things right.`,
+  statement: 'I build products end to end.',
+  bio: `From pixel-perfect interfaces in React and Next.js to clean, scalable backends in Node.js and NestJS. I care about performance, architecture and the small interactions that make software feel polished, not just functional. I'm drawn to startups and SaaS teams working where AI meets great product experience.`,
   availability: 'Open to full-time and freelance opportunities',
 }
 
@@ -19,10 +20,6 @@ export const NAV_ITEMS: NavigationItem[] = [
   {
     label: 'About',
     href: '#about',
-  },
-  {
-    label: 'Skills',
-    href: '#skills',
   },
   {
     label: 'Projects',
