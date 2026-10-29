@@ -44,7 +44,8 @@ export interface Project {
   title: string
   description: string
   longDescription?: string
-  image: string
+  image: string // still preview, and the poster when there is a video
+  video?: string // looping screen recording, muted
   technologies: string[]
   liveUrl?: string
   githubUrl?: string

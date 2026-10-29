@@ -38,9 +38,9 @@ export default {
           { lineHeight: '1', letterSpacing: '-0.03em' },
         ], // section h2
         display: [
-          'clamp(3rem, 1rem + 8.5vw, 8.5rem)',
+          'clamp(3rem, 0.5rem + 7vw, 7.5rem)',
           { lineHeight: '0.95', letterSpacing: '-0.035em' },
-        ], // h1
+        ], // h1, sized for the half-width hero column
 
         // Legacy steps, retired as each section is rebuilt (hero: step 4, sections: step 6)
         'hero-sm': ['3.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 56px
@@ -94,6 +94,7 @@ export default {
         'stagger-1': 'fadeIn 0.4s ease-out 1s backwards',
         'stagger-2': 'fadeIn 0.4s ease-out 1.1s backwards',
         'stagger-3': 'fadeIn 0.4s ease-out 1.2s backwards',
+        'cta-pulse': 'ctaPulse 3.5s ease-in-out infinite', // ProjectCard "Learn more" button
       },
 
       keyframes: {
@@ -108,6 +109,12 @@ export default {
         fadeScale: {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        // Opacity and transform only, so it stays on the compositor (no border-width or box-shadow)
+        // Two quick beats, then a rest; scale only, so the button stays fully opaque
+        ctaPulse: {
+          '0%, 20%, 40%, 100%': { transform: 'scale(1)' },
+          '10%, 30%': { transform: 'scale(1.06)' },
         },
       },
     },

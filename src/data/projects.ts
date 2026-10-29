@@ -8,7 +8,6 @@ export const projects: Project[] = [
       'A production-ready, fully modular SaaS boilerplate designed to serve as a scalable foundation for modern web applications. Features built-in auth, multi-tenancy, role-based access control, and billing integration out of the box.',
     image: '/images/saas-boilerplate.png',
     technologies: ['Next.js', 'NestJS', 'TypeScript', 'PostgreSQL', 'Prisma', 'AWS', 'Docker'],
-    liveUrl: 'https://your-boilerplate-demo.com',
     githubUrl: 'https://github.com/iamibm01/saas-boilerplate',
     status: 'in-progress',
     featured: true,

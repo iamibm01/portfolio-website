@@ -10,7 +10,7 @@ Colour tokens switch with the theme on their own, so no `dark:` pair is needed.
 
 | Class          | Size           | Use                           |
 | -------------- | -------------- | ----------------------------- |
-| `text-display` | 48–136px fluid | the one h1                    |
+| `text-display` | 48–120px fluid | the one h1                    |
 | `text-title`   | 36–64px fluid  | section h2                    |
 | `text-lead`    | 22–28px fluid  | a statement or intro sentence |
 | `text-base`    | 18px           | body                          |
