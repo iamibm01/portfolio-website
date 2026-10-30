@@ -35,8 +35,12 @@ export interface Project {
   title: string
   description: string
   longDescription?: string
-  image: string // still preview, and the poster when there is a video
+  image: string // hero card art (6:7), and the video poster when there is no screenshot
   video?: string // looping screen recording, muted
+  screenshot?: string // 16:10 still for the Projects slide
+  problem?: string // Projects slide: "The problem"
+  built?: string // Projects slide: "What I built"
+  result?: string // Projects slide: "The result"
   technologies: string[]
   liveUrl?: string
   githubUrl?: string

@@ -80,6 +80,7 @@ function ProjectCarousel() {
               <ProjectCard
                 title={name}
                 description={project.description}
+                href={`#project-${project.id}`}
                 media={{
                   type: project.video ? 'video' : 'image',
                   src: project.video ?? project.image,

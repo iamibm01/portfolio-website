@@ -6,9 +6,11 @@ interface ProjectMediaProps {
   eager?: boolean // the first card is on screen at load
 }
 
-// 16:10 frame: a looping screen recording when the project has one, else the still
+// 16:10 frame: a looping screen recording when the project has one, else the 16:10 screenshot
+// (falling back to the card art)
 function ProjectMedia({ project, eager = false }: ProjectMediaProps) {
   const name = project.title.split(' — ')[0]
+  const still = project.screenshot ?? project.image
 
   return (
     <div className="aspect-[16/10] overflow-hidden bg-field">
@@ -16,7 +18,7 @@ function ProjectMedia({ project, eager = false }: ProjectMediaProps) {
         <video
           className="w-full h-full object-cover"
           src={project.video}
-          poster={project.image}
+          poster={still}
           muted
           loop
           playsInline
@@ -27,7 +29,7 @@ function ProjectMedia({ project, eager = false }: ProjectMediaProps) {
       ) : (
         <img
           className="w-full h-full object-cover"
-          src={project.image}
+          src={still}
           alt={`${name} preview`}
           width={1600}
           height={1000}

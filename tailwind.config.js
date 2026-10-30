@@ -9,6 +9,15 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      // Wide and tall enough for a full-screen slide, and motion allowed: Projects pins and
+      // scrolls sideways. The same query is used in Projects.tsx (PIN_QUERY).
+      screens: {
+        pin: {
+          raw: '(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)',
+        },
+        short: { raw: '(max-height: 820px)' }, // tightens the pinned Projects slides on laptop heights
+      },
+
       colors: {
         ground: token('ground'), // page
         surface: token('surface'), // tone step instead of borders and shadows

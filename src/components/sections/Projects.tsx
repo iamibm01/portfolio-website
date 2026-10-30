@@ -1,242 +1,189 @@
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { projects } from '../../data/projects'
-import { motion } from 'framer-motion'
-import { FaReact, FaNodeJs, FaGithub, FaHtml5, FaCss3Alt, FaJs } from 'react-icons/fa'
-import {
-  SiTypescript,
-  SiTailwindcss,
-  SiNextdotjs,
-  SiPostgresql,
-  SiExpress,
-  SiPrisma,
-} from 'react-icons/si'
-import { TbApi, TbCloud } from 'react-icons/tb'
+import { prefersReducedMotion } from '../../lib/motion'
+import ProjectSlide from '../ui/ProjectSlide'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0 },
-}
+// Same query as the `pin` screen in tailwind.config.js
+const PIN_QUERY =
+  '(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)'
 
-const cardVariant = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0 },
-}
+const total = projects.length
+// Extra scroll, in screens, during which the first and last slides stay put before the section
+// releases, so the pin doesn't let go the instant you reach either end
+const HOLD = 0.8
+// How far past a slide (as a share of the gap to the next) a scroll must go to snap onward
+const SNAP_ONWARD = 0.1
 
-// Map tech name → icon component + brand color
-const TECH_META: Record<string, { icon: React.ReactNode; color: string }> = {
-  React: { icon: <FaReact />, color: '#61dafb' },
-  TypeScript: { icon: <SiTypescript />, color: '#3178c6' },
-  'Tailwind CSS': { icon: <SiTailwindcss />, color: '#06b6d4' },
-  JavaScript: { icon: <FaJs />, color: '#f7df1e' },
-  'Node.js': { icon: <FaNodeJs />, color: '#68a063' },
-  'Next.js': { icon: <SiNextdotjs />, color: '#ffffff' },
-  PostgreSQL: { icon: <SiPostgresql />, color: '#336791' },
-  Express: { icon: <SiExpress />, color: '#ffffff' },
-  Prisma: { icon: <SiPrisma />, color: '#5a67d8' },
-  'REST API': { icon: <TbApi />, color: '#f97316' },
-  HTML: { icon: <FaHtml5 />, color: '#e34f26' },
-  CSS: { icon: <FaCss3Alt />, color: '#1572b6' },
-  GitHub: { icon: <FaGithub />, color: '#ffffff' },
-}
-
-function getFallbackIcon(name: string) {
-  if (name.toLowerCase().includes('api') || name.toLowerCase().includes('weather'))
-    return { icon: <TbCloud />, color: '#94a3b8' }
-  return { icon: <TbApi />, color: '#94a3b8' }
-}
-
-// Gradient palettes keyed to the first matching tech
-const PALETTE_MAP: Record<string, [string, string]> = {
-  React: ['#0f172a', '#0ea5e922'],
-  TypeScript: ['#0f172a', '#3b82f622'],
-  'Tailwind CSS': ['#0c1a26', '#06b6d422'],
-  JavaScript: ['#1c1400', '#f59e0b22'],
-  'Node.js': ['#0a1a0a', '#22c55e22'],
-  'Next.js': ['#0a0a0a', '#71717a22'],
-  PostgreSQL: ['#0a0f1e', '#3b82f622'],
-}
-
-function getGradient(technologies: string[]): string {
-  for (const tech of technologies) {
-    const pair = PALETTE_MAP[tech]
-    if (pair) return `linear-gradient(135deg, ${pair[0]} 0%, ${pair[1]} 100%)`
-  }
-  return 'linear-gradient(135deg, #0f172a 0%, #f9731622 100%)'
-}
-
-const STATUS_LABEL: Record<string, { label: string; color: string }> = {
-  completed: { label: 'Completed', color: '#22c55e' },
-  'in-progress': { label: 'In Progress', color: '#f59e0b' },
-  planned: { label: 'Planned', color: '#94a3b8' },
-}
-
-interface ProjectPlaceholderProps {
-  title: string
-  technologies: string[]
-  status: string
-}
-
-function ProjectPlaceholder({ title, technologies, status }: ProjectPlaceholderProps) {
-  const gradient = getGradient(technologies)
-  const statusMeta = STATUS_LABEL[status] ?? { label: status, color: '#94a3b8' }
-
-  return (
-    <div
-      className="w-full h-52 relative overflow-hidden select-none"
-      style={{ background: gradient }}
-    >
-      {/* Subtle dot texture overlay */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
-        }}
-      />
-
-      {/* Browser chrome bar */}
-      <div className="absolute top-0 left-0 right-0 h-8 bg-black/30 backdrop-blur-sm flex items-center px-3 gap-2 border-b border-white/10">
-        <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
-        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
-        <span className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
-        <div className="ml-2 flex-1 h-4 bg-white/10 rounded-full flex items-center px-2.5">
-          <span className="text-white/40 text-[9px] font-mono tracking-wide truncate">
-            {title.toLowerCase().replace(/\s+/g, '-')}.vercel.app
-          </span>
-        </div>
-      </div>
-
-      {/* Status badge */}
-      <div className="absolute top-10 right-3">
-        <span
-          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold backdrop-blur-sm"
-          style={{
-            background: `${statusMeta.color}22`,
-            color: statusMeta.color,
-            border: `1px solid ${statusMeta.color}44`,
-          }}
-        >
-          <span className="w-1 h-1 rounded-full" style={{ background: statusMeta.color }} />
-          {statusMeta.label}
-        </span>
-      </div>
-
-      {/* Tech icons — floating pills */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pt-4">
-        <div className="flex items-center gap-2 flex-wrap justify-center px-6">
-          {technologies.slice(0, 4).map(tech => {
-            const meta = TECH_META[tech] ?? getFallbackIcon(tech)
-            return (
-              <div
-                key={tech}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full backdrop-blur-sm text-xs font-medium"
-                style={{
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: meta.color,
-                }}
-              >
-                <span className="text-sm">{meta.icon}</span>
-                <span className="text-white/70">{tech}</span>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Project title — large ghost text */}
-        <p
-          className="text-white/10 font-bold text-2xl tracking-tight text-center px-4 leading-tight"
-          style={{ textShadow: '0 0 40px rgba(255,255,255,0.05)' }}
-        >
-          {title}
-        </p>
-      </div>
-    </div>
-  )
-}
-
+// Pinned mode: the section is one screen tall per slide, and a full-screen frame sticks to the top
+// while native vertical scrolling slides the row sideways. Nothing intercepts the wheel, so the
+// scrollbar, keyboard and anchors keep working. Narrow, short or reduced-motion screens stack the
+// slides instead.
 function Projects() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+  const [current, setCurrent] = useState(0)
+
+  useEffect(function () {
+    const section = sectionRef.current
+    const track = trackRef.current
+    const bar = barRef.current
+    if (!section || !track || !bar) return
+    const pin = window.matchMedia(PIN_QUERY)
+    let frame = 0
+
+    // Scroll length over which the slides actually move, after the hold at each end
+    function travel() {
+      const hold = HOLD * window.innerHeight
+      return { hold, length: section!.offsetHeight - window.innerHeight - 2 * hold }
+    }
+
+    // Page offset at which slide `i` is fully in view
+    function slideTop(i: number) {
+      const top = section!.getBoundingClientRect().top + window.scrollY
+      const { hold, length } = travel()
+      return top + hold + (length * i) / Math.max(total - 1, 1)
+    }
+
+    function update() {
+      frame = 0
+      if (!pin.matches) {
+        track!.style.transform = ''
+        bar!.style.transform = ''
+        return
+      }
+      const { hold, length } = travel()
+      const scrolled = -section!.getBoundingClientRect().top - hold
+      const progress = Math.min(Math.max(scrolled / length, 0), 1)
+      const shift = track!.scrollWidth - track!.clientWidth
+      track!.style.transform = `translate3d(${-Math.round(progress * shift)}px, 0, 0)`
+      bar!.style.transform = `scaleX(${progress})`
+      setCurrent(Math.round(progress * (total - 1)))
+    }
+    let lastY = window.scrollY
+    let direction = 0
+    let settle: ReturnType<typeof setTimeout> | undefined
+    const hasScrollEnd = 'onscrollend' in window
+    function onScroll() {
+      if (!frame) frame = requestAnimationFrame(update)
+      if (window.scrollY !== lastY) direction = Math.sign(window.scrollY - lastY)
+      lastY = window.scrollY
+      // Any new scroll cancels a pending snap. Browsers without scrollend wait for a pause instead.
+      clearTimeout(settle)
+      if (!hasScrollEnd) settle = setTimeout(snap, 200)
+    }
+    // scrollend also fires between mouse-wheel notches, so give the next notch a moment to land
+    function onScrollEnd() {
+      clearTimeout(settle)
+      settle = setTimeout(snap, 150)
+    }
+
+    // Once scrolling stops between two slides, glide to one: onward if the scroll went more than
+    // SNAP_ONWARD of the way, else back. The holds at either end never snap, so leaving stays free.
+    function snap() {
+      if (!pin.matches) return
+      const { hold, length } = travel()
+      const scrolled = -section!.getBoundingClientRect().top - hold
+      if (scrolled <= 1 || scrolled >= length - 1) return
+      const position = (scrolled / length) * (total - 1)
+      const from = Math.floor(position)
+      const part = position - from
+      if (part < 0.01 || part > 0.99) return
+      const target =
+        direction >= 0
+          ? part > SNAP_ONWARD
+            ? from + 1
+            : from
+          : part < 1 - SNAP_ONWARD
+            ? from
+            : from + 1
+      goTo(target, true)
+    }
+
+    function slideIndex(id: string) {
+      return projects.findIndex(project => `project-${project.id}` === id)
+    }
+    function goTo(i: number, smooth: boolean) {
+      window.scrollTo({
+        top: slideTop(i),
+        behavior: smooth && !prefersReducedMotion() ? 'smooth' : 'auto',
+      })
+    }
+
+    // A moved slide can't be an anchor target, so links to #project-<id> scroll the page instead
+    function onClick(event: MouseEvent) {
+      if (!pin.matches) return
+      const link = (event.target as Element).closest?.('a[href^="#project-"]')
+      const i = link ? slideIndex(link.getAttribute('href')!.slice(1)) : -1
+      if (i < 0) return
+      event.preventDefault()
+      history.pushState(null, '', `#project-${projects[i].id}`)
+      goTo(i, true)
+    }
+
+    // Tabbing to a link on another slide brings that slide into place
+    function onFocusIn(event: FocusEvent) {
+      if (!pin.matches) return
+      const slide = (event.target as Element).closest('article[id^="project-"]')
+      if (slide) goTo(slideIndex(slide.id), false)
+    }
+
+    update()
+    if (pin.matches && location.hash.startsWith('#project-')) {
+      const i = slideIndex(location.hash.slice(1))
+      if (i >= 0) goTo(i, false)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scrollend', onScrollEnd)
+    window.addEventListener('resize', onScroll)
+    pin.addEventListener('change', onScroll)
+    document.addEventListener('click', onClick)
+    track.addEventListener('focusin', onFocusIn)
+
+    return function () {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('scrollend', onScrollEnd)
+      clearTimeout(settle)
+      window.removeEventListener('resize', onScroll)
+      pin.removeEventListener('change', onScroll)
+      document.removeEventListener('click', onClick)
+      track.removeEventListener('focusin', onFocusIn)
+      cancelAnimationFrame(frame)
+    }
+  }, [])
+
   return (
     <section
+      ref={sectionRef}
       id="projects"
-      className="min-h-[100svh] flex items-center py-20 pb-28 relative overflow-hidden"
+      style={{ '--slides': total, '--hold': HOLD } as CSSProperties}
+      className="relative py-24 pin:py-0 pin:h-[calc((var(--slides)+2*var(--hold))*100svh)]"
     >
-      <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-        <motion.div
-          className="text-center mb-16"
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+      <div className="pin:sticky pin:top-0 pin:h-[100svh] pin:flex pin:flex-col pin:[overflow:clip]">
+        <div className="max-w-7xl w-full mx-auto px-6 pin:pt-24 pin:short:pt-20 mb-12 pin:mb-0">
+          <div className="flex items-end justify-between gap-6">
+            <h2 className="text-title pin:short:text-[2.5rem] font-bold text-ink">Selected work</h2>
+            <p
+              aria-hidden="true"
+              className="hidden pin:block text-lead font-semibold text-ink tabular-nums"
+            >
+              {String(current + 1).padStart(2, '0')}
+              <span className="text-muted"> / {String(total).padStart(2, '0')}</span>
+            </p>
+          </div>
+          <div aria-hidden="true" className="hidden pin:block mt-4 h-0.5 bg-surface">
+            <div ref={barRef} className="h-full bg-accent origin-left scale-x-0" />
+          </div>
+        </div>
+
+        <div
+          ref={trackRef}
+          className="flex flex-col gap-24 pin:gap-0 pin:flex-row pin:flex-1 pin:min-h-0 will-change-transform"
         >
-          <h2 className="text-3xl md:text-section-md font-semibold text-ink mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-base text-muted">A selection of my recent work</p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {projects.map(function (project, index) {
-            return (
-              <motion.div
-                key={project.id}
-                variants={cardVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.55, delay: index * 0.12, ease: 'easeOut' }}
-                className="bg-white/30 dark:bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden hover:shadow-xl transition-shadow border border-white/40 dark:border-white/15"
-              >
-                <ProjectPlaceholder
-                  title={project.title}
-                  technologies={project.technologies}
-                  status={project.status}
-                />
-
-                <div className="p-6 space-y-4">
-                  <h3 className="font-semibold text-ink text-xl">{project.title}</h3>
-
-                  <p className="text-base text-muted">{project.description}</p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map(function (tech) {
-                      return (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-white/40 dark:bg-white/10 backdrop-blur-md text-accent text-sm font-medium rounded-full border border-white/30 dark:border-white/10"
-                        >
-                          {tech}
-                        </span>
-                      )
-                    })}
-                  </div>
-
-                  <div className="flex gap-4 pt-2">
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 py-2 bg-accent text-on-accent font-medium rounded-full hover:bg-accent/90 transition-colors"
-                      >
-                        View Live
-                      </a>
-                    )}
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 py-2 border-2 border-accent text-accent font-medium rounded-full hover:bg-accent hover:text-on-accent transition-all"
-                      >
-                        View Code
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            )
+            return <ProjectSlide key={project.id} project={project} index={index} total={total} />
           })}
         </div>
       </div>
