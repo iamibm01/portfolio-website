@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { experience } from '../../data/experience'
 import { motion, AnimatePresence } from 'framer-motion'
-import SectionDivider from '../ui/SectionDivider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -27,19 +26,8 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="snap-start min-h-[100dvh] flex items-center bg-white dark:bg-gray-900 py-20 pt-24 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center py-20 pt-24 relative overflow-hidden"
     >
-      {/* Divider → Contact (white / gray-900) */}
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="left" />
-
-      <div
-        className="absolute inset-0 opacity-[0.35] dark:opacity-[0.18]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-          backgroundSize: '16px 16px',
-        }}
-      />
-
       <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
         {/* Section header */}
         <motion.div
@@ -50,12 +38,10 @@ function Experience() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-3xl md:text-section-md font-heading font-semibold text-light-text-primary dark:text-white mb-4">
+          <h2 className="text-3xl md:text-section-md font-semibold text-ink mb-4">
             Work Experience
           </h2>
-          <p className="text-body-lg text-light-text-secondary dark:text-gray-400">
-            My professional journey
-          </p>
+          <p className="text-base text-muted">My professional journey</p>
         </motion.div>
 
         {/* Timeline container */}
@@ -63,7 +49,7 @@ function Experience() {
           <div className="relative">
             {/* Vertical rail line */}
             <div
-              className="absolute left-[19px] top-3 bottom-3 w-px bg-gradient-to-b from-primary via-primary/60 to-primary/20 dark:from-primary-light dark:via-primary-light/50 dark:to-primary-light/10"
+              className="absolute left-[19px] top-3 bottom-3 w-px bg-gradient-to-b from-accent via-accent/60 to-accent/20"
               aria-hidden="true"
             />
 
@@ -87,13 +73,13 @@ function Experience() {
                       {isCurrent ? (
                         // Pulsing filled dot for current role
                         <div className="relative w-10 h-10 flex items-center justify-center">
-                          <span className="absolute inline-flex w-5 h-5 rounded-full bg-primary/40 dark:bg-primary-light/40 animate-ping" />
-                          <span className="relative w-4 h-4 rounded-full bg-primary dark:bg-primary-light shadow-lg shadow-primary/40 dark:shadow-primary-light/40" />
+                          <span className="absolute inline-flex w-5 h-5 rounded-full bg-accent/40 animate-ping" />
+                          <span className="relative w-4 h-4 rounded-full bg-accent shadow-lg shadow-accent/40" />
                         </div>
                       ) : (
                         // Outlined ring for past roles
                         <div className="w-10 h-10 flex items-center justify-center">
-                          <span className="w-4 h-4 rounded-full border-2 border-primary dark:border-primary-light bg-light-bg dark:bg-gray-800" />
+                          <span className="w-4 h-4 rounded-full border-2 border-accent bg-ground" />
                         </div>
                       )}
                     </div>
@@ -103,7 +89,7 @@ function Experience() {
                       className={`flex-1 rounded-2xl overflow-hidden border transition-all duration-300 cursor-pointer select-none
                         ${
                           isCurrent
-                            ? 'bg-white/40 dark:bg-white/10 border-primary/30 dark:border-primary-light/30 shadow-md shadow-primary/10 dark:shadow-primary-light/10'
+                            ? 'bg-white/40 dark:bg-white/10 border-accent/30 shadow-md shadow-accent/10'
                             : 'bg-white/25 dark:bg-white/5 border-white/40 dark:border-white/10 hover:bg-white/35 dark:hover:bg-white/8'
                         }
                         ${isOpen ? 'shadow-xl' : 'hover:shadow-md'}
@@ -125,42 +111,38 @@ function Experience() {
                           <div className="flex-1 min-w-0">
                             {/* Role + current badge */}
                             <div className="flex items-center gap-2 flex-wrap mb-1">
-                              <h3 className="font-heading font-semibold text-light-text-primary dark:text-white text-base leading-snug">
+                              <h3 className="font-semibold text-ink text-base leading-snug">
                                 {exp.role}
                               </h3>
                               {isCurrent && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary/15 dark:bg-primary-light/15 text-primary dark:text-primary-light text-xs font-semibold rounded-full border border-primary/25 dark:border-primary-light/25">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-primary dark:bg-primary-light" />
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-accent/15 text-accent text-xs font-semibold rounded-full border border-accent/25">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                                   Current
                                 </span>
                               )}
                             </div>
 
                             {/* Company + location */}
-                            <p className="text-sm font-medium text-primary dark:text-primary-light">
+                            <p className="text-sm font-medium text-accent">
                               {exp.company}
-                              <span className="text-light-text-secondary dark:text-gray-500 font-normal mx-1.5">
-                                ·
-                              </span>
-                              <span className="text-light-text-secondary dark:text-gray-400 font-normal">
-                                {exp.location}
-                              </span>
+                              <span className="text-muted font-normal mx-1.5">·</span>
+                              <span className="text-muted font-normal">{exp.location}</span>
                             </p>
                           </div>
 
                           {/* Date + chevron */}
                           <div className="flex items-center gap-3 flex-shrink-0">
-                            <span className="text-xs text-light-text-secondary dark:text-gray-400 text-right leading-relaxed whitespace-nowrap">
+                            <span className="text-xs text-muted text-right leading-relaxed whitespace-nowrap">
                               {formatDate(exp.startDate)}
                               <br />
-                              <span className="text-light-text-secondary/70 dark:text-gray-500">
+                              <span className="text-muted">
                                 {isCurrent ? 'Present' : exp.endDate ? formatDate(exp.endDate) : ''}
                               </span>
                             </span>
 
                             {/* Animated chevron */}
                             <motion.svg
-                              className="w-4 h-4 text-primary dark:text-primary-light flex-shrink-0"
+                              className="w-4 h-4 text-accent flex-shrink-0"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -178,9 +160,7 @@ function Experience() {
                         </div>
 
                         {/* Description — always visible */}
-                        <p className="mt-3 text-sm text-light-text-secondary dark:text-gray-400 leading-relaxed">
-                          {exp.description}
-                        </p>
+                        <p className="mt-3 text-sm text-muted leading-relaxed">{exp.description}</p>
                       </div>
 
                       {/* Expandable details */}
@@ -197,16 +177,16 @@ function Experience() {
                             <div className="px-5 pb-5 pt-1 space-y-4 border-t border-white/30 dark:border-white/10">
                               {/* Responsibilities */}
                               <div>
-                                <p className="text-xs font-bold text-light-text-primary dark:text-gray-300 mb-2.5 uppercase tracking-widest">
+                                <p className="text-xs font-bold text-ink mb-2.5 uppercase tracking-widest">
                                   Responsibilities
                                 </p>
                                 <ul className="space-y-2">
                                   {exp.responsibilities.map((r, i) => (
                                     <li
                                       key={i}
-                                      className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400"
+                                      className="flex items-start gap-2.5 text-sm text-muted"
                                     >
-                                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/60 dark:bg-primary-light/60 flex-shrink-0" />
+                                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent/60 flex-shrink-0" />
                                       {r}
                                     </li>
                                   ))}
@@ -216,18 +196,16 @@ function Experience() {
                               {/* Achievements */}
                               {exp.achievements && exp.achievements.length > 0 && (
                                 <div>
-                                  <p className="text-xs font-bold text-primary dark:text-primary-light mb-2.5 uppercase tracking-widest">
+                                  <p className="text-xs font-bold text-accent mb-2.5 uppercase tracking-widest">
                                     Achievements
                                   </p>
                                   <ul className="space-y-2">
                                     {exp.achievements.map((a, i) => (
                                       <li
                                         key={i}
-                                        className="flex items-start gap-2.5 text-sm text-light-text-secondary dark:text-gray-400"
+                                        className="flex items-start gap-2.5 text-sm text-muted"
                                       >
-                                        <span className="mt-0.5 text-primary dark:text-primary-light flex-shrink-0">
-                                          ✓
-                                        </span>
+                                        <span className="mt-0.5 text-accent flex-shrink-0">✓</span>
                                         {a}
                                       </li>
                                     ))}

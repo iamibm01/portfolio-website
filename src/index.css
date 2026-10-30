@@ -1,16 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&family=Fira+Code&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Colour tokens as RGB channels, read by tailwind.config.js.
+   Contrast (WCAG): ink/ground 17:1, muted/ground 8.2:1, accent/ground 5.5:1,
+   accent/surface 4.9:1, on-accent/accent 6:1. Dark: accent/ground 8.3:1, on-accent/accent 8.3:1. */
+:root {
+  --ground: 245 245 243;
+  --surface: 234 234 230;
+  --ink: 18 18 18;
+  --muted: 74 74 71;
+  --accent: 179 58 11;
+  --on-accent: 255 255 255;
+  --field: 18 18 18;
+  --diff-add: 227 241 225;
+  --diff-del: 246 225 218;
+  --dot-alpha: 0.35;
+  color-scheme: light;
+}
+
+.dark {
+  --ground: 17 17 16;
+  --surface: 28 28 26;
+  --ink: 242 242 239;
+  --muted: 163 163 158;
+  --accent: 251 146 60;
+  --on-accent: 18 18 18;
+  --field: 28 28 26;
+  --diff-add: 30 52 34;
+  --diff-del: 64 34 26;
+  --dot-alpha: 0.18;
+  color-scheme: dark;
+}
 
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
 
+/* One dot grid for the whole page, so it runs unbroken across sections */
 body {
-  overflow: hidden;
+  background-color: rgb(var(--ground));
+  background-image: radial-gradient(
+    circle,
+    rgb(var(--accent) / var(--dot-alpha)) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+  color: rgb(var(--ink));
 }
 
 /* Only transition colors during the dark mode toggle — not all the time.
@@ -20,11 +57,26 @@ body {
   transition-duration: 500ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* Grid SVG Background Styles */
-.grid-svg-container svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* One focus ring for every control; mouse clicks don't show it */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+}
+
+/* Keep content, drop travel: animations jump to their end state */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Chat scrollbar */
@@ -35,14 +87,14 @@ body {
   background: transparent;
 }
 .chat-messages::-webkit-scrollbar-thumb {
-  background-color: #f97316;
+  background-color: rgb(var(--accent));
   border-radius: 9999px;
 }
 .chat-messages::-webkit-scrollbar-thumb:hover {
-  background-color: #ea6c0a;
+  background-color: rgb(var(--accent) / 0.85);
 }
 /* Firefox */
 .chat-messages {
   scrollbar-width: thin;
-  scrollbar-color: #f97316 transparent;
+  scrollbar-color: rgb(var(--accent)) transparent;
 }

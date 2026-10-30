@@ -11,14 +11,6 @@ export interface NavigationItem {
   href: string
 }
 
-// Skill proficiency levels
-export enum SkillLevel {
-  Beginner = 'Beginner',
-  Intermediate = 'Intermediate',
-  Advanced = 'Advanced',
-  Expert = 'Expert',
-}
-
 // Skill category
 export enum SkillCategory {
   Frontend = 'Frontend',
@@ -32,7 +24,6 @@ export enum SkillCategory {
 export interface Skill {
   name: string
   category: SkillCategory
-  level: SkillLevel
   icon?: string
 }
 // Project status
@@ -44,7 +35,12 @@ export interface Project {
   title: string
   description: string
   longDescription?: string
-  image: string
+  image: string // hero card art (6:7), and the video poster when there is no screenshot
+  video?: string // looping screen recording, muted
+  screenshot?: string // 16:10 still for the Projects slide
+  problem?: string // Projects slide: "The problem"
+  built?: string // Projects slide: "What I built"
+  result?: string // Projects slide: "The result"
   technologies: string[]
   liveUrl?: string
   githubUrl?: string
