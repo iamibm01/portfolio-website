@@ -58,7 +58,6 @@ export interface Experience {
   current: boolean
   description: string
   responsibilities: string[]
-  achievements?: string[]
 }
 
 // ── AI Chatbot ──────────────────────────────────────────────────────────────
