@@ -1,23 +1,9 @@
-import React from 'react'
 import { PERSONAL_INFO } from '../../data/constants'
 import { socialLinks } from '../../data/socialLinks'
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
-import GradientText from '../ui/GradientText'
-import WavesBackground from '../ui/WavesBackground'
-import SectionDivider from '../ui/SectionDivider'
+import ProjectCarousel from '../ui/ProjectCarousel'
 
 function Hero() {
-  const handleSmoothScroll = function (e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    e.preventDefault()
-    const target = document.querySelector(href)
-    const scrollRoot = document.querySelector('main')
-    if (target && scrollRoot) {
-      const targetRect = target.getBoundingClientRect()
-      const containerRect = scrollRoot.getBoundingClientRect()
-      const offset = targetRect.top - containerRect.top + scrollRoot.scrollTop
-      scrollRoot.scrollTo({ top: offset, behavior: 'smooth' })
-    }
-  }
   const getIcon = function (name: string) {
     switch (name.toLowerCase()) {
       case 'github':
@@ -32,81 +18,46 @@ function Hero() {
   }
 
   return (
+    // Left padding matches max-w-7xl px-6 elsewhere; no right padding so the carousel bleeds off the edge
     <section
       id="hero"
-      className="snap-start min-h-[100dvh] flex items-center justify-center bg-white dark:bg-gray-900 pt-20 relative overflow-hidden"
+      className="min-h-[100svh] flex items-center pt-28 pb-16 lg:pt-20 lg:pb-0 relative overflow-hidden pl-[max(1.5rem,calc((100%_-_80rem)/2_+_1.5rem))]"
     >
-      <WavesBackground />
-
-      {/* Top fade — below navbar (z-50) */}
-      <div
-        className="absolute top-0 left-0 right-0 z-10 pointer-events-none"
-        style={{ height: '40px' }}
-      >
-        <div
-          className="absolute inset-0 dark:hidden"
-          style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }}
-        />
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{ background: 'linear-gradient(to bottom, #111827, transparent)' }}
-        />
-      </div>
-
-      {/* Divider → About (white / gray-900) */}
-      <SectionDivider lightFill="#ffffff" darkFill="#111827" direction="right" />
-      <div className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-        <div className="text-center space-y-6">
-          {/* Small Greeting - Fade In */}
-          <p className="text-secondary font-medium text-body-lg dark:text-secondary-light animate-fade-in">
-            Hi, I'm
-          </p>
-
+      <div className="w-full grid gap-12 lg:gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center">
+        <div className="pr-6 lg:pr-0 space-y-6 relative z-10">
           {/* Large Name - Slide Up (delay 1) */}
-          <h1 className="text-[2.25rem] md:text-hero-sm font-heading font-medium text-gray-900 dark:text-white animate-slide-up-delay-1">
-            <GradientText
-              colors={['#FF6B35', '#F7931E', '#FFB380', '#06B6D4', '#3B82F6']}
-              animationSpeed={5}
-              className="text-[2.25rem] md:text-hero-sm font-heading font-medium"
-            >
-              {PERSONAL_INFO.name}
-            </GradientText>
+          <h1 className="text-display font-bold text-accent animate-slide-up-delay-1">
+            {PERSONAL_INFO.name}
           </h1>
 
           {/* Job Title - Slide Up (delay 2) */}
-          <h2 className="text-xl md:text-section-sm font-heading font-semibold text-primary dark:text-primary-light animate-slide-up-delay-2">
+          <p className="text-lead font-semibold text-ink animate-slide-up-delay-2">
             {PERSONAL_INFO.title}
-          </h2>
+          </p>
 
           {/* Tagline - Slide Up (delay 3) */}
-          <p className="text-body-lg text-light-text-secondary dark:text-gray-400 max-w-2xl mx-auto leading-relaxed animate-slide-up-delay-3">
+          <p className="text-base text-muted max-w-md leading-relaxed animate-slide-up-delay-3">
             {PERSONAL_INFO.tagline}
           </p>
 
           {/* CTA Buttons - Fade Scale */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-fade-scale-delay">
+          <div className="flex flex-wrap gap-4 pt-2 animate-fade-scale-delay">
             <a
               href="#projects"
-              onClick={function (e) {
-                handleSmoothScroll(e, '#projects')
-              }}
-              className="px-8 py-3 bg-gradient-hero text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
+              className="inline-flex items-center min-h-12 px-8 bg-accent text-on-accent font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all"
             >
               View My Work
             </a>
             <a
               href="#contact"
-              onClick={function (e) {
-                handleSmoothScroll(e, '#contact')
-              }}
-              className="px-8 py-3 border-2 border-primary text-primary dark:border-primary-light dark:text-primary-light font-medium rounded-full hover:bg-primary hover:text-white dark:hover:bg-primary-light dark:hover:text-white transition-all"
+              className="inline-flex items-center min-h-12 px-8 border-2 border-accent text-accent font-medium rounded-full hover:bg-accent hover:text-on-accent transition-all"
             >
               Get In Touch
             </a>
           </div>
 
-          {/* Social Links - Stagger Animation */}
-          <div className="flex gap-6 justify-center pt-8">
+          {/* Social Links - Stagger Animation; padding gives 44px targets, -ml keeps icons on the text edge */}
+          <div className="flex gap-2 -ml-2.5 pt-2">
             {socialLinks.map(function (link, index) {
               const animationClass =
                 index === 0
@@ -121,14 +72,18 @@ function Hero() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light transition-all hover:scale-110 ${animationClass}`}
-                  aria-label={link.label}
+                  className={`p-2.5 text-muted hover:text-accent transition-all hover:scale-110 ${animationClass}`}
+                  aria-label={link.label ?? link.name}
                 >
                   {getIcon(link.name)}
                 </a>
               )
             })}
           </div>
+        </div>
+
+        <div className="min-w-0 animate-fade-scale-delay">
+          <ProjectCarousel />
         </div>
       </div>
     </section>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1480" viewBox="0 0 1280 1480">
+  <!-- Placeholder card art for the SaaS Boilerplate. Replace this file, or set image/video in src/data/projects.ts -->
+  <rect x="80" y="80" width="1120" height="1320" rx="40" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="80" y="80" width="1120" height="90" rx="40" fill="#8A8A85" fill-opacity="0.1"/>
+  <circle cx="122" cy="125" r="10" fill="#8A8A85" fill-opacity="0.35"/>
+  <circle cx="157" cy="125" r="10" fill="#8A8A85" fill-opacity="0.35"/>
+  <circle cx="192" cy="125" r="10" fill="#8A8A85" fill-opacity="0.35"/>
+  <rect x="380" y="105" width="520" height="40" rx="20" fill="#8A8A85" fill-opacity="0.16"/>
+  <rect x="80" y="170" width="220" height="1230" rx="0" fill="#8A8A85" fill-opacity="0.06"/>
+  <rect x="116" y="220" width="120" height="18" rx="9" fill="#8A8A85" fill-opacity="0.4"/>
+  <rect x="116" y="284" width="150" height="18" rx="9" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="116" y="348" width="150" height="18" rx="9" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="116" y="412" width="150" height="18" rx="9" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="116" y="476" width="150" height="18" rx="9" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="116" y="540" width="150" height="18" rx="9" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="340" y="210" width="254" height="150" rx="24" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="626" y="210" width="254" height="150" rx="24" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="912" y="210" width="254" height="150" rx="24" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="372" y="246" width="90" height="14" rx="7" fill="#8A8A85" fill-opacity="0.22"/>
+  <rect x="658" y="246" width="90" height="14" rx="7" fill="#8A8A85" fill-opacity="0.22"/>
+  <rect x="944" y="246" width="90" height="14" rx="7" fill="#8A8A85" fill-opacity="0.22"/>
+  <rect x="372" y="284" width="150" height="34" rx="10" fill="#8A8A85" fill-opacity="0.32"/>
+  <rect x="658" y="284" width="150" height="34" rx="10" fill="#8A8A85" fill-opacity="0.32"/>
+  <rect x="944" y="284" width="150" height="34" rx="10" fill="#8A8A85" fill-opacity="0.32"/>
+  <rect x="340" y="392" width="826" height="420" rx="24" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="390" y="640" width="38" height="120" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="460" y="580" width="38" height="180" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="530" y="610" width="38" height="150" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="600" y="520" width="38" height="240" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="670" y="560" width="38" height="200" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="740" y="480" width="38" height="280" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="810" y="530" width="38" height="230" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="880" y="440" width="38" height="320" rx="8" fill="#8A8A85" fill-opacity="0.35"/>
+  <rect x="950" y="500" width="38" height="260" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="1020" y="460" width="38" height="300" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="1090" y="550" width="38" height="210" rx="8" fill="#8A8A85" fill-opacity="0.18"/>
+  <rect x="340" y="844" width="826" height="60" rx="16" fill="#8A8A85" fill-opacity="0.1"/>
+  <rect x="340" y="920" width="826" height="60" rx="16" fill="#8A8A85" fill-opacity="0.07"/>
+  <rect x="340" y="996" width="826" height="60" rx="16" fill="#8A8A85" fill-opacity="0.1"/>
+</svg>
