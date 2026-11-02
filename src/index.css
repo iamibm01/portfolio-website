@@ -12,7 +12,6 @@
   --muted: 74 74 71;
   --accent: 179 58 11;
   --on-accent: 255 255 255;
-  --field: 18 18 18;
   --diff-add: 227 241 225;
   --diff-del: 246 225 218;
   --dot-alpha: 0.35;
@@ -26,7 +25,6 @@
   --muted: 163 163 158;
   --accent: 251 146 60;
   --on-accent: 18 18 18;
-  --field: 28 28 26;
   --diff-add: 30 52 34;
   --diff-del: 64 34 26;
   --dot-alpha: 0.18;
@@ -87,14 +85,14 @@ body {
   background: transparent;
 }
 .chat-messages::-webkit-scrollbar-thumb {
-  background-color: rgb(var(--accent));
+  background-color: rgb(var(--muted) / 0.5);
   border-radius: 9999px;
 }
 .chat-messages::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(var(--accent) / 0.85);
+  background-color: rgb(var(--muted));
 }
 /* Firefox */
 .chat-messages {
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--accent)) transparent;
+  scrollbar-color: rgb(var(--muted) / 0.5) transparent;
 }

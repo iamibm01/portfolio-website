@@ -28,7 +28,6 @@ Colour tokens switch with the theme on their own, so no `dark:` pair is needed.
 | `muted`                | secondary notes only                                  |
 | `accent`               | actions, and little else                              |
 | `on-accent`            | text set on `accent`                                  |
-| `field`                | one full-bleed contrasting section                    |
 | `diff-add`, `diff-del` | inside the diff fragment only                         |
 
 All text pairs pass WCAG AA in both themes; `accent` on `surface` is the tightest at 4.9:1.

@@ -25,7 +25,6 @@ export default {
         muted: token('muted'), // secondary notes only
         accent: token('accent'), // actions, and little else
         'on-accent': token('on-accent'), // text set on accent
-        field: token('field'), // one full-bleed dark section
         diff: {
           add: token('diff-add'),
           del: token('diff-del'),
@@ -83,11 +82,6 @@ export default {
         normal: '0',
         wide: '0.01em',
         wider: '0.02em',
-      },
-
-      // Flat accent under the old name until Hero (step 4) and Contact (step 8) drop it
-      backgroundImage: {
-        'gradient-hero': 'linear-gradient(rgb(var(--accent)), rgb(var(--accent)))',
       },
 
       transitionDuration: {
