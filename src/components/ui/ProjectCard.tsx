@@ -17,7 +17,7 @@ export interface ProjectCardProps extends Pick<Project, 'title' | 'description'>
 // "Caption plate": full-bleed media with one solid plate at the foot, so the text reads on any screenshot.
 // The plate sits in flow, not absolute, so a long description grows the card instead of being cut off;
 // the media rounds its own corners, which lets the card drop overflow-hidden and keeps the pulse unclipped.
-// The plate follows the theme through the colour tokens; only the media backdrop stays dark.
+// The plate and the backdrop behind the media both follow the theme through the colour tokens.
 function ProjectCard({ title, description, media, href = '#projects' }: ProjectCardProps) {
   const stillOnly = media.type === 'video' && media.poster && prefersReducedMotion()
   const mediaClass = 'absolute inset-0 w-full h-full object-cover rounded-[20px]'
@@ -44,7 +44,7 @@ function ProjectCard({ title, description, media, href = '#projects' }: ProjectC
   return (
     <article
       ref={cardRef}
-      className="relative w-full max-w-[560px] aspect-[6/7] flex flex-col justify-end p-4 pt-24 rounded-[20px] bg-field"
+      className="relative w-full max-w-[560px] aspect-[6/7] flex flex-col justify-end p-4 pt-24 rounded-[20px] bg-surface"
     >
       {media.type === 'video' && !stillOnly ? (
         <video
@@ -68,7 +68,7 @@ function ProjectCard({ title, description, media, href = '#projects' }: ProjectC
         />
       )}
 
-      <div className="relative flex flex-col items-start gap-1.5 rounded-2xl bg-surface px-5 pt-[18px] pb-5 sm:px-6 sm:pt-[22px] sm:pb-6">
+      <div className="relative flex flex-col items-start gap-1.5 rounded-2xl bg-ground px-5 pt-[18px] pb-5 sm:px-6 sm:pt-[22px] sm:pb-6">
         <h3 className="text-[clamp(1.5rem,1.1rem+1.6vw,1.875rem)] font-bold leading-[1.12] text-ink">
           {title}
         </h3>

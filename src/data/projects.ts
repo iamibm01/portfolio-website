@@ -9,7 +9,7 @@ export const projects: Project[] = [
     title: 'SaaS Boilerplate — Full-Stack Starter Kit',
     description:
       'A production-ready, fully modular SaaS boilerplate designed to serve as a scalable foundation for modern web applications. Features built-in auth, multi-tenancy, role-based access control, and billing integration out of the box.',
-    image: '/images/saas-boilerplate.png',
+    image: '/images/saas-boilerplate.svg',
     screenshot: '/images/saas-boilerplate-screenshot.svg',
     problem:
       'Every new SaaS idea starts with the same two weeks of plumbing: auth, teams, roles and billing, rebuilt from scratch each time.',
@@ -27,7 +27,7 @@ export const projects: Project[] = [
     title: 'Neox — Social Media Platform',
     description:
       'A full-stack social media platform built with the scalability considerations of a large-scale production application. Includes posts, likes, comments, follows, and real-time notifications with a normalized PostgreSQL schema handling complex relational data.',
-    image: '/images/neox.png',
+    image: '/images/neox.svg',
     screenshot: '/images/neox-screenshot.svg',
     problem:
       'Most social app tutorials stop at a feed. Real platforms live or die on the relational data underneath: follows, notifications and counts that stay correct under load.',
@@ -54,7 +54,7 @@ export const projects: Project[] = [
     title: 'Personal Portfolio',
     description:
       'A fully responsive portfolio with fluid animations and an AI-powered chatbot in the contact section that initiates conversations with potential clients, captures their details, and automatically emails both parties.',
-    image: '/images/portfolio.png',
+    image: '/images/portfolio.svg',
     screenshot: '/images/portfolio-screenshot.svg',
     problem:
       'A portfolio is usually a static brochure, and most visitors leave without ever getting in touch.',

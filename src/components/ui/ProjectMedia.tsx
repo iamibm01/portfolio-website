@@ -13,7 +13,7 @@ function ProjectMedia({ project, eager = false }: ProjectMediaProps) {
   const still = project.screenshot ?? project.image
 
   return (
-    <div className="aspect-[16/10] overflow-hidden bg-field">
+    <div className="aspect-[16/10] overflow-hidden bg-surface">
       {project.video ? (
         <video
           className="w-full h-full object-cover"
