@@ -1,39 +1,59 @@
-import type { VercelRequest, VercelResponse } from './types.js'
+import { z } from 'zod'
+import { getDb } from './_lib/db.js'
 import { sendLeadEmails } from './_lib/email.js'
+import { getEnv } from './_lib/env.js'
+import { clientIp, jsonResponse, originAllowed, readJson } from './_lib/http.js'
+import { hitLimit } from './_lib/limits.js'
+import { hashIp, logEvent } from './_lib/log.js'
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+// Legacy lead capture, kept working until Phase 2 replaces it with the save_lead and
+// send_followup_email tools. Until then it is locked down: our origin only, a small body, and
+// at most 3 sends per IP per day, so it can no longer be used to email arbitrary addresses at will.
 
-interface LeadRequestBody {
-  name: string
-  email: string
-  conversationSummary: string
-}
+const LeadRequest = z.object({
+  name: z.string().trim().min(1).max(80),
+  email: z.email().max(254),
+  conversationSummary: z.string().max(20_000).optional(),
+})
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
+export default {
+  async fetch(request: Request): Promise<Response> {
+    if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' })
+    const env = getEnv()
+    if (!originAllowed(request, env)) return jsonResponse(403, { error: 'Forbidden' })
 
-  const { name, email, conversationSummary } = req.body as LeadRequestBody
+    let lead: z.infer<typeof LeadRequest>
+    try {
+      const parsed = LeadRequest.safeParse(await readJson(request, 32 * 1024))
+      if (!parsed.success)
+        return jsonResponse(400, { error: 'name and a valid email are required' })
+      lead = parsed.data
+    } catch {
+      return jsonResponse(400, { error: 'Invalid request body' })
+    }
 
-  if (!name || !email) {
-    return res.status(400).json({ error: 'name and email are required' })
-  }
+    const ipHash = hashIp(clientIp(request), env.IP_SALT)
+    const limit = await hitLimit(getDb(), `lead:ip:${ipHash}`, 3, 24 * 60 * 60)
+    if (!limit.allowed) {
+      logEvent('rate_limited', { ipHash, window: 'lead:1d' })
+      return jsonResponse(429, { error: 'Too many requests' })
+    }
 
-  if (!EMAIL_RE.test(email)) {
-    return res.status(400).json({ error: 'invalid email address' })
-  }
+    if (!process.env.MY_EMAIL) {
+      logEvent('lead_email_skipped', { ipHash, reason: 'MY_EMAIL not set' })
+      return jsonResponse(500, { error: 'Email is not configured' })
+    }
 
-  if (!process.env.MY_EMAIL) {
-    console.warn('MY_EMAIL not set — skipping email send')
-    return res.json({ success: true, skipped: true })
-  }
-
-  try {
-    await sendLeadEmails({ name, email, conversationSummary: conversationSummary ?? '' })
-    return res.json({ success: true })
-  } catch (err) {
-    console.error('Resend error:', err)
-    return res.status(500).json({ error: 'Failed to send email notification' })
-  }
+    try {
+      await sendLeadEmails({ ...lead, conversationSummary: lead.conversationSummary ?? '' })
+      logEvent('lead_emailed', { ipHash })
+      return jsonResponse(200, { success: true })
+    } catch (error) {
+      logEvent('lead_email_failed', {
+        ipHash,
+        error: error instanceof Error ? error.message : String(error),
+      })
+      return jsonResponse(500, { error: 'Failed to send email notification' })
+    }
+  },
 }

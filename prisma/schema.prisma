@@ -1,0 +1,77 @@
+// Chatbot storage. Phase 1: sessions, messages, rate limits and daily spend.
+// Leads and email attempts arrive in Phase 2 (docs/chatbot-revamp-plan.md §7).
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../api/_lib/generated/prisma"
+  runtime             = "nodejs"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SessionStatus {
+  active
+  closed
+  blocked
+}
+
+enum Role {
+  user
+  assistant
+}
+
+model ChatSession {
+  id           String        @id // uuid carried in the signed cookie
+  createdAt    DateTime      @default(now())
+  lastActiveAt DateTime      @updatedAt
+  ipHash       String // sha256(ip + IP_SALT), never the raw IP
+  status       SessionStatus @default(active)
+  visitorTurns Int           @default(0)
+  inputTokens  Int           @default(0)
+  outputTokens Int           @default(0)
+  cacheRead    Int           @default(0)
+  cacheWrite   Int           @default(0)
+  messages     ChatMessage[]
+
+  @@index([lastActiveAt]) // retention sweep
+}
+
+model ChatMessage {
+  id              String      @id @default(cuid())
+  sessionId       String
+  seq             Int // strict append order within the session
+  role            Role
+  // The exact Anthropic content blocks (thinking, tool_use, tool_result), replayed verbatim
+  content         Json
+  // What the visitor saw: the visitor's own text, or the output-filtered reply
+  displayText     String?
+  clientMessageId String?
+  model           String?
+  usage           Json?
+  createdAt       DateTime    @default(now())
+  session         ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, seq])
+  @@unique([sessionId, clientMessageId])
+}
+
+// Fixed-window counters, incremented with one atomic INSERT ... ON CONFLICT statement
+model RateLimit {
+  key         String // "chat:ip:<hash>", "chat:sid:<id>", "lead:ip:<hash>", ...
+  windowStart DateTime
+  count       Int      @default(0)
+
+  @@id([key, windowStart])
+  @@index([windowStart])
+}
+
+// The $ ceiling: integer micro-dollars per UTC day, so there is no float drift
+model DailySpend {
+  day       DateTime @id @db.Date
+  microUsd  BigInt   @default(0)
+  updatedAt DateTime @updatedAt
+}

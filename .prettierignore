@@ -10,3 +10,5 @@ yarn.lock
 
 # Cache
 .cache
+# Generated
+api/_lib/generated

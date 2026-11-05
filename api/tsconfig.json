@@ -1,11 +1,25 @@
 {
+  // Used by Vercel to compile each function, and by `tsc -b` (via the root tsconfig) to type-check them.
+  // NodeNext matches how the functions run: native ESM, so relative imports carry a .js suffix.
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
+    "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.api.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
     "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "noEmit": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleDetection": "force",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["./**/*.ts", "../shared/**/*.ts"],
+  "exclude": ["./_lib/generated"]
 }

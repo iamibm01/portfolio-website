@@ -8,7 +8,7 @@ export const PERSONAL_INFO = {
   email: 'hello@iamibm.me',
   phone: '+92 XXX XXXXXXX',
   location: 'Lahore, Pakistan',
-  title: 'Product Engineer',
+  title: 'Full-Stack AI Engineer',
   tagline: 'Building seamless products from concept to launch',
   statement: 'I build products end to end.',
   bio: `From pixel-perfect interfaces in React and Next.js to clean, scalable backends in Node.js and NestJS. I care about performance, architecture and the small interactions that make software feel polished, not just functional. I'm drawn to startups and SaaS teams working where AI meets great product experience.`,

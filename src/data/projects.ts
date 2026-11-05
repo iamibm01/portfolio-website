@@ -62,7 +62,7 @@ export const projects: Project[] = [
       'This site: a fast, accessible React portfolio with an AI chatbot that starts the conversation, captures the visitor’s details and emails both sides.',
     result:
       'Visitors can ask questions and leave their details without ever opening an email client.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Framer Motion', 'Groq API'],
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Framer Motion', 'Claude API'],
     githubUrl: 'https://github.com/iamibm01/portfolio-website',
     status: 'completed',
     featured: false,

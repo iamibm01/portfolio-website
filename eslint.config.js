@@ -10,7 +10,7 @@ export default [
   // Ignore common directories
   {
     // .agents and .claude hold vendored AI-tooling skills, not site code
-    ignores: ['dist', 'server/dist', 'node_modules', '.git', '.agents', '.claude', '.taste-skill'],
+    ignores: ['dist', 'node_modules', '.git', '.agents', '.claude', '.taste-skill', 'api/_lib/generated'],
   },
   
   // Base JavaScript rules
@@ -41,6 +41,9 @@ export default [
     rules: {
       // Disable base rule in favour of the TypeScript-aware version below
       'no-unused-vars': 'off',
+      // TypeScript itself reports real redeclarations; the base rule misreads a value and a type
+      // sharing a name (e.g. a zod schema and its inferred type)
+      'no-redeclare': 'off',
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': ['warn', {
         argsIgnorePattern: '^_',
@@ -62,13 +65,26 @@ export default [
     }
   },
   
-  // Node.js globals for the Express server and Vercel serverless functions
+  // Node.js globals for the Vercel functions, the shared protocol and the build/test config
   {
-    files: ['server/src/**/*.ts', 'api/**/*.ts'],
+    files: ['api/**/*.ts', 'shared/**/*.ts', 'vite/**/*.ts', '*.config.ts'],
     languageOptions: {
       globals: {
         ...globals.node
       }
+    }
+  },
+
+  // Server code never ships to the browser: the chat client talks to /api over HTTP only
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [
+          { group: ['@anthropic-ai/*', '@prisma/*', 'pg', 'resend', '@vercel/functions'], message: 'Server-only package: keep it under api/.' },
+          { group: ['**/api/*', '**/api/**'], message: 'Browser code must not import server code; use shared/ for the contract.' }
+        ]
+      }]
     }
   },
 

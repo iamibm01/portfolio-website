@@ -41,7 +41,7 @@ export function visitorTemplate({ name }: { name: string }): string {
                 <!-- Footer -->
                 <tr>
                   <td style="padding:20px 40px;border-top:1px solid #f1f5f9;">
-                    <p style="margin:0;font-size:12px;color:#94a3b8;">Product Engineer · Lahore, Pakistan</p>
+                    <p style="margin:0;font-size:12px;color:#94a3b8;">Full-Stack AI Engineer · Lahore, Pakistan</p>
                   </td>
                 </tr>
               </table>

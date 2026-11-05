@@ -787,6 +787,26 @@ acceptance wherever the UI changes.
   - Prisma plus Neon adapter setup (do it first, as a spike).
   - SSE buffering on Vercel: set `Content-Type: text/event-stream`, `Cache-Control: no-cache, no-transform`, and
     flush on write.
+- **Changes from the plan, made during implementation:**
+  - **Database driver:** `@prisma/adapter-pg` with a `pg` Pool and Vercel's `attachDatabasePool`, instead of
+    `@prisma/adapter-neon`. It's the pattern Vercel documents for Fluid compute, it talks to Neon's pooled URL,
+    and the same code runs against the local Docker Postgres and the CI service container.
+  - **Keyboard handling:** the viewport keeps `interactive-widget=resizes-visual`. Commit `29d7067` chose it after
+    Android testing; `resizes-content` would undo that. The `visualViewport` offset now goes through
+    `--keyboard-height` (`useKeyboardInset`) with the same behaviour.
+  - **Request schema:** the zod schema lives in `api/_lib/chat/request.ts`, not `shared/`. Importing zod through
+    `shared/` put about 80 KB into the browser's chat chunk (97 KB → 16 KB once moved).
+    `satisfies z.ZodType<ChatRequest>` keeps the schema and the shared type in step.
+  - **Local dev:** a Vite plugin (`vite/apiDevServer.ts`) runs `api/*.ts` inside `npm run dev`, instead of
+    `vercel dev`. There's no Vercel login dependency, and API edits apply without a restart.
+  - **Prompt facts:** taken from the current `src/data` files rather than the old prompt, so the bot already
+    matches the site (title, the Resumize role as "Software Engineer", the n8n skill).
+  - **Lead email:** `/api/send-lead` now fails loudly when `MY_EMAIL` is unset (it used to report success), and
+    the "details sent" banner only shows if the send succeeded.
+  - **Privacy note:** shown now without the "90 days". The figure is added in Phase 5 with the retention cron
+    that makes it true.
+  - **Migrations:** run in the Vercel build (`vercel-build`: `prisma migrate deploy`). Preview builds need Neon
+    preview branching, or a preview would migrate the production database.
 
 ### Phase 2: Lead capture (≈ 4 days), depends on Phase 1
 - **Scope:**

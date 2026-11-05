@@ -59,33 +59,3 @@ export interface Experience {
   description: string
   responsibilities: string[]
 }
-
-// ── AI Chatbot ──────────────────────────────────────────────────────────────
-
-export type MessageRole = 'user' | 'assistant'
-
-export type ReceiptStatus = 'sent' | 'delivered' | 'seen'
-
-export interface Message {
-  id: string
-  role: MessageRole
-  content: string
-  timestamp: Date
-  receiptStatus?: ReceiptStatus
-}
-
-export interface LeadData {
-  name: string
-  email: string
-  /** Full conversation summary sent in the notification email */
-  conversationSummary: string
-}
-
-export type ChatStatus = 'idle' | 'loading' | 'error' | 'lead_captured'
-
-export interface ChatState {
-  messages: Message[]
-  status: ChatStatus
-  lead: LeadData | null
-  errorMessage: string | null
-}
