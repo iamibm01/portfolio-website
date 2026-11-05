@@ -805,8 +805,9 @@ acceptance wherever the UI changes.
     the "details sent" banner only shows if the send succeeded.
   - **Privacy note:** shown now without the "90 days". The figure is added in Phase 5 with the retention cron
     that makes it true.
-  - **Migrations:** run in the Vercel build (`vercel-build`: `prisma migrate deploy`). Preview builds need Neon
-    preview branching, or a preview would migrate the production database.
+  - **Migrations:** `vercel-build` runs `prisma migrate deploy` on production builds only, so a preview can never
+    migrate the production database. A failed migration fails the build. A preview that needs a database gets its
+    own, migrated separately with `npm run db:deploy`.
 
 ### Phase 2: Lead capture (≈ 4 days), depends on Phase 1
 - **Scope:**
