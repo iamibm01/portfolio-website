@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { getDb } from './_lib/db.js'
-import { sendLeadEmails } from './_lib/email.js'
+import { readEmailConfig, sendLeadEmails } from './_lib/email.js'
+import { getResend } from './_lib/resend.js'
 import { getEnv } from './_lib/env.js'
 import { clientIp, jsonResponse, originAllowed, readJson } from './_lib/http.js'
 import { hitLimit } from './_lib/limits.js'
@@ -39,15 +40,20 @@ export default {
       return jsonResponse(429, { error: 'Too many requests' })
     }
 
-    if (!process.env.MY_EMAIL) {
-      logEvent('lead_email_skipped', { ipHash, reason: 'MY_EMAIL not set' })
+    const emailConfig = readEmailConfig()
+    if (!emailConfig.ok) {
+      logEvent('lead_email_skipped', { ipHash, problems: emailConfig.problems })
       return jsonResponse(500, { error: 'Email is not configured' })
     }
 
     try {
-      await sendLeadEmails({ ...lead, conversationSummary: lead.conversationSummary ?? '' })
-      logEvent('lead_emailed', { ipHash })
-      return jsonResponse(200, { success: true })
+      const result = await sendLeadEmails(
+        { ...lead, conversationSummary: lead.conversationSummary ?? '' },
+        emailConfig.config,
+        getResend().emails
+      )
+      logEvent('lead_emailed', { ipHash, ...result })
+      return jsonResponse(200, { success: true, confirmationSent: result.confirmationSent })
     } catch (error) {
       logEvent('lead_email_failed', {
         ipHash,
