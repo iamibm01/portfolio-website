@@ -30,7 +30,7 @@ import {
   readJson,
 } from './_lib/http.js'
 import { addSpend, hitLimit, spentTodayMicroUsd } from './_lib/limits.js'
-import { hashIp, logEvent } from './_lib/log.js'
+import { errorFields, hashIp, logEvent } from './_lib/log.js'
 import {
   clearSessionCookieHeader,
   newSessionId,
@@ -216,8 +216,8 @@ async function postMessage(request: Request, env: Env): Promise<Response> {
         ipHash,
         code: chatError.code,
         latencyMs: Date.now() - started,
-        // Only the error class and API status: SDK messages can echo request content
-        error: error instanceof Error ? error.constructor.name : typeof error,
+        // No error messages: SDK messages can echo request content
+        ...errorFields(error),
         status: error instanceof Anthropic.APIError ? error.status : undefined,
       })
     } finally {
@@ -260,7 +260,7 @@ export default {
     } catch (error) {
       logEvent('chat_error', {
         code: 'internal',
-        error: error instanceof Error ? error.constructor.name : typeof error,
+        ...errorFields(error),
       })
       return errorResponse(500, fail('internal', 'Something went wrong on my side.', true))
     }
