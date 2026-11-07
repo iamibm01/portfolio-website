@@ -30,7 +30,7 @@ import {
   readJson,
 } from './_lib/http.js'
 import { addSpend, hitLimit, spentTodayMicroUsd } from './_lib/limits.js'
-import { errorFields, hashIp, logEvent } from './_lib/log.js'
+import { dbTarget, errorFields, hashIp, logEvent } from './_lib/log.js'
 import {
   clearSessionCookieHeader,
   newSessionId,
@@ -261,6 +261,7 @@ export default {
       logEvent('chat_error', {
         code: 'internal',
         ...errorFields(error),
+        ...dbTarget(env.DATABASE_URL),
       })
       return errorResponse(500, fail('internal', 'Something went wrong on my side.', true))
     }

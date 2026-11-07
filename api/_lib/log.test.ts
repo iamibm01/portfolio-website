@@ -1,5 +1,20 @@
 import { describe, expect, it } from 'vitest'
-import { errorFields } from './log.js'
+import { dbTarget, errorFields } from './log.js'
+
+describe('dbTarget', () => {
+  it('keeps the host label and database name, never the credentials', () => {
+    const target = dbTarget('postgresql://user:secret@ep-a-b-pooler.c-1.aws.neon.tech/neondb?x=1')
+    expect(target).toEqual({ dbHost: 'ep-a-b-pooler', dbName: 'neondb' })
+    expect(JSON.stringify(target)).not.toContain('secret')
+  })
+
+  it('does not echo a value it cannot parse', () => {
+    expect(dbTarget('psql user:secret@host')).toEqual({
+      dbHost: 'unparseable',
+      dbName: 'unparseable',
+    })
+  })
+})
 
 class PrismaClientKnownRequestError extends Error {
   code = 'P2021'

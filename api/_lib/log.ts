@@ -27,6 +27,17 @@ export function errorFields(error: unknown): Record<string, string> {
   return fields
 }
 
+// Which database a connection string points at, for diagnosing a misconfigured deployment. Only the
+// first label of the host and the database name, never the credentials.
+export function dbTarget(connectionString: string): { dbHost: string; dbName: string } {
+  try {
+    const { hostname, pathname } = new URL(connectionString)
+    return { dbHost: hostname.split('.')[0] ?? 'unknown', dbName: pathname.slice(1) || 'unknown' }
+  } catch {
+    return { dbHost: 'unparseable', dbName: 'unparseable' }
+  }
+}
+
 export function hashIp(ip: string, salt: string): string {
   return createHash('sha256').update(`${salt}:${ip}`).digest('hex').slice(0, 32)
 }
